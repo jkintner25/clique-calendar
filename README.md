@@ -1,1 +1,1 @@
-# clique-calendar
+# Clique Calendar
