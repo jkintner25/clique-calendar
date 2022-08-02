@@ -28,6 +28,11 @@ const NavBar = () => {
             Sign Up
           </NavLink>
         </li>
+        <li>
+          <NavLink to='/'>
+            Demo
+          </NavLink>
+        </li>
       </NavBarUL>
     </nav>
   )
@@ -43,6 +48,11 @@ const NavBar = () => {
         <li>
           <NavLink to='/newcalendar' exact={true} activeClassName='active'>
             Create a Calendar
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to='/newevent' exact={true} activeClassName='active'>
+            Create an Event
           </NavLink>
         </li>
         <li>
