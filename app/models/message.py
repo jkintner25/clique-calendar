@@ -9,5 +9,7 @@ class Message(db.Model):
         'users.id', ondelete="CASCADE"), nullable=False)
     calendarId = db.Column(db.Integer, db.ForeignKey(
         'calendars.id', ondelete='CASCADE'), nullable=False)
+    createdAt = db.Column(db.DateTime)
+    updatedAt = db.Column(db.DateTime)
 
     user = db.relationship('User', back_populates='messages')
