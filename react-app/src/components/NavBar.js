@@ -1,17 +1,23 @@
-
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import LogoutButton from './auth/LogoutButton';
+import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+
+const NavBarUL = styled.ul`
+display: flex;
+flex-direction: row;
+justify-content: space-around;
+list-style: none;
+text-decoration: none;
+`
 
 const NavBar = () => {
-  return (
+  const user = useSelector(state=>state.session.user)
+
+  if (!user) return (
     <nav>
-      <ul>
-        <li>
-          <NavLink to='/' exact={true} activeClassName='active'>
-            Home
-          </NavLink>
-        </li>
+      <NavBarUL>
         <li>
           <NavLink to='/login' exact={true} activeClassName='active'>
             Login
@@ -22,15 +28,27 @@ const NavBar = () => {
             Sign Up
           </NavLink>
         </li>
+      </NavBarUL>
+    </nav>
+  )
+
+  if (user) return (
+    <nav>
+      <NavBarUL>
         <li>
-          <NavLink to='/users' exact={true} activeClassName='active'>
-            Users
+          <NavLink to='/calendars' exact={true} activeClassName='active'>
+            My Calendars
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to='/newcalendar' exact={true} activeClassName='active'>
+            Create a Calendar
           </NavLink>
         </li>
         <li>
           <LogoutButton />
         </li>
-      </ul>
+      </NavBarUL>
     </nav>
   );
 }
