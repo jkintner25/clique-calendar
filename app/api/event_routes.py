@@ -13,8 +13,10 @@ def create_event():
         new_event = Event(
             title=form.data['title'],
             description=form.data['description'],
-            date=form.data['date'],
-            time=form.data['time'],
+            start_date=form.data['startDate'],
+            end_date=form.data['endDate'],
+            start_time=form.data['startTime'],
+            end_time=form.data['endTime'],
             user_id=form.data['userId'],
             calendar_id=form.data['calendarId']
         )

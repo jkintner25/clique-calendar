@@ -6,8 +6,10 @@ class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(30), nullable=False)
     description = db.Column(db.String(255))
-    date = db.Column(db.String(20), nullable=False)
-    time = db.Column(db.String(20), nullable=False)
+    start_date = db.Column(db.Date(), nullable=False)
+    end_date = db.Column(db.Date(), nullable=False)
+    start_time = db.Column(db.Time(), nullable=False)
+    end_time = db.Column(db.Time(), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey(
         'users.id', ondelete="CASCADE"), nullable=False)
     calendar_id = db.Column(db.Integer, db.ForeignKey(
@@ -20,8 +22,10 @@ class Event(db.Model):
             'id': self.id,
             'title': self.title,
             'description': self.description,
-            'date': self.date,
-            'time': self.time,
+            'start_date': self.start_date,
+            'end_date': self.end_date,
+            'start_time': self.start_time,
+            'end_time': self.end_time,
             'userId': self.user_id,
             'calendarId': self.calendar_id
         }
