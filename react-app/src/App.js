@@ -6,13 +6,14 @@ import SignUpForm from './components/auth/SignUpForm';
 import NavBar from './components/NavBar';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import { authenticate } from './store/session';
+import CalendarForm from './components/Calendar/CalendarForm';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    (async() => {
+    (async () => {
       await dispatch(authenticate());
       setLoaded(true);
     })();
@@ -37,6 +38,7 @@ function App() {
         </ProtectedRoute>
         <ProtectedRoute path='/newcalendar' exact={true}>
           <h1>Create a new Calendar</h1>
+          <CalendarForm />
         </ProtectedRoute>
         <ProtectedRoute path='/newevent' exact={true}>
           <h1>Create a new Event</h1>

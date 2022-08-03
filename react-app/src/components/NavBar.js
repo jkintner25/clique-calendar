@@ -29,9 +29,7 @@ const NavBar = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to='/'>
-            Demo
-          </NavLink>
+          {/*add demo login button here*/}
         </li>
       </NavBarUL>
     </nav>
