@@ -5,6 +5,7 @@ from .calendar_form import title_length
 
 class EventForm(FlaskForm):
     title = StringField('title', nullable=False, validators=[DataRequired(), title_length])
+    description = StringField('description')
     date = DateField('date', nullable=False)
     time = TimeField('time', nullable=False)
     userId = IntegerField('userId', nullable=False)
