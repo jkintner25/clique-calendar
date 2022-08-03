@@ -5,6 +5,7 @@ class Event(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(30), nullable=False)
+    description = db.Column(db.String(255))
     date = db.Column(db.String(20), nullable=False)
     time = db.Column(db.String(20), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey(
@@ -18,6 +19,7 @@ class Event(db.Model):
         return {
             'id': self.id,
             'title': self.title,
+            'description': self.description,
             'date': self.date,
             'time': self.time,
             'userId': self.user_id,

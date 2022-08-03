@@ -3,7 +3,7 @@ from app.models.event import Event
 
 def seed_events():
     demo_event = Event(
-        title="My First Event", date="10-13-2022", time="6pm", user_id=1, calendar_id=1
+        title="My First Event", description='This event is intended to give us a chance to remember those who remember those who remember those who have done things at some point in time, somehwhere.', date="10-13-2022", time="6pm", user_id=1, calendar_id=1
     )
     marnie_event = Event(
         title="Marnie's Event", date="10-10-2022", time="5pm", user_id=2, calendar_id=2
