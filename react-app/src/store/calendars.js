@@ -48,7 +48,7 @@ export const getMyCalendars = userId => async dispatch => {
 };
 
 export const updateCalendar = (id, calendar) => async dispatch => {
-    const response = await fetch(`/api/calendars/${id}`, {
+    const response = await fetch(`/api/calendars/update/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(calendar)

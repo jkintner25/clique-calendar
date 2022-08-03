@@ -26,7 +26,7 @@ def load_calendars(id):
     calendars = Calendar.query.filter(Calendar.user_id == id)
     return {'calendars': [calendar.to_dict() for calendar in calendars]}
 
-@calendar_routes.route('/<int:id>', methods=['PUT'])
+@calendar_routes.route('/update/<int:id>', methods=['PUT'])
 def update_calendar(id):
     form = CalendarForm()
     form['csrf_token'].data = request.cookies['csrf_token']
