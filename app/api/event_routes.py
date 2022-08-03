@@ -35,11 +35,16 @@ def update_event(id):
     form = EventForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-        calendar = Event.query.get(id)
-        calendar.title = form.data['title']
+        event = Event.query.get(id)
+        event.title = form.data['title']
+        event.description = form.data['description']
+        event.date = form.data['date']
+        event.time = form.data['time']
+        event.user_id = event.user_id
+        event.calendar_id = event.calendar_id
 
         db.session.commit()
-        return calendar.to_dict()
+        return event.to_dict()
     else:
         return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
