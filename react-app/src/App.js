@@ -7,6 +7,7 @@ import NavBar from './components/NavBar';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import { authenticate } from './store/session';
 import CalendarForm from './components/Calendar/CalendarForm';
+import SidebarPanel from './components/CalendarsSidebar/SidebarPanel';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -35,6 +36,7 @@ function App() {
         </Route>
         <ProtectedRoute path='/calendars' exact={true} >
           <h1>My Calendars</h1>
+          <SidebarPanel />
         </ProtectedRoute>
         <ProtectedRoute path='/newcalendar' exact={true}>
           <h1>Create a new Calendar</h1>

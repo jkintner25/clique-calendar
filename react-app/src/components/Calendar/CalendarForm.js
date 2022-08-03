@@ -1,33 +1,37 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-
-import styled from "styled-components";
 import { createCalendar } from "../../store/calendars";
+import styled from "styled-components";
+
 
 function CalendarForm() {
     const dispatch = useDispatch()
     const history = useHistory()
     const [title, setTitle] = useState('');
 
+    const userId = useSelector(state=>state.session.user.id)
+
     const updateTitle = (e) => {
         setTitle(e.target.value)
     }
 
-    const createNewCalendar = () => {
+    const createNewCalendar = (e) => {
+        e.preventDefault()
         const calendar = {
-            title: title
+            title: title,
+            userId: userId
         }
-        dispatch(createCalendar(calendar)).then(()=>{
-            history.push('/calendars')
-        })
+        dispatch(createCalendar(calendar))
+        history.push('/calendars')
     }
 
     return (
         <>
-            <form>
+            <form onSubmit={createNewCalendar}>
                 <label>Title</label>
                 <input type="text" value={title} onChange={updateTitle}></input>
+                <button type="submit">Create</button>
             </form>
         </>
     )

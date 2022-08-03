@@ -7,9 +7,19 @@ class Event(db.Model):
     title = db.Column(db.String(30), nullable=False)
     date = db.Column(db.String(20), nullable=False)
     time = db.Column(db.String(20), nullable=False)
-    userId = db.Column(db.Integer, db.ForeignKey(
+    user_id = db.Column(db.Integer, db.ForeignKey(
         'users.id', ondelete="CASCADE"), nullable=False)
-    calendarId = db.Column(db.Integer, db.ForeignKey(
+    calendar_id = db.Column(db.Integer, db.ForeignKey(
         'calendars.id', ondelete='CASCADE'), nullable=False)
 
     user = db.relationship('User', back_populates='events')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'date': self.date,
+            'time': self.time,
+            'userId': self.user_id,
+            'calendarId': self.calendar_id
+        }

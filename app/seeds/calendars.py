@@ -3,10 +3,10 @@ from app.models.calendar import Calendar
 
 def seed_calendars():
     demo_calendar = Calendar(
-        title="My First Calendar", userId=1
+        title="My First Calendar", user_id=1
     )
     marnie_calendar = Calendar(
-        title="Marnie's Calendar", userId=2
+        title="Marnie's Calendar", user_id=2
     )
 
     db.session.add(demo_calendar)

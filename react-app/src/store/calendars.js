@@ -6,22 +6,22 @@ const DELETE_CALENDAR = "calendar/DELETE_CALENDAR";
 
 const add = calendar => ({
     type: ADD_CALENDAR,
-    payload: calendar,
+    calendar
 });
 
 const load = calendars => ({
     type: READ_CALENDARS,
-    payload: calendars
+    calendars
 });
 
 const update = calendar => ({
     type: UPDATE_CALENDAR,
-    payload: calendar
+    calendar
 });
 
 const remove = id => ({
     type: DELETE_CALENDAR,
-    payload: id
+    id
 });
 
 export const createCalendar = calendar => async dispatch => {
