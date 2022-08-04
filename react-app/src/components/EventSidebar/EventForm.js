@@ -14,7 +14,7 @@ function EventForm() {
     const [description, setDescription] = useState('')
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
-    const [calendarId, setCalendarId] = useState('No calendars!')
+    const [calendarId, setCalendarId] = useState(-1)
     const [startTimeGMT, setStartTimeGMT] = useState(new Date().toString().slice(16, 24))
     const [endTimeGMT, setEndTimeGMT] = useState(new Date().toString().slice(16, 24))
     const [errors, setErrors] = useState([])
@@ -26,7 +26,8 @@ function EventForm() {
     }, [startDate, endDate])
 
     useEffect(() => {
-        if (calendarId === 'No calendars!') setCalendarId(myCalendars[0].id)
+        if (!myCalendars[0]) return;
+        if (calendarId === -1) setCalendarId(myCalendars[0].id)
     }, [myCalendars])
 
     useEffect(() => {
