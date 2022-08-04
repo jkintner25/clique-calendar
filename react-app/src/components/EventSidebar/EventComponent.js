@@ -45,9 +45,9 @@ function Events() {
 
     return (
         <>
-        {events.length > 0 ?
+        {localDate && events.length > 0 ?
             <div>
-                {localDate && events.map(event => {
+                {events.map(event => {
                     return <div key={event.id}>
                         <p>{event.title}</p>
                         <p>{event.description}</p>
