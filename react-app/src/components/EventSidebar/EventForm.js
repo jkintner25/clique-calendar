@@ -10,42 +10,67 @@ function EventForm() {
     const userId = useSelector(state => state.session.user.id)
     const myCalendars = Object.values(useSelector(state => state.calendars))
 
-    const startDay = new Date().toISOString().slice(0, 10).split('-').join()
+    // '%Y-%m-%d %H:%M:%S'
+
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('')
-    const [startDate, setStartDate] = useState(startDay);
-    const [endDate, setEndDate] = useState(startDay);
-    const [startTime, setStartTime] = useState(new Date().getHours());
-    const [endTime, setEndTime] = useState(new Date().getHours());
-    const [calendarId, setCalendarId] = useState(myCalendars[0])
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+    const [calendarId, setCalendarId] = useState('No calendars!')
+    const [startTimeGMT, setStartTimeGMT] = useState(new Date().toString().slice(16, 24))
+    const [endTimeGMT, setEndTimeGMT] = useState(new Date().toString().slice(16, 24))
     const [errors, setErrors] = useState([])
+    // console.log('START DATE GMT: ', startTimeGMT)
+    // console.log('END DATE GMT: ', endTimeGMT)
+
+    useEffect(() => {
+        if (startDate === '' || endDate === '') return;
+        setStartTimeGMT(new Date(startDate).toUTCString())
+        setEndTimeGMT(new Date(endDate).toUTCString())
+    }, [startDate, endDate])
+
+    useEffect(() => {
+        if (!myCalendars[0]) return;
+        setCalendarId(myCalendars[0].id)
+    }, [myCalendars])
+
+    // const convertStartTimeGMTToPythonFormat = () => {
+    //
+    // }
+
+    // const convertEndTimeToGMT = () => {
+
+    // }
+
+    // const convertStartDateToGMT = () => {
+
+    // }
+
+    // const convertEndDateToGMT = () => {
+
+    // }
 
     useEffect(() => {
         let validationErrors = []
         if (!title) validationErrors.push('Your event needs a title.')
         if (startDate > endDate) validationErrors.push('End date cannot come before start date.')
-        if (startDate === endDate && startTime > endTime) validationErrors.push('End time cannot come before start time.')
         if (!startDate) validationErrors.push('Your event needs a start date.')
         if (!endDate) validationErrors.push('Your event needs an end date.')
-        if (!startTime) validationErrors.push('Your event needs a start time.')
-        if (!endTime) validationErrors.push('Your event needs an end time.')
-        if (!calendarId) validationErrors.push('Your event needs a calendar.')
+        if (typeof calendarId === 'string') validationErrors.push('Your event needs a calendar.')
         setErrors(validationErrors)
-    }, [title, startDate, endDate, startTime, endTime, calendarId])
+    }, [title, startDate, endDate, calendarId])
 
     const submitEvent = (e) => {
         e.preventDefault()
+
         const newEvent = {
             title: title,
             description: description,
-            startDate: startDate,
-            endDate: endDate,
-            startTime: startTime,
-            endTime: endTime,
+            startDate: startTimeGMT,
+            endDate: endTimeGMT,
             userId: userId,
-            calendarId: calendarId.id
+            calendarId: calendarId
         }
-        console.log(newEvent)
         dispatch(createEvent(newEvent))
     }
 
@@ -69,45 +94,31 @@ function EventForm() {
                 </input>
                 <label>Start Date</label>
                 <input
-                    type="date"
-                    pattern="\d{4}-\d{2}-\d{2}"
+                    type="datetime-local"
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
                 >
                 </input>
                 <label>End Date</label>
                 <input
-                    type="date"
-                    pattern="\d{4}-\d{2}-\d{2}"
+                    type="datetime-local"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
                 >
                 </input>
-                <label>Start Time</label>
-                <input
-                    type="time"
-                    pattern="[0-9]{2}:[0-9]{2}"
-                    value={startTime}
-                    onChange={(e) => setStartTime(e.target.value)}>
-                </input>
-                <label>End Time</label>
-                <input
-                    type="time"
-                    pattern="[0-9]{2}:[0-9]{2}"
-                    value={endTime}
-                    onChange={(e) => setEndTime(e.target.value)}>
-                </input>
                 <label>Calendar</label>
-                <select
-                    multiple={false}
-                    type="text"
-                    value={calendarId}
-                    onChange={(e) => setCalendarId(e.target.value)}>
-                    {myCalendars && myCalendars.map((calendar) => {
-                        return <option key={calendar.id}
-                            value={calendarId}>{calendar.title}</option>
-                    })}
-                </select>
+                {myCalendars.length > 0 ?
+                    <select
+                        multiple={false}
+                        type="text"
+                        value={calendarId}
+                        onChange={(e) => setCalendarId(e.target.value)}>
+                        {myCalendars && myCalendars.map((calendar) => {
+                            return <option key={calendar.id}
+                                value={calendarId}>{calendar.title}</option>
+                        })}
+                    </select>
+                    : <p>You need a Calendar!</p>}
                 <button type="submit" disabled={errors.length > 0}>Submit</button>
             </form>
         </div>

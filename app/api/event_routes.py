@@ -16,8 +16,6 @@ def create_event():
             description=form.data['description'],
             start_date=form.data['startDate'],
             end_date=form.data['endDate'],
-            start_time=form.data['startTime'],
-            end_time=form.data['endTime'],
             user_id=form.data['userId'],
             calendar_id=form.data['calendarId']
         )
@@ -40,8 +38,8 @@ def update_event(id):
         event = Event.query.get(id)
         event.title = form.data['title']
         event.description = form.data['description']
-        event.date = form.data['date']
-        event.time = form.data['time']
+        event.start_date = form.data['startDate']
+        event.end_date = form.data['endDate']
         event.user_id = event.user_id
         event.calendar_id = event.calendar_id
 

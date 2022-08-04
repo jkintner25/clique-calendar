@@ -10,9 +10,9 @@ function Events() {
     const events = Object.values(useSelector(state => state.events))
     const calendars = useSelector(state=>state.calendars)
 
-    // useEffect(()=>{
-    //     dispatch(getMyEvents(userId))
-    // }, [dispatch])
+    useEffect(()=>{
+        dispatch(getMyEvents(userId))
+    }, [dispatch])
 
     useEffect(()=>{
         dispatch(getMyCalendars(userId))
