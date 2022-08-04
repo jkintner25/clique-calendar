@@ -8,6 +8,8 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import { authenticate } from './store/session';
 import CalendarForm from './components/Calendar/CalendarForm';
 import SidebarPanel from './components/CalendarsSidebar/SidebarPanel';
+import EventForm from './components/EventSidebar/EventForm';
+import Events from './components/EventSidebar/EventComponent';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -44,6 +46,8 @@ function App() {
         </ProtectedRoute>
         <ProtectedRoute path='/newevent' exact={true}>
           <h1>Create a new Event</h1>
+          <EventForm />
+          <Events />
         </ProtectedRoute>
       </Switch>
     </BrowserRouter>

@@ -4,11 +4,11 @@ from wtforms.validators import DataRequired
 from .calendar_form import title_length
 
 class EventForm(FlaskForm):
-    title = StringField('title', nullable=False, validators=[DataRequired(), title_length])
+    title = StringField('title', validators=[DataRequired(), title_length])
     description = StringField('description')
-    startDate = DateField('startDate', format='%Y-%m-%d', nullable=False, validators=[DataRequired()])
-    endDate = DateField('endDate', format='%Y-%m-%d', nullable=False, validators=[DataRequired()])
-    startTime = TimeField('startTime', format='%H:%M', nullable=False, validators=[DataRequired()])
-    endTime = TimeField('endTime', format='%H:%M', nullable=False, validators=[DataRequired()])
-    userId = IntegerField('userId', nullable=False)
-    calendarId = IntegerField('calendarId', nullable=False)
+    startDate = DateField('startDate', format='%Y-%m-%d', validators=[DataRequired()])
+    endDate = DateField('endDate', format='%Y-%m-%d', validators=[DataRequired()])
+    startTime = TimeField('startTime', validators=[DataRequired()])
+    endTime = TimeField('endTime', validators=[DataRequired()])
+    userId = IntegerField('userId')
+    calendarId = IntegerField('calendarId')

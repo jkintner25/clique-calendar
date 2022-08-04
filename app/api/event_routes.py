@@ -1,3 +1,4 @@
+from datetime import datetime, time
 from flask import Blueprint, request
 from app.api.auth_routes import validation_errors_to_error_messages
 from ..forms.event_form import EventForm
@@ -20,7 +21,6 @@ def create_event():
             user_id=form.data['userId'],
             calendar_id=form.data['calendarId']
         )
-
         db.session.add(new_event)
         db.session.commit()
         return new_event.to_dict()

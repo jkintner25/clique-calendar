@@ -24,8 +24,8 @@ class Event(db.Model):
             'description': self.description,
             'start_date': self.start_date,
             'end_date': self.end_date,
-            'start_time': self.start_time,
-            'end_time': self.end_time,
-            'userId': self.user_id,
-            'calendarId': self.calendar_id
+            'start_time': str(self.start_time),
+            'end_time': str(self.end_time),
+            'user_id': self.user_id,
+            'calendar_id': self.calendar_id
         }
