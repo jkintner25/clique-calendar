@@ -1,33 +1,28 @@
 import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-// import { useHistory } from "react-router-dom";
-import { createEvent } from "../../store/events"
-// import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { updateEvent } from "../../store/events";
 
-function EventForm() {
+
+function EventEditForm({event}) {
     const dispatch = useDispatch()
-    // const history = useHistory()
+    const history = useHistory()
     const userId = useSelector(state => state.session.user.id)
     const myCalendars = Object.values(useSelector(state => state.calendars))
 
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('')
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
-    const [calendarId, setCalendarId] = useState('No calendars!')
+    const [title, setTitle] = useState(event.title);
+    const [description, setDescription] = useState(event.description);
+    const [startDate, setStartDate] = useState(event.startDate);
+    const [endDate, setEndDate] = useState(event.endDate);
+    const [calendarId, setCalendarId] = useState(event.calendarId)
     const [startTimeGMT, setStartTimeGMT] = useState(new Date().toString().slice(16, 24))
     const [endTimeGMT, setEndTimeGMT] = useState(new Date().toString().slice(16, 24))
     const [errors, setErrors] = useState([])
 
     useEffect(() => {
-        if (startDate === '' || endDate === '') return;
         setStartTimeGMT(new Date(startDate).toUTCString())
         setEndTimeGMT(new Date(endDate).toUTCString())
     }, [startDate, endDate])
-
-    useEffect(() => {
-        if (calendarId === 'No calendars!') setCalendarId(myCalendars[0].id)
-    }, [myCalendars])
 
     useEffect(() => {
         let validationErrors = []
@@ -35,14 +30,14 @@ function EventForm() {
         if (startDate > endDate) validationErrors.push('End date cannot come before start date.')
         if (!startDate) validationErrors.push('Your event needs a start date.')
         if (!endDate) validationErrors.push('Your event needs an end date.')
-        if (calendarId.length > 3) validationErrors.push('Your event needs a calendar.')
+        if (typeof calendarId === 'string') validationErrors.push('Your event needs a calendar.')
         setErrors(validationErrors)
     }, [title, startDate, endDate, calendarId])
 
-    const submitEvent = (e) => {
+    const editEvent = (e) => {
         e.preventDefault()
 
-        const newEvent = {
+        const updatedEvent = {
             title: title,
             description: description,
             startDate: startTimeGMT,
@@ -50,7 +45,7 @@ function EventForm() {
             userId: userId,
             calendarId: calendarId
         }
-        dispatch(createEvent(newEvent))
+        dispatch(updateEvent(event.id, updatedEvent))
     }
 
     return (
@@ -58,7 +53,7 @@ function EventForm() {
             {errors && errors.map((error, i = 0) => {
                 return <p key={i}>{error}</p>
             })}
-            <form onSubmit={submitEvent}>
+            <form onSubmit={editEvent}>
                 <label>Title</label>
                 <input
                     value={title}
@@ -101,6 +96,6 @@ function EventForm() {
             </form>
         </div>
     )
-};
+}
 
-export default EventForm;
+export default EventEditForm;

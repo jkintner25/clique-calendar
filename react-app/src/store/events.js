@@ -32,8 +32,6 @@ export const createEvent = event => async dispatch => {
      });
      if (response.ok) {
         const newEvent = await response.json();
-        console.log('RESPONSE FROM BACKEND IN THUNK: ', newEvent)
-
         dispatch(add(newEvent));
      } else {
         const errors = await response.json();
