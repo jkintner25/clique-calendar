@@ -95,7 +95,7 @@ function Calendar() {
                 {
                     dayNames.map((dayName, i=0) => {
                         i++
-                        return <p key={i} className>{dayName}</p>
+                        return <p key={i}>{dayName}</p>
                     })
                 }
             </div>
