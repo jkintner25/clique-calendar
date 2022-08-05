@@ -14,7 +14,41 @@
 }
 
 .calendar-header {
+    display: flex;
+    flex-direction: row;
+    padding: 20px 120px 0 120px;
+    justify-content: space-between;
+    height: 60px;
+    background-color: #f4f1de;
+    color: black;
+}
+
+.previous,
+.next :hover {
+    cursor: pointer;
+}
+
+.previous,
+.next {
+    height: 100%;
+}
+
+.current {
+    font-size: 30px;
+}
+
+.dayNames {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 0;
+    margin: 0;
     height: 30px;
-    background-color: #3d405b;
-    color: white;
+    /* justify-content: space-around; */
+    height: fit-content;
+    background-color: #f4f1de;
+}
+
+.dayNames p {
+    margin: 0 31.6px;
 }

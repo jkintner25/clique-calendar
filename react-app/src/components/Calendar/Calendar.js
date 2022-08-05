@@ -3,6 +3,13 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import './calendar.css'
 import buildCalendar from './build';
+import previousImg from '../../images/fast-backward.png'
+import nextImg from '../../images/fast-forward.png'
+
+const CalButton = styled.img`
+width: 40px;
+height: 40px;
+`
 
 const CalendarContainer = styled.div`
 position: relative;
@@ -14,6 +21,7 @@ margin: 0;
 box-sizing: border-box;
 z-index: 1;
 text-align: center;
+border: solid 1px black;
 `
 
 const DayContainer = styled.div`
@@ -66,17 +74,36 @@ function Calendar() {
         return value.format('YYYY')
     }
 
+    function previousMonth() {
+        return value.clone().subtract(1, 'month')
+    }
+
+    function nextMonth() {
+        return value.clone().add(1, 'month')
+    }
+
+    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
     return (
         <CalendarContainer>
             <div className='calendar-header'>
-                <div></div>
-                <div>{currentMonthName()} {currentYear()}</div>
-                <div></div>
+                <div className='previous' onClick={()=>setValue(previousMonth())}><CalButton src={previousImg}/></div>
+                <div className='current'>{currentMonthName()} {currentYear()}</div>
+                <div className='next' onClick={()=>setValue(nextMonth())}><CalButton src={nextImg} /></div>
+            </div>
+            <div className='dayNames'>
+                {
+                    dayNames.map((dayName, i=0) => {
+                        i++
+                        return <p key={i} className>{dayName}</p>
+                    })
+                }
             </div>
             <div className='body'>
                 {calendar.map((week, i = 0) => {
                     return <div key={i}>
                         {week.map((day, i = 0) => {
+                            i++
                             return <DayContainer key={i} onClick={() => setValue(day)}>
                                 <div className={dayStyles(day, value)}>{day.format('D').toString()}</div>
                             </DayContainer>
