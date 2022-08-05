@@ -10,6 +10,7 @@ import CalendarForm from './components/Calendar/CalendarForm';
 import SidebarPanel from './components/CalendarsSidebar/SidebarPanel';
 import EventForm from './components/EventSidebar/EventForm';
 import Events from './components/EventSidebar/EventComponent';
+import Calendar from './components/Calendar/Calendar';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -49,6 +50,9 @@ function App() {
           <EventForm />
           <Events />
         </ProtectedRoute>
+        <Route patch='/calendar' exact={true}>
+          <Calendar />
+        </Route>
       </Switch>
     </BrowserRouter>
   );
