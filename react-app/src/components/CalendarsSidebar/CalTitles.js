@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteCalendar, updateCalendar } from "../../store/calendars";
+import './sidebar.css'
 
 
-function Calendar({ calendar }) {
+function CalendarTitle({ calendar }) {
     const dispatch = useDispatch()
     const [title, setTitle] = useState(calendar.title)
     const [update, setUpdate] = useState(false)
@@ -26,7 +27,7 @@ function Calendar({ calendar }) {
         <>
             {!update ?
                 <div>
-                    <p>{calendar.title}</p>
+                    <p className="calendar-titles">{calendar.title}</p>
                     <button
                         onClick={() => setUpdate(!update)}>
                         Rename
@@ -50,4 +51,4 @@ function Calendar({ calendar }) {
     )
 };
 
-export default Calendar;
+export default CalendarTitle;

@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, {keyframes} from 'styled-components';
 import './calendar.css'
 import buildCalendar from './build';
 import previousImg from '../../images/fast-backward.png'
@@ -13,30 +13,33 @@ height: 40px;
 
 const CalendarContainer = styled.div`
 position: relative;
-width: 760px;
+width: 50vw;
+min-width: fit-content;
 height: fit-content;
 display: inline-block;
 padding: 0;
 margin: 0;
-box-sizing: border-box;
 z-index: 1;
 text-align: center;
-border: solid 1px black;
 `
 
 const DayContainer = styled.div`
+display: inline-block;
 position: relative;
 width: calc(100% / 7);
-height: 119.7px;
-display: inline-block;
-background-color: white;
+height: 100px;
 padding: 0;
 margin: 0;
 box-sizing: border-box;
 z-index: 2;
 text-align: left;
 background-color: #F4F1DE;
+border: solid 1px #F4F1DE;
 color: #3d405b;
+transition-duration: 600ms;
+&:hover {
+    border: 1px solid #f38d71;
+  }
 `
 
 function Calendar() {
@@ -60,8 +63,8 @@ function Calendar() {
     }
 
     function dayStyles(day, value) {
-        if (beforeToday(day)) return 'before'
         if (isSelected(day, value)) return 'selected'
+        if (beforeToday(day)) return 'before'
         if (isToday(day)) return 'today'
         return ''
     }
@@ -101,6 +104,7 @@ function Calendar() {
             </div>
             <div className='body'>
                 {calendar.map((week, i = 0) => {
+                    i++
                     return <div key={i}>
                         {week.map((day, i = 0) => {
                             i++

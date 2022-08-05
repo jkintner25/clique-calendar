@@ -1,0 +1,4 @@
+.calendar-titles:hover {
+    cursor: pointer;
+    width: fit-content;
+}

@@ -9,8 +9,8 @@ export default function buildCalendar(value) {
     while (day.isBefore(endDay, 'day')) {
         calendar.push(
             Array(7).fill(0).map(() => day.add(1, 'day').clone())
-        )
-    }
+            )
+        }
 
     return calendar
 }

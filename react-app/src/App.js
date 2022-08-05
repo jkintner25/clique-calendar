@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import LoginForm from './components/auth/LoginForm';
 import SignUpForm from './components/auth/SignUpForm';
-import NavBar from './components/NavBar';
+import NavBar from './components/Nav/NavBar';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import { authenticate } from './store/session';
 import CalendarForm from './components/Calendar/CalendarForm';
@@ -11,6 +11,7 @@ import SidebarPanel from './components/CalendarsSidebar/SidebarPanel';
 import EventForm from './components/EventSidebar/EventForm';
 import Events from './components/EventSidebar/EventComponent';
 import Calendar from './components/Calendar/Calendar';
+import EventsSideBar from './components/EventSidebar/EventSideBar';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -37,9 +38,12 @@ function App() {
         <Route path='/sign-up' exact={true}>
           <SignUpForm />
         </Route>
-        <ProtectedRoute path='/calendars' exact={true} >
-          <h1>My Calendars</h1>
-          <SidebarPanel />
+        <ProtectedRoute path='/home' exact={true} >
+          <div className='root-body'>
+            <SidebarPanel />
+            <Calendar />
+            <EventsSideBar />
+          </div>
         </ProtectedRoute>
         <ProtectedRoute path='/newcalendar' exact={true}>
           <h1>Create a new Calendar</h1>
@@ -48,11 +52,10 @@ function App() {
         <ProtectedRoute path='/newevent' exact={true}>
           <h1>Create a new Event</h1>
           <EventForm />
-          <Events />
         </ProtectedRoute>
-        <Route patch='/calendar' exact={true}>
+        <ProtectedRoute path='/calendar' exact={true}>
           <Calendar />
-        </Route>
+        </ProtectedRoute>
       </Switch>
     </BrowserRouter>
   );

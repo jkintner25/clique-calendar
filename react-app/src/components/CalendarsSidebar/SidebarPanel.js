@@ -1,24 +1,39 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getMyCalendars } from "../../store/calendars"
-import Calendar from "./CalTitles"
+import CalendarTitle from "./CalTitles"
+import styled from 'styled-components'
+import './sidebar.css'
 
+const CalendarSidebar = styled.div`
+display: flex;
+flex-direction: column;
+width: 240px;
+margin: 0 25px 0 0;
+background-color: #f4f1de;
+`
+const SidebarContentBox = styled.div`
+margin: 0px 8px;
+`
 
 function SidebarPanel() {
     const dispatch = useDispatch()
-    const userId = useSelector(state=>state.session.user.id)
-    const myCalendars = Object.values(useSelector(state=>state.calendars))
+    const userId = useSelector(state => state.session.user.id)
+    const myCalendars = Object.values(useSelector(state => state.calendars))
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(getMyCalendars(userId))
     }, [dispatch])
 
     return (
-        <>
-            {myCalendars ? myCalendars.map(calendar=>{
-                return <Calendar key={calendar.id} calendar={calendar} />
-            }) : <p>You don't have any Calendars</p>}
-        </>
+        <CalendarSidebar>
+            <SidebarContentBox>
+                <h1>My Calendars</h1>
+                {myCalendars ? myCalendars.map(calendar => {
+                    return <CalendarTitle key={calendar.id} calendar={calendar} />
+                }) : <p>You don't have any Calendars</p>}
+            </SidebarContentBox>
+        </CalendarSidebar>
     )
 };
 
