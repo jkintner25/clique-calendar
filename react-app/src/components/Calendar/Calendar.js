@@ -6,16 +6,14 @@ import buildCalendar from './build';
 
 const CalendarContainer = styled.div`
 position: relative;
-width: 700px;
-height: 600px;
+width: 760px;
+height: fit-content;
 display: inline-block;
-background-color: white;
 padding: 0;
 margin: 0;
 box-sizing: border-box;
 z-index: 1;
 text-align: center;
-border: solid .5px black;
 `
 
 const DayContainer = styled.div`
@@ -28,8 +26,9 @@ padding: 0;
 margin: 0;
 box-sizing: border-box;
 z-index: 2;
-text-align: center;
-/* border: solid .5px black; */
+text-align: left;
+background-color: #F4F1DE;
+color: #3d405b;
 `
 
 function Calendar() {
@@ -40,7 +39,7 @@ function Calendar() {
         setCalendar(buildCalendar(value))
     }, [value])
 
-    function isSelected(day) {
+    function isSelected(day, value) {
         return value.isSame(day, 'day')
     }
 
@@ -52,24 +51,39 @@ function Calendar() {
         return day.isSame(new Date(), 'day')
     }
 
-    function dayStyles(day) {
+    function dayStyles(day, value) {
         if (beforeToday(day)) return 'before'
-        if (isSelected(day)) return 'selected'
+        if (isSelected(day, value)) return 'selected'
         if (isToday(day)) return 'today'
         return ''
     }
 
+    function currentMonthName() {
+        return value.format('MMMM')
+    }
+
+    function currentYear() {
+        return value.format('YYYY')
+    }
+
     return (
         <CalendarContainer>
-            {calendar.map((week, i = 0) => {
-                return <div key={i}>
-                    {week.map((day, i = 0) => {
-                        return <DayContainer key={i} onClick={() => setValue(day)}>
-                            <div className={dayStyles(day)}>{day.format('D').toString()}</div>
-                        </DayContainer>
-                    })}
-                </div>
-            })}
+            <div className='calendar-header'>
+                <div></div>
+                <div>{currentMonthName()} {currentYear()}</div>
+                <div></div>
+            </div>
+            <div className='body'>
+                {calendar.map((week, i = 0) => {
+                    return <div key={i}>
+                        {week.map((day, i = 0) => {
+                            return <DayContainer key={i} onClick={() => setValue(day)}>
+                                <div className={dayStyles(day, value)}>{day.format('D').toString()}</div>
+                            </DayContainer>
+                        })}
+                    </div>
+                })}
+            </div>
         </CalendarContainer>
     )
 };

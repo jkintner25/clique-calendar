@@ -1,4 +1,20 @@
 .selected {
-    background-color: antiquewhite;
+    background-color: #f38d71;
     height: 100%;
+}
+
+.today {
+    background-color: #F2CC8F;
+    height: 100%;
+}
+
+.before {
+    color: lightgrey;
+    height: 100%;
+}
+
+.calendar-header {
+    height: 30px;
+    background-color: #3d405b;
+    color: white;
 }
