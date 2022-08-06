@@ -4,8 +4,9 @@ import { deleteEvent } from "../../store/events";
 import EventEditForm from "./EventEditForm";
 import styled from 'styled-components';
 
-const EventDetails = styled.ul`
-
+const EventBox = styled.ul`
+margin: 16px 2px 16px 20px;
+list-style: none;
 `
 
 function Events({ eventsState }) {
@@ -16,11 +17,13 @@ function Events({ eventsState }) {
 
     const convertDatesToLocal = () => {
         const list = events.map(event => {
-            return {...event,
+            return {
+                ...event,
                 startDate: new Date(event.startDate).toLocaleString('en-US', { 'hour12': true }).slice(0, -6) +
-                new Date(event.startDate).toLocaleString('en-US', { 'hour12': true }).slice(-3),
+                    new Date(event.startDate).toLocaleString('en-US', { 'hour12': true }).slice(-3),
                 endDate: new Date(event.endDate).toLocaleString('en-US', { 'hour12': true }).slice(0, -6) +
-                new Date(event.endDate).toLocaleString('en-US', { 'hour12': true }).slice(-3)};
+                    new Date(event.endDate).toLocaleString('en-US', { 'hour12': true }).slice(-3)
+            };
         })
         setNewEvents(list)
     }
@@ -44,17 +47,21 @@ function Events({ eventsState }) {
             {newEvents.length > 0 ?
                 <div>
                     {newEvents.map(event => {
-                        return <div key={event.id}>
-                            <p>{event.title}</p>
+                        return <EventBox key={event.id}>
+                            <h2>{event.title}</h2>
                             <li>Start: {event.startDate}</li>
                             <li>End: {event.endDate}</li>
                             <button type="button" onClick={() => editEvent(event.id)}>Edit</button>
                             <button type="button" onClick={() => deleteThisEvent(event)}>Delete</button>
                             {editId === event.id && <EventEditForm event={event} />}
-                        </div>
+                        </EventBox>
                     })}
                 </div>
-                : <p>You have no events.</p>}
+                : <div>
+                    <p>No events to display.</p>
+                    <p>Click on a calendar or create an event!</p>
+                </div>
+            }
         </>
     );
 };

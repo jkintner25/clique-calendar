@@ -7,12 +7,15 @@ import { Modal } from "../Context/ModalContext";
 import './sidebar.css'
 import styled from 'styled-components'
 
-
+const CalTitle = styled.div`
+margin: 16px 0 0 0;
+`
 
 function CalendarTitle({ calendar }) {
     const dispatch = useDispatch()
     const [title, setTitle] = useState(calendar.title)
     const [update, setUpdate] = useState(false)
+    const [edit, setEdit] = useState(false)
     const setActiveCalendar = useSetCalendar()
 
     const renameTitle = () => {
@@ -36,16 +39,20 @@ function CalendarTitle({ calendar }) {
 
     return (
         <div>
-            <div>
-                <p className="calendar-titles" onClick={getAllMyEvents} >{calendar.title}</p>
-                <button
-                    onClick={() => setUpdate(true)}>
-                    Rename
-                </button><button
-                    onClick={deleteThisCalendar}>
-                    Delete
-                </button>
-            </div>
+            <CalTitle>
+                <h2 className="calendar-titles" onClick={getAllMyEvents} >{calendar.title}</h2>
+                {edit &&
+                    <div>
+                        <button
+                            onClick={() => setUpdate(true)}>
+                            Rename
+                        </button><button
+                            onClick={deleteThisCalendar}>
+                            Delete
+                        </button>
+                    </div>
+                }
+            </CalTitle>
             {update &&
                 <Modal onClose={() => setUpdate(false)}>
                     <div>

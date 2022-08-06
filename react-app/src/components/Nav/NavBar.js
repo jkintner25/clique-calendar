@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import LogoutButton from '../auth/LogoutButton';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import './navbar.css'
+import { Modal } from '../Context/ModalContext';
+import EventForm from '../EventSidebar/EventForm';
 
 const NavBarUL = styled.ul`
 display: flex;
@@ -14,7 +16,12 @@ text-decoration: none;
 `
 
 const NavBar = () => {
-  const user = useSelector(state=>state.session.user)
+  const user = useSelector(state => state.session.user)
+  const [createEvent, setCreateEvent] = useState(false)
+
+  function newEventWindow() {
+    setCreateEvent(!createEvent)
+  }
 
   if (!user) return (
     <nav className='navbar'>
@@ -50,13 +57,18 @@ const NavBar = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to='/newevent' exact={true} activeClassName='active' className={'navlink'}>
+          <p onClick={() => newEventWindow()} className={'navlink'}>
             Create an Event
-          </NavLink>
+          </p>
         </li>
         <li>
           <LogoutButton />
         </li>
+        {createEvent &&
+          <Modal onClose={() => setCreateEvent(false)}>
+            <EventForm setCreateEvent={setCreateEvent} />
+          </Modal>
+        }
       </NavBarUL>
     </nav>
   );

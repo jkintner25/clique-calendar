@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import { useHistory } from "react-router-dom";
 import { createEvent } from "../../store/events"
-// import styled from "styled-components";
+import styled from "styled-components";
 
-function EventForm() {
+const FormContainer = styled.div`
+display: flex;
+flex-direction: column;
+`
+
+function EventForm({setCreateEvent}) {
     const dispatch = useDispatch()
-    // const history = useHistory()
     const userId = useSelector(state => state.session.user.id)
     const myCalendars = Object.values(useSelector(state => state.calendars))
 
@@ -52,6 +55,7 @@ function EventForm() {
             calendarId: calendarId
         }
         dispatch(createEvent(newEvent))
+        setCreateEvent(false)
     }
 
     return (
@@ -60,45 +64,48 @@ function EventForm() {
                 return <p key={i}>{error}</p>
             })}
             <form onSubmit={submitEvent}>
-                <label>Title</label>
-                <input
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                >
-                </input>
-                <label>Description</label>
-                <input
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                >
-                </input>
-                <label>Start Date</label>
-                <input
-                    type="datetime-local"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                >
-                </input>
-                <label>End Date</label>
-                <input
-                    type="datetime-local"
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                >
-                </input>
-                <label>Calendar</label>
-                {myCalendars.length > 0 ?
-                    <select
-                        multiple={false}
-                        value={calendarId}
-                        onChange={(e) => setCalendarId(e.target.value)}>
-                        {myCalendars && myCalendars.map((calendar) => {
-                            return <option key={calendar.id}
-                                value={calendar.id}>{calendar.title}</option>
-                        })}
-                    </select>
-                    : <p>You need a Calendar!</p>}
-                <button type="submit" disabled={errors.length > 0}>Submit</button>
+                <FormContainer>
+
+                    <label>Title</label>
+                    <input
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    >
+                    </input>
+                    <label>Description</label>
+                    <input
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                    >
+                    </input>
+                    <label>Start Date</label>
+                    <input
+                        type="datetime-local"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                    >
+                    </input>
+                    <label>End Date</label>
+                    <input
+                        type="datetime-local"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                    >
+                    </input>
+                    <label>Calendar</label>
+                    {myCalendars.length > 0 ?
+                        <select
+                            multiple={false}
+                            value={calendarId}
+                            onChange={(e) => setCalendarId(e.target.value)}>
+                            {myCalendars && myCalendars.map((calendar) => {
+                                return <option key={calendar.id}
+                                    value={calendar.id}>{calendar.title}</option>
+                            })}
+                        </select>
+                        : <p>You need a Calendar!</p>}
+                    <button type="submit" disabled={errors.length > 0}>Submit</button>
+                </FormContainer>
             </form>
         </div>
     )
