@@ -1,32 +1,24 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getMyCalendars } from "../../store/calendars";
-import { deleteEvent, getMyEvents } from "../../store/events";
+import { useDispatch } from "react-redux";
+import { deleteEvent } from "../../store/events";
 import EventEditForm from "./EventEditForm";
+import styled from 'styled-components';
 
+const EventDetails = styled.ul`
 
-function Events() {
+`
+
+function Events({events}) {
     const dispatch = useDispatch()
-    const userId = useSelector(state => state.session.user.id)
-    const events = Object.values(useSelector(state => state.events))
-    const calendars = useSelector(state => state.calendars)
     const [localDate, setLocalDate] = useState(false)
     const [editId, setEditId] = useState(-1)
 
     const convertDatesToLocal = () => {
         return events.forEach(event => {
-            event.startDate = new Date(event.startDate).toLocaleString()
-            event.endDate = new Date(event.endDate).toLocaleString()
+            event.startDate = new Date(event.startDate).toLocaleString('en-US', {'hour12': true})
+            event.endDate = new Date(event.endDate).toLocaleString('en-US', {'hour12': true})
         })
     }
-
-    useEffect(() => {
-        dispatch(getMyEvents(userId))
-    }, [dispatch])
-
-    useEffect(() => {
-        dispatch(getMyCalendars(userId))
-    }, [dispatch])
 
     useEffect(() => {
         if (!events) return;
@@ -50,11 +42,9 @@ function Events() {
                 {events.map(event => {
                     return <div key={event.id}>
                         <p>{event.title}</p>
-                        <p>{event.description}</p>
-                        <p>{event.startDate}</p>
-                        <p>{event.endDate}</p>
-                        <p>{event.startTime}</p>
-                        <p>{event.endTime}</p>
+                        {event.description && <li>{event.description}</li>}
+                        <li>Start: {event.startDate}</li>
+                        <li>End: {event.endDate}</li>
                         <button type="button" onClick={()=>editEvent(event.id)}>Edit</button>
                         <button type="button" onClick={()=>deleteThisEvent(event)}>Delete</button>
                         {editId === event.id && <EventEditForm event={event}/>}

@@ -1,4 +1,6 @@
+import { useSelector } from "react-redux";
 import styled from "styled-components";
+import Events from "./EventComponent";
 
 const EventsSidebarBox = styled.div`
 display: flex;
@@ -12,12 +14,12 @@ margin: 0px 8px;
 `
 
 function EventsSideBar() {
-
+    const events = Object.values(useSelector(state=>state.events))
 
     return (
         <EventsSidebarBox>
             <EventsContentBox>
-
+                <Events events={events} />
             </EventsContentBox>
         </EventsSidebarBox>
 

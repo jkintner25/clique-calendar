@@ -28,7 +28,7 @@ function SidebarPanel() {
     return (
         <CalendarSidebar>
             <SidebarContentBox>
-                <h1>My Calendars</h1>
+                <h1>My Cliques</h1>
                 {myCalendars ? myCalendars.map(calendar => {
                     return <CalendarTitle key={calendar.id} calendar={calendar} />
                 }) : <p>You don't have any Calendars</p>}

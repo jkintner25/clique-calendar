@@ -12,7 +12,8 @@ import EventForm from './components/EventSidebar/EventForm';
 import Events from './components/EventSidebar/EventComponent';
 import Calendar from './components/Calendar/Calendar';
 import EventsSideBar from './components/EventSidebar/EventSideBar';
-import {CalendarProvider} from './components/Context/CalendarContext';
+import { CalendarProvider } from './components/Context/CalendarContext';
+import { ModalProvider } from './components/Context/ModalContext';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -30,37 +31,39 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-      <NavBar />
-      <Switch>
-        <Route path='/login' exact={true}>
-          <LoginForm />
-        </Route>
-        <Route path='/sign-up' exact={true}>
-          <SignUpForm />
-        </Route>
-        <ProtectedRoute path='/home' exact={true} >
-          <div className='root-body'>
-            <CalendarProvider>
-              <SidebarPanel />
-              <Calendar />
-              <EventsSideBar />
-            </CalendarProvider>
-          </div>
-        </ProtectedRoute>
-        <ProtectedRoute path='/newcalendar' exact={true}>
-          <h1>Create a new Calendar</h1>
-          <CalendarForm />
-        </ProtectedRoute>
-        <ProtectedRoute path='/newevent' exact={true}>
-          <h1>Create a new Event</h1>
-          <EventForm />
-        </ProtectedRoute>
-        <ProtectedRoute path='/calendar' exact={true}>
-          <Calendar />
-        </ProtectedRoute>
-      </Switch>
-    </BrowserRouter>
+    <ModalProvider>
+      <BrowserRouter>
+        <NavBar />
+        <Switch>
+          <Route path='/login' exact={true}>
+            <LoginForm />
+          </Route>
+          <Route path='/sign-up' exact={true}>
+            <SignUpForm />
+          </Route>
+          <ProtectedRoute path='/home' exact={true} >
+            <div className='root-body'>
+              <CalendarProvider>
+                <SidebarPanel />
+                <Calendar />
+                <EventsSideBar />
+              </CalendarProvider>
+            </div>
+          </ProtectedRoute>
+          <ProtectedRoute path='/newcalendar' exact={true}>
+            <h1>Create a new Calendar</h1>
+            <CalendarForm />
+          </ProtectedRoute>
+          <ProtectedRoute path='/newevent' exact={true}>
+            <h1>Create a new Event</h1>
+            <EventForm />
+          </ProtectedRoute>
+          <ProtectedRoute path='/calendar' exact={true}>
+            <Calendar />
+          </ProtectedRoute>
+        </Switch>
+      </BrowserRouter>
+    </ModalProvider>
   );
 }
 

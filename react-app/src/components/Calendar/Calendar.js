@@ -48,8 +48,6 @@ function Calendar() {
     const [value, setValue] = useState(moment())
     const activeCalendar = useCalendar()
 
-    
-
     useEffect(() => {
         setCalendar(buildCalendar(value))
     }, [value])
