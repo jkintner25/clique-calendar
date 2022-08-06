@@ -5,6 +5,7 @@ import './calendar.css'
 import buildCalendar from './build';
 import previousImg from '../../images/fast-backward.png'
 import nextImg from '../../images/fast-forward.png'
+import { useSelector } from 'react-redux';
 import { useCalendar } from '../Context/CalendarContext';
 
 const CalButton = styled.img`
@@ -46,7 +47,30 @@ transition-duration: 400ms;
 function Calendar() {
     const [calendar, setCalendar] = useState([])
     const [value, setValue] = useState(moment())
-    const activeCalendar = useCalendar()
+    const eventsState = useSelector(state => state.events)
+    const events = Object.values(eventsState)
+    const [newEvents, setNewEvents] = useState(null)
+
+    const convertDatesToLocal = (events) => {
+        const list = events.map(event => {
+            return {...event,
+                    startDate: new Date(event.startDate).toLocaleString('en-US', { 'hour12': true }),
+                    endDate: new Date(event.endDate).toLocaleString('en-US', { 'hour12': true })};
+        })
+        setNewEvents(list)
+    }
+
+    useEffect(()=>{
+        if(!eventsState)return;
+        convertDatesToLocal(events)
+    }, [eventsState])
+
+    function dayEventChecker(day) {
+        return newEvents.filter(event=>{
+            return moment(event.startDate, "M-D-YYYY").isSame(moment(day, "M-D-YYYY")) ||
+            moment(event.endDate, "M-D-YYYY").isSame(moment(day, "M-D-YYYY"))
+        })
+    }
 
     useEffect(() => {
         setCalendar(buildCalendar(value))
@@ -92,13 +116,13 @@ function Calendar() {
     return (
         <CalendarContainer>
             <div className='calendar-header'>
-                <div className='previous' onClick={()=>setValue(previousMonth())}><CalButton src={previousImg}/></div>
+                <div className='previous' onClick={() => setValue(previousMonth())}><CalButton src={previousImg} /></div>
                 <div className='current'>{currentMonthName()} {currentYear()}</div>
-                <div className='next' onClick={()=>setValue(nextMonth())}><CalButton src={nextImg} /></div>
+                <div className='next' onClick={() => setValue(nextMonth())}><CalButton src={nextImg} /></div>
             </div>
             <div className='dayNames'>
                 {
-                    dayNames.map((dayName, i=0) => {
+                    dayNames.map((dayName, i = 0) => {
                         i++
                         return <p key={i}>{dayName}</p>
                     })
@@ -111,7 +135,11 @@ function Calendar() {
                         {week.map((day, i = 0) => {
                             i++
                             return <DayContainer key={i} onClick={() => setValue(day)}>
-                                <div className={dayStyles(day, value)}>{day.format('D').toString()}</div>
+                                    <div className={dayStyles(day, value)}>{day.format('D').toString()}
+                                    {newEvents && dayEventChecker(day).map(event=>{
+                                        return <p className='event' key={event.id}>{event.title}</p>
+                                    })}
+                                    </div>
                             </DayContainer>
                         })}
                     </div>

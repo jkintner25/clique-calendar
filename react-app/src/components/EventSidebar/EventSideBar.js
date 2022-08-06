@@ -14,12 +14,12 @@ margin: 0px 8px;
 `
 
 function EventsSideBar() {
-    const events = Object.values(useSelector(state=>state.events))
+    const eventsState = useSelector(state=>state.events)
 
     return (
         <EventsSidebarBox>
             <EventsContentBox>
-                <Events events={events} />
+                <Events eventsState={eventsState} />
             </EventsContentBox>
         </EventsSidebarBox>
 

@@ -34,10 +34,6 @@ function CalendarTitle({ calendar }) {
         dispatch(getAllCalendarEvents(calendar.id))
     }
 
-    useEffect(() => {
-        console.log(update)
-    }, [update])
-
     return (
         <div>
             <div>
