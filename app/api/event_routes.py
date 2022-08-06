@@ -30,6 +30,11 @@ def load_events(id):
     events = Event.query.filter(Event.user_id == id)
     return {'events': [event.to_dict() for event in events]}
 
+@event_routes.route('/calendar/<int:calendar_id>', methods=['GET'])
+def load_calendar_events(calendar_id):
+    events = Event.query.filter(Event.calendar_id == calendar_id)
+    return {'events': [event.to_dict() for event in events]}
+
 @event_routes.route('/update/<int:id>', methods=['PUT'])
 def update_event(id):
     form = EventForm()

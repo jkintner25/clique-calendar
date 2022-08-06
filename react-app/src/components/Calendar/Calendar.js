@@ -1,10 +1,11 @@
 import moment from 'moment';
 import { useEffect, useState } from 'react';
-import styled, {keyframes} from 'styled-components';
+import styled from 'styled-components';
 import './calendar.css'
 import buildCalendar from './build';
 import previousImg from '../../images/fast-backward.png'
 import nextImg from '../../images/fast-forward.png'
+import { useCalendar } from '../Context/CalendarContext';
 
 const CalButton = styled.img`
 width: 40px;
@@ -36,15 +37,18 @@ text-align: left;
 background-color: #F4F1DE;
 border: solid 1px #F4F1DE;
 color: #3d405b;
-transition-duration: 600ms;
+transition-duration: 400ms;
 &:hover {
-    border: 1px solid #f38d71;
+    background-color: #f38d71;
   }
 `
 
 function Calendar() {
     const [calendar, setCalendar] = useState([])
     const [value, setValue] = useState(moment())
+    const activeCalendar = useCalendar()
+
+    
 
     useEffect(() => {
         setCalendar(buildCalendar(value))

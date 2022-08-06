@@ -1,8 +1,9 @@
 
-const ADD_EVENT = "calendar/ADD_EVENT";
-const READ_EVENTS = "calendar/READ_EVENTS";
-const UPDATE_EVENT = "calendar/UPDATE_EVENT";
-const DELETE_EVENT = "calendar/DELETE_EVENT";
+const ADD_EVENT = "events/ADD_EVENT";
+const READ_EVENTS = "events/READ_EVENTS";
+const CLEAN_READ_EVENTS = "events/CLEAN_READ_EVENTS"
+const UPDATE_EVENT = "events/UPDATE_EVENT";
+const DELETE_EVENT = "events/DELETE_EVENT";
 
 const add = event => ({
     type: ADD_EVENT,
@@ -13,6 +14,11 @@ const load = events => ({
     type: READ_EVENTS,
     events
 });
+
+const cleanLoad = events => ({
+    type: CLEAN_READ_EVENTS,
+    events
+})
 
 const update = event => ({
     type: UPDATE_EVENT,
@@ -47,6 +53,14 @@ export const getMyEvents = userId => async dispatch => {
     }
 };
 
+export const getAllCalendarEvents = calendarId => async dispatch => {
+    const response = await fetch(`/api/events/calendar/${calendarId}`);
+    if (response.ok) {
+        const events = await response.json();
+        dispatch(cleanLoad(events));
+    }
+};
+
 export const updateEvent = (id, event) => async dispatch => {
     const response = await fetch(`/api/events/update/${id}`, {
         method: "PUT",
@@ -78,6 +92,7 @@ const initialState = {};
 
 const eventsReducer = (state = initialState, action) => {
     let newState = { ...state };
+    let cleanState = {}
     switch (action.type) {
         case ADD_EVENT:
             newState[action.event.id] = action.event;
@@ -87,6 +102,11 @@ const eventsReducer = (state = initialState, action) => {
                 newState[event.id] = event;
             });
             return newState;
+        case CLEAN_READ_EVENTS:
+            action.events.events.forEach(event => {
+                cleanState[event.id] = event;
+            });
+            return cleanState;
         case UPDATE_EVENT:
             newState[action.event.id] = action.event;
             return newState;

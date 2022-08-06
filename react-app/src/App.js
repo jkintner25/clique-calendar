@@ -12,6 +12,7 @@ import EventForm from './components/EventSidebar/EventForm';
 import Events from './components/EventSidebar/EventComponent';
 import Calendar from './components/Calendar/Calendar';
 import EventsSideBar from './components/EventSidebar/EventSideBar';
+import {CalendarProvider} from './components/Context/CalendarContext';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -40,9 +41,11 @@ function App() {
         </Route>
         <ProtectedRoute path='/home' exact={true} >
           <div className='root-body'>
-            <SidebarPanel />
-            <Calendar />
-            <EventsSideBar />
+            <CalendarProvider>
+              <SidebarPanel />
+              <Calendar />
+              <EventsSideBar />
+            </CalendarProvider>
           </div>
         </ProtectedRoute>
         <ProtectedRoute path='/newcalendar' exact={true}>
