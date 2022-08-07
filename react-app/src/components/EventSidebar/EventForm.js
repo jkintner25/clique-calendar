@@ -65,7 +65,6 @@ function EventForm({setCreateEvent}) {
             })}
             <form onSubmit={submitEvent}>
                 <FormContainer>
-
                     <label>Title</label>
                     <input
                         autoFocus={true}

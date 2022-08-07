@@ -11,7 +11,7 @@ const CalTitle = styled.div`
 margin: 16px 0 0 0;
 `
 
-function CalendarTitle({ calendar }) {
+function CalendarTitle({ calendar, isClicked }) {
     const dispatch = useDispatch()
     const [title, setTitle] = useState(calendar.title)
     const [update, setUpdate] = useState(false)
@@ -41,7 +41,7 @@ function CalendarTitle({ calendar }) {
         <div>
             <CalTitle className="box-wrap">
                 <h2 className="calendar-titles box" onClick={getAllMyEvents} >{calendar.title}</h2>
-                {edit &&
+                {isClicked &&
                     <div>
                         <button
                             onClick={() => setUpdate(true)}>

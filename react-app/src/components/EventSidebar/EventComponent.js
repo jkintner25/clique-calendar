@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { deleteEvent } from "../../store/events";
 import EventEditForm from "./EventEditForm";
 import styled from 'styled-components';
+import { Modal } from "../Context/ModalContext";
 
 const EventBox = styled.ul`
 margin: 16px 2px 16px 20px;
@@ -11,9 +12,9 @@ list-style: none;
 
 function Events({ eventsState }) {
     const dispatch = useDispatch()
-    const [editId, setEditId] = useState(-1)
     const [newEvents, setNewEvents] = useState([])
     const events = Object.values(eventsState)
+    const [showEditForm, setShowEditForm] = useState(false)
 
     const convertDatesToLocal = () => {
         const list = events.map(event => {
@@ -33,11 +34,6 @@ function Events({ eventsState }) {
         convertDatesToLocal()
     }, [eventsState])
 
-    const editEvent = (id) => {
-        if (editId === -1) setEditId(id)
-        else setEditId(-1)
-    }
-
     const deleteThisEvent = (event) => {
         dispatch(deleteEvent(event))
     }
@@ -47,14 +43,19 @@ function Events({ eventsState }) {
             {newEvents.length > 0 ?
                 <div>
                     {newEvents.map(event => {
-                        return <EventBox key={event.id}>
-                            <h2>{event.title}</h2>
-                            <li>Start: {event.startDate}</li>
-                            <li>End: {event.endDate}</li>
-                            <button type="button" onClick={() => editEvent(event.id)}>Edit</button>
-                            <button type="button" onClick={() => deleteThisEvent(event)}>Delete</button>
-                            {editId === event.id && <EventEditForm event={event} />}
-                        </EventBox>
+                        return <div key={event.id}>
+                            <EventBox>
+                                <h2>{event.title}</h2>
+                                <li>Start: {event.startDate}</li>
+                                <li>End: {event.endDate}</li>
+                                <button type="button" onClick={() => setShowEditForm(true)}>Edit</button>
+                                <button type="button" onClick={() => deleteThisEvent(event)}>Delete</button>
+                            </EventBox>
+                            {showEditForm &&
+                                <Modal onClose={() => setShowEditForm(false)}>
+                                    <EventEditForm event={event} />
+                                </Modal>}
+                        </div>
                     })}
                 </div>
                 : <div>
