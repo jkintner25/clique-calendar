@@ -11,7 +11,7 @@
 }
 
 .selected {
-    background-color: #f38d71;
+    background-color: #f2cc8f;
     height: 100%;
 }
 
@@ -65,19 +65,22 @@ div.body {
 }
 
 .event {
-    position: absolute;
+    position: relative;
     font-size: small;
-    border: 1px solid #81b29a;
-    background-color: #81b29a;
-    /* border-radius: 8px; */
-    /* margin: 2px 2px; */
-    width: 72px;
-    width: 100%;
+    border: 1px solid #3d405b;
+    background-color: #3d405b;
+    color: white;
+    width: 97%;
     height: 15px;
     cursor: pointer;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    /* box-sizing: content-box; */
-    right: .7px;
+    right: .1px;
+    margin-bottom: 2px;
+}
+
+.day {
+    display: flex;
+    flex-direction: column;
 }

@@ -68,6 +68,7 @@ function EventForm({setCreateEvent}) {
 
                     <label>Title</label>
                     <input
+                        autoFocus={true}
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                     >

@@ -40,6 +40,7 @@ const LoginForm = () => {
       <div>
         <label htmlFor='email'>Email</label>
         <input
+          autoFocus={true}
           name='email'
           type='text'
           placeholder='Email'

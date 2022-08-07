@@ -68,7 +68,9 @@ function Calendar() {
     function dayEventChecker(day) {
         return newEvents.filter(event=>{
             return moment(event.startDate, "M-D-YYYY").isSame(moment(day, "M-D-YYYY")) ||
-            moment(event.endDate, "M-D-YYYY").isSame(moment(day, "M-D-YYYY"))
+            moment(event.endDate, "M-D-YYYY").isSame(moment(day, "M-D-YYYY")) ||
+            moment(event.startDate, "M-D-YYYY").isBefore(moment(day, "M-D-YYYY")) &&
+            moment(event.endDate, "M-D-YYYY").isAfter(moment(day, "M-D-YYYY"))
         })
     }
 
@@ -89,10 +91,10 @@ function Calendar() {
     }
 
     function dayStyles(day, value) {
-        if (isSelected(day, value)) return 'selected'
-        if (beforeToday(day)) return 'before'
-        if (isToday(day)) return 'today'
-        return ''
+        if (isSelected(day, value)) return 'selected day'
+        if (beforeToday(day)) return 'before day'
+        if (isToday(day)) return 'today day'
+        return 'day'
     }
 
     function currentMonthName() {

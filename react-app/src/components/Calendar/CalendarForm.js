@@ -30,7 +30,7 @@ function CalendarForm() {
         <>
             <form onSubmit={createNewCalendar}>
                 <label>Title</label>
-                <input type="text" value={title} onChange={updateTitle}></input>
+                <input className="calendar-title-input" autoFocus={true} type="text" value={title} onChange={updateTitle}></input>
                 <button type="submit">Create</button>
             </form>
         </>

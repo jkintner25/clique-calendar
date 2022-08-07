@@ -7,6 +7,11 @@
     padding: 0;
 }
 
+body {
+    /* background-color: #3d405b; */
+    height: 98vh;
+}
+
 .root-body {
     display: flex;
     flex-direction: row;
@@ -15,10 +20,9 @@
     width: 100%;
 }
 
-
-/* <!-- HTML !-->
-<button class="button-74" role="button">Button 74</button> */
-
+input {
+    
+}
 
 button {
     background-color: #fbeee0;

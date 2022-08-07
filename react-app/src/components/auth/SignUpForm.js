@@ -52,6 +52,7 @@ const SignUpForm = () => {
       <div>
         <label>User Name</label>
         <input
+          autoFocus={true}
           type='text'
           name='username'
           onChange={updateUsername}
