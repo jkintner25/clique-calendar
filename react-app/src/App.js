@@ -13,7 +13,7 @@ import Events from './components/EventSidebar/EventComponent';
 import Calendar from './components/Calendar/Calendar';
 import EventsSideBar from './components/EventSidebar/EventSideBar';
 import { CalendarProvider } from './components/Context/CalendarContext';
-import { ModalProvider } from './components/Context/ModalContext';
+import { Modal, ModalProvider } from './components/Context/ModalContext';
 
 function App() {
   const [loaded, setLoaded] = useState(false);

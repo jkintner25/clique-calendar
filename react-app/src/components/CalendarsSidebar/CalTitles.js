@@ -39,8 +39,8 @@ function CalendarTitle({ calendar }) {
 
     return (
         <div>
-            <CalTitle>
-                <h2 className="calendar-titles" onClick={getAllMyEvents} >{calendar.title}</h2>
+            <CalTitle className="box-wrap">
+                <h2 className="calendar-titles box" onClick={getAllMyEvents} >{calendar.title}</h2>
                 {edit &&
                     <div>
                         <button

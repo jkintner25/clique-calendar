@@ -104,7 +104,7 @@ function EventForm({setCreateEvent}) {
                             })}
                         </select>
                         : <p>You need a Calendar!</p>}
-                    <button type="submit" disabled={errors.length > 0}>Submit</button>
+                        <button type="submit" disabled={errors.length > 0}>Submit</button>
                 </FormContainer>
             </form>
         </div>
