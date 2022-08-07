@@ -31,7 +31,7 @@ function EventForm({setCreateEvent}) {
     useEffect(() => {
         if (!myCalendars[0]) return;
         if (calendarId === -1) setCalendarId(myCalendars[0].id)
-    }, [myCalendars])
+    }, [myCalendars, calendarId])
 
     useEffect(() => {
         let validationErrors = []

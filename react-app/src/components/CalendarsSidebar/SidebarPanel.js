@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getMyCalendars } from "../../store/calendars"
 import CalendarTitle from "./CalTitles"
-import styled, { keyframes } from 'styled-components'
+import styled from 'styled-components'
 import './sidebar.css'
 
 import plusSign from '../../images/add.png'
@@ -58,7 +58,7 @@ function SidebarPanel() {
 
     useEffect(() => {
         dispatch(getMyCalendars(userId))
-    }, [dispatch])
+    }, [dispatch, userId])
 
     function setImgClass() {
         if (!isClicked) return '';

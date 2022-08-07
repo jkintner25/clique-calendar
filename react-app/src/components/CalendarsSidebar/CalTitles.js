@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteCalendar, updateCalendar } from "../../store/calendars";
 import { getAllCalendarEvents } from "../../store/events";
@@ -15,7 +15,6 @@ function CalendarTitle({ calendar, isClicked }) {
     const dispatch = useDispatch()
     const [title, setTitle] = useState(calendar.title)
     const [update, setUpdate] = useState(false)
-    const [edit, setEdit] = useState(false)
     const setActiveCalendar = useSetCalendar()
 
     const renameTitle = () => {

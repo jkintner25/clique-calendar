@@ -6,7 +6,6 @@ import buildCalendar from './build';
 import previousImg from '../../images/fast-backward.png'
 import nextImg from '../../images/fast-forward.png'
 import { useSelector } from 'react-redux';
-import { useCalendar } from '../Context/CalendarContext';
 
 const CalButton = styled.img`
 width: 40px;

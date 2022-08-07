@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { updateEvent } from "../../store/events";
 import styled from "styled-components";
+import moment from "moment";
 
 const FormElementContainer = styled.div`
 display: flex;
@@ -11,18 +11,21 @@ flex-direction: column;
 
 function EventEditForm({ event }) {
     const dispatch = useDispatch()
-    const history = useHistory()
     const userId = useSelector(state => state.session.user.id)
     const myCalendars = Object.values(useSelector(state => state.calendars))
 
     const [title, setTitle] = useState(event.title);
     const [description, setDescription] = useState(event.description);
-    const [startDate, setStartDate] = useState(event.startDate);
-    const [endDate, setEndDate] = useState(event.endDate);
+    const [startDate, setStartDate] = useState(new moment(event.startDate, 'YYYY-MM-DDThh:mm').toString());
+    const [endDate, setEndDate] = useState(new moment(event.endDate, 'YYYY-MM-DDThh:mm').toString());
     const [calendarId, setCalendarId] = useState(event.calendarId)
     const [startTimeGMT, setStartTimeGMT] = useState(new Date().toString().slice(16, 24))
     const [endTimeGMT, setEndTimeGMT] = useState(new Date().toString().slice(16, 24))
     const [errors, setErrors] = useState([])
+
+    useEffect(()=>{
+        console.log(startDate)
+    }, [startDate])
 
     useEffect(() => {
         setStartTimeGMT(new Date(startDate).toUTCString())
