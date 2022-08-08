@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateEvent } from "../../store/events";
 import styled from "styled-components";
-import moment from "moment";
-import dayjs from 'react-dayjs'
-const customParseFormat = require('dayjs/plugin/customParseFormat')
+import dayjs from 'dayjs';
 
 const FormElementContainer = styled.div`
 display: flex;
@@ -18,15 +16,11 @@ function EventEditForm({ event }) {
     const oldStartDate = new Date(event.startDate).toLocaleString();
     const oldEndDate = new Date(event.endDate).toISOString().slice(0, 16)
 
-    // useEffect(()=>{
-    //     console.log(Date(oldStartDate, 'YYYY-MM-DD'))
-    // }, [oldStartDate])
-
     const [title, setTitle] = useState(event.title);
     const [emptyTitle, setEmptyTitle] = useState(false)
     const [description, setDescription] = useState(event.description);
-    const [startDate, setStartDate] = useState(oldStartDate);
-    const [endDate, setEndDate] = useState(oldEndDate);
+    const [startDate, setStartDate] = useState(dayjs(oldStartDate).format('YYYY-MM-DDTHH:mm'));
+    const [endDate, setEndDate] = useState(dayjs(oldEndDate).format('YYYY-MM-DDTHH:mm'));
     const [calendarId, setCalendarId] = useState(event.calendarId)
     const [startTimeGMT, setStartTimeGMT] = useState(new Date().toString().slice(16, 24))
     const [endTimeGMT, setEndTimeGMT] = useState(new Date().toString().slice(16, 24))
@@ -73,12 +67,6 @@ function EventEditForm({ event }) {
         setEndDate(e.target.value);
         setEndDateSelected(true)
     }
-
-    useEffect(()=>{
-        console.log('TITLE SELECTED: ', emptyTitle)
-        console.log('START DATE SELECTED: ', startDateSelected)
-        console.log('END DATE SELECTED: ', endDateSelected)
-    }, [emptyTitle, startDateSelected, endDateSelected])
 
     return (
         <div>
