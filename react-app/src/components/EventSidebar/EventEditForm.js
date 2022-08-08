@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateEvent } from "../../store/events";
 import styled from "styled-components";
 import moment from "moment";
+import dayjs from 'react-dayjs'
+const customParseFormat = require('dayjs/plugin/customParseFormat')
 
 const FormElementContainer = styled.div`
 display: flex;
@@ -13,19 +15,24 @@ function EventEditForm({ event }) {
     const dispatch = useDispatch()
     const userId = useSelector(state => state.session.user.id)
     const myCalendars = Object.values(useSelector(state => state.calendars))
+    const oldStartDate = new Date(event.startDate).toLocaleString();
+    const oldEndDate = new Date(event.endDate).toISOString().slice(0, 16)
+
+    // useEffect(()=>{
+    //     console.log(Date(oldStartDate, 'YYYY-MM-DD'))
+    // }, [oldStartDate])
 
     const [title, setTitle] = useState(event.title);
+    const [emptyTitle, setEmptyTitle] = useState(false)
     const [description, setDescription] = useState(event.description);
-    const [startDate, setStartDate] = useState(new moment(event.startDate, 'YYYY-MM-DDThh:mm').toString());
-    const [endDate, setEndDate] = useState(new moment(event.endDate, 'YYYY-MM-DDThh:mm').toString());
+    const [startDate, setStartDate] = useState(oldStartDate);
+    const [endDate, setEndDate] = useState(oldEndDate);
     const [calendarId, setCalendarId] = useState(event.calendarId)
     const [startTimeGMT, setStartTimeGMT] = useState(new Date().toString().slice(16, 24))
     const [endTimeGMT, setEndTimeGMT] = useState(new Date().toString().slice(16, 24))
+    const [startDateSelected, setStartDateSelected] = useState(false)
+    const [endDateSelected, setEndDateSelected] = useState(false)
     const [errors, setErrors] = useState([])
-
-    useEffect(()=>{
-        console.log(startDate)
-    }, [startDate])
 
     useEffect(() => {
         setStartTimeGMT(new Date(startDate).toUTCString())
@@ -34,10 +41,11 @@ function EventEditForm({ event }) {
 
     useEffect(() => {
         let validationErrors = []
-        if (!title) validationErrors.push('Your event needs a title.')
+        if (title.length > 0) setEmptyTitle(true);
+        if (!title && emptyTitle) validationErrors.push('Your event needs a title.')
         if (startDate > endDate) validationErrors.push('End date cannot come before start date.')
-        if (!startDate) validationErrors.push('Your event needs a start date.')
-        if (!endDate) validationErrors.push('Your event needs an end date.')
+        if (!startDate && startDateSelected) validationErrors.push('Your event needs a start date.')
+        if (!endDate && endDateSelected) validationErrors.push('Your event needs an end date.')
         if (typeof calendarId === 'string') validationErrors.push('Your event needs a calendar.')
         setErrors(validationErrors)
     }, [title, startDate, endDate, calendarId])
@@ -55,6 +63,22 @@ function EventEditForm({ event }) {
         }
         dispatch(updateEvent(event.id, updatedEvent))
     }
+
+    function changeStartDate(e) {
+        setStartDate(e.target.value);
+        setStartDateSelected(true);
+    };
+
+    function changeEndDate(e) {
+        setEndDate(e.target.value);
+        setEndDateSelected(true)
+    }
+
+    useEffect(()=>{
+        console.log('TITLE SELECTED: ', emptyTitle)
+        console.log('START DATE SELECTED: ', startDateSelected)
+        console.log('END DATE SELECTED: ', endDateSelected)
+    }, [emptyTitle, startDateSelected, endDateSelected])
 
     return (
         <div>
@@ -80,14 +104,14 @@ function EventEditForm({ event }) {
                     <input
                         type="datetime-local"
                         value={startDate}
-                        onChange={(e) => setStartDate(e.target.value)}
+                        onChange={(e) => changeStartDate(e)}
                     >
                     </input>
                     <label>End Date</label>
                     <input
                         type="datetime-local"
                         value={endDate}
-                        onChange={(e) => setEndDate(e.target.value)}
+                        onChange={(e) => changeEndDate(e)}
                     >
                     </input>
                     <label>Calendar</label>
