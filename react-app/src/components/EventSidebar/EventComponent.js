@@ -29,7 +29,7 @@ function Event({ event }) {
             </EventBox>
             {showEditForm &&
                 <Modal onClose={() => setShowEditForm(false)}>
-                    <EventEditForm event={event} />
+                    <EventEditForm event={event} setShowEditForm={setShowEditForm} />
                 </Modal>}
         </>
     );

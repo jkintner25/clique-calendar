@@ -1,11 +1,13 @@
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import EventDetails from "./EventDetails";
 import EventsList from "./EventsList";
 
 const EventsSidebarBox = styled.div`
 display: flex;
 flex-direction: column;
-width: 240px;
+width: 300px;
+height: 605.5px;
 margin: 0 0 0 25px;
 background-color: #f4f1de;
 `
@@ -20,6 +22,7 @@ function EventsSideBar() {
         <EventsSidebarBox>
             <EventsContentBox>
                 <EventsList eventsState={eventsState} />
+                <EventDetails />
             </EventsContentBox>
         </EventsSidebarBox>
 

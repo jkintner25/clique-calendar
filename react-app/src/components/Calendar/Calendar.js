@@ -6,6 +6,7 @@ import buildCalendar from './build';
 import previousImg from '../../images/fast-backward.png'
 import nextImg from '../../images/fast-forward.png'
 import { useSelector } from 'react-redux';
+import { useSetEvent } from '../Context/EventContext';
 
 const CalButton = styled.img`
 width: 40px;
@@ -38,12 +39,13 @@ background-color: #F4F1DE;
 border: solid 1px #F4F1DE;
 color: #3d405b;
 transition-duration: 400ms;
-&:hover {
-    background-color: #f38d71;
-  }
+/* &:hover {
+    background-color: #f38d71; */
+  /* } */
 `
 
 function Calendar() {
+    const setActiveEvent = useSetEvent()
     const [calendar, setCalendar] = useState([])
     const [value, setValue] = useState(moment())
     const eventsState = useSelector(state => state.events)
@@ -57,12 +59,12 @@ function Calendar() {
                     endDate: new Date(event.endDate).toLocaleString('en-US', { 'hour12': true })};
         })
         setNewEvents(list)
-    }
+    };
 
     useEffect(()=>{
         if(!eventsState)return;
         convertDatesToLocal(events)
-    }, [eventsState])
+    }, [eventsState]);
 
     function dayEventChecker(day) {
         return newEvents.filter(event=>{
@@ -70,49 +72,53 @@ function Calendar() {
             moment(event.endDate, "M-D-YYYY").isSame(moment(day, "M-D-YYYY")) ||
             moment(event.startDate, "M-D-YYYY").isBefore(moment(day, "M-D-YYYY")) &&
             moment(event.endDate, "M-D-YYYY").isAfter(moment(day, "M-D-YYYY"))
-        })
-    }
+        });
+    };
 
     useEffect(() => {
         setCalendar(buildCalendar(value))
-    }, [value])
+    }, [value]);
 
     function isSelected(day, value) {
         return value.isSame(day, 'day')
-    }
+    };
 
     function beforeToday(day) {
         return day.isBefore(new Date(), 'day')
-    }
+    };
 
     function isToday(day) {
         return day.isSame(new Date(), 'day')
-    }
+    };
 
     function dayStyles(day, value) {
         if (isSelected(day, value)) return 'selected day'
         if (beforeToday(day)) return 'before day'
         if (isToday(day)) return 'today day'
         return 'day'
-    }
+    };
 
     function currentMonthName() {
         return value.format('MMMM')
-    }
+    };
 
     function currentYear() {
         return value.format('YYYY')
-    }
+    };
 
     function previousMonth() {
         return value.clone().subtract(1, 'month')
-    }
+    };
 
     function nextMonth() {
         return value.clone().add(1, 'month')
-    }
+    };
 
-    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    function showEventDetails(event) {
+        setActiveEvent(event);
+    };
+
+    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     return (
         <CalendarContainer>
@@ -138,7 +144,7 @@ function Calendar() {
                             return <DayContainer key={i} onClick={() => setValue(day)}>
                                     <div className={dayStyles(day, value)}>{day.format('D').toString()}
                                     {newEvents && dayEventChecker(day).map(event=>{
-                                        return <p className='event' key={event.id}>{event.title}</p>
+                                        return <p className='event' key={event.id} onClick={()=>showEventDetails(event)}>{event.title}</p>
                                     })}
                                     </div>
                             </DayContainer>

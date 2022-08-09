@@ -14,12 +14,15 @@ function EventForm({setCreateEvent}) {
     const myCalendars = Object.values(useSelector(state => state.calendars))
 
     const [title, setTitle] = useState('');
+    const [emptyTitle, setEmptyTitle] = useState(false);
     const [description, setDescription] = useState('')
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [calendarId, setCalendarId] = useState(-1)
     const [startTimeGMT, setStartTimeGMT] = useState(new Date().toString().slice(16, 24))
     const [endTimeGMT, setEndTimeGMT] = useState(new Date().toString().slice(16, 24))
+    const [startDateSelected, setStartDateSelected] = useState(false)
+    const [endDateSelected, setEndDateSelected] = useState(false)
     const [errors, setErrors] = useState([])
 
     useEffect(() => {
@@ -34,14 +37,21 @@ function EventForm({setCreateEvent}) {
     }, [myCalendars, calendarId])
 
     useEffect(() => {
-        let validationErrors = []
-        if (!title) validationErrors.push('Your event needs a title.')
-        if (startDate > endDate) validationErrors.push('End date cannot come before start date.')
-        if (!startDate) validationErrors.push('Your event needs a start date.')
-        if (!endDate) validationErrors.push('Your event needs an end date.')
-        if (calendarId.length > 3) validationErrors.push('Your event needs a calendar.')
-        setErrors(validationErrors)
-    }, [title, startDate, endDate, calendarId])
+        let validationErrors = [];
+        if (title.length > 0) setEmptyTitle(true);
+        if (!title && emptyTitle) validationErrors.push('Your event needs a title.');
+        if ((startDateSelected && endDateSelected) && startDate > endDate) validationErrors.push('End date cannot come before start date.');
+        if (!startDate && startDateSelected) validationErrors.push('Your event needs a start date.');
+        if (!endDate && endDateSelected) validationErrors.push('Your event needs an end date.');
+        if (calendarId.length > 3) validationErrors.push('Your event needs a calendar.');
+        setErrors(validationErrors);
+    }, [title, startDate, endDate, calendarId, emptyTitle, startDateSelected, endDateSelected]);
+
+    useEffect(()=>{
+        console.log(emptyTitle)
+        console.log(startDateSelected)
+        console.log(endDateSelected)
+    }, [emptyTitle, startDateSelected, endDateSelected]);
 
     const submitEvent = (e) => {
         e.preventDefault()
@@ -56,6 +66,16 @@ function EventForm({setCreateEvent}) {
         }
         dispatch(createEvent(newEvent))
         setCreateEvent(false)
+    }
+
+    function changeStartDate(e) {
+        setStartDate(e.target.value);
+        setStartDateSelected(true);
+    };
+
+    function changeEndDate(e) {
+        setEndDate(e.target.value);
+        setEndDateSelected(true)
     }
 
     return (
@@ -82,14 +102,14 @@ function EventForm({setCreateEvent}) {
                     <input
                         type="datetime-local"
                         value={startDate}
-                        onChange={(e) => setStartDate(e.target.value)}
+                        onChange={(e) => changeStartDate(e)}
                     >
                     </input>
                     <label>End Date</label>
                     <input
                         type="datetime-local"
                         value={endDate}
-                        onChange={(e) => setEndDate(e.target.value)}
+                        onChange={(e) => changeEndDate(e)}
                     >
                     </input>
                     <label>Calendar</label>

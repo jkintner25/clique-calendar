@@ -9,7 +9,7 @@ display: flex;
 flex-direction: column;
 `
 
-function EventEditForm({ event }) {
+function EventEditForm({ event, setShowEditForm }) {
     const dispatch = useDispatch()
     const userId = useSelector(state => state.session.user.id)
     const myCalendars = Object.values(useSelector(state => state.calendars))
@@ -56,6 +56,7 @@ function EventEditForm({ event }) {
             calendarId: calendarId
         }
         dispatch(updateEvent(event.id, updatedEvent))
+        setShowEditForm(false)
     }
 
     function changeStartDate(e) {

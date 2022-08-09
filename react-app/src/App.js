@@ -11,6 +11,7 @@ import Calendar from './components/Calendar/Calendar';
 import EventsSideBar from './components/EventSidebar/EventSideBar';
 import { CalendarProvider } from './components/Context/CalendarContext';
 import { ModalProvider } from './components/Context/ModalContext';
+import { EventProvider } from './components/Context/EventContext';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -41,9 +42,11 @@ function App() {
           <ProtectedRoute path='/home' exact={true} >
             <div className='root-body'>
               <CalendarProvider>
-                <SidebarPanel />
-                <Calendar />
-                <EventsSideBar />
+                <EventProvider>
+                  <SidebarPanel />
+                  <Calendar />
+                  <EventsSideBar />
+                </EventProvider>
               </CalendarProvider>
             </div>
           </ProtectedRoute>

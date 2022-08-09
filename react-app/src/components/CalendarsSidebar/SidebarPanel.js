@@ -41,7 +41,8 @@ const CalendarSidebar = styled.div`
 display: flex;
 flex-direction: column;
 justify-content: space-between;
-width: 240px;
+width: 300px;
+height: 605.5px;
 margin: 0 25px 0 0;
 background-color: #f4f1de;
 `
