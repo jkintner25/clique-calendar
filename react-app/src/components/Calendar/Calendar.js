@@ -70,8 +70,8 @@ function Calendar() {
         return newEvents.filter(event=>{
             return moment(event.startDate, "M-D-YYYY").isSame(moment(day, "M-D-YYYY")) ||
             moment(event.endDate, "M-D-YYYY").isSame(moment(day, "M-D-YYYY")) ||
-            moment(event.startDate, "M-D-YYYY").isBefore(moment(day, "M-D-YYYY")) &&
-            moment(event.endDate, "M-D-YYYY").isAfter(moment(day, "M-D-YYYY"))
+            (moment(event.startDate, "M-D-YYYY").isBefore(moment(day, "M-D-YYYY")) &&
+            moment(event.endDate, "M-D-YYYY").isAfter(moment(day, "M-D-YYYY")))
         });
     };
 
@@ -136,7 +136,7 @@ function Calendar() {
                 }
             </div>
             <div className='body'>
-                {calendar.map((week, i = 0) => {
+                {newEvents && calendar.map((week, i = 0) => {
                     i++
                     return <div key={i}>
                         {week.map((day, i = 0) => {

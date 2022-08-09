@@ -58,6 +58,10 @@ export const getAllCalendarEvents = calendarId => async dispatch => {
     if (response.ok) {
         const events = await response.json();
         dispatch(cleanLoad(events));
+        return events;
+    } else {
+        const errors = await response.json();
+        return errors;
     }
 };
 

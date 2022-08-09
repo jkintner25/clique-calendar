@@ -32,8 +32,9 @@ function CalendarTitle({ calendar, isClicked }) {
     }
 
     const getAllMyEvents = () => {
-        setActiveCalendar(calendar)
-        dispatch(getAllCalendarEvents(calendar.id))
+        dispatch(getAllCalendarEvents(calendar.id)).then(events=>{
+            setActiveCalendar(events)
+        })
     }
 
     return (
