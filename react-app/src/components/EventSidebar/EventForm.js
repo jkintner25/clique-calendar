@@ -75,7 +75,7 @@ function EventForm({ setCreateEvent }) {
             calendarId: calendarId
         }
         const response = await dispatch(createEvent(newEvent));
-        if (response) {
+        if (response.events) {
             setActiveCalendar(response.events)
             setCreateEvent(false)
         }

@@ -10,4 +10,4 @@ def title_length(form, field):
 
 class CalendarForm(FlaskForm):
     title = StringField('title', validators=[DataRequired(message='Title is required.'), title_length])
-    userId = IntegerField('userId', validators=[DataRequired()])
+    userId = IntegerField('userId', validators=[DataRequired(message='Invalid User ID.')])
