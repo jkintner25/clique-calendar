@@ -1,13 +1,10 @@
 
-
 .today {
     background-color: #F2CC8F;
-    height: 100%;
 }
 
 .before {
     color: lightgrey;
-    height: 100%;
 }
 
 .calendar-header {
@@ -60,7 +57,7 @@ div.body {
 }
 
 .event {
-    position: relative;
+    /* position: relative; */
     font-size: small;
     border: 1px solid #3d405b;
     background-color: #3d405b;
