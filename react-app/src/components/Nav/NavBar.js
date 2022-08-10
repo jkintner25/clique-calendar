@@ -8,6 +8,8 @@ import { Modal } from '../Context/ModalContext';
 import EventForm from '../EventSidebar/EventForm';
 import CalendarForm from '../Calendar/CalendarForm';
 
+import penguinLogo from '../../images/penguin-logo2.png'
+
 const NavBarUL = styled.ul`
 display: flex;
 flex-direction: row;
@@ -20,7 +22,9 @@ height: 100%;
   margin: 0 20px;
 }
 `
-
+const NavLogo = styled.img`
+height: 45px;
+`
 
 const NavBar = () => {
   const user = useSelector(state => state.session.user)
@@ -37,6 +41,7 @@ const NavBar = () => {
 
   if (!user) return (
     <nav className='navbar'>
+      <NavLogo src={penguinLogo}/>
       <NavBarUL>
         <li>
           <NavLink to='/login' exact={true} activeClassName='active' className={'navlink'}>
@@ -57,6 +62,7 @@ const NavBar = () => {
 
   if (user) return (
     <nav className='navbar'>
+      <NavLogo src={penguinLogo}/>
       <NavBarUL>
         <li>
           <button onClick={() => newCalendarWindow()} className={'navlink'}>
