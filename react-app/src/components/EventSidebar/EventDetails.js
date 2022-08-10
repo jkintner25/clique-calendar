@@ -7,7 +7,7 @@ import styled from 'styled-components';
 const EventDetailsContainer = styled.div`
 height: 175px;
 margin: 0;
-padding: 8px 20px 8px 10px;
+padding: 8px 10px;
 overflow-y: auto;
 scrollbar-width: none;
 border-top: 1px solid black;
