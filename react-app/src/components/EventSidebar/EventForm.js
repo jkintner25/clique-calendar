@@ -2,16 +2,22 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createEvent } from "../../store/events"
 import styled from "styled-components";
+import dayjs from 'dayjs';
+import { useSetCalendar } from "../Context/CalendarContext";
+const utc = require('dayjs/plugin/utc.js')
+dayjs.extend(utc)
 
 const FormContainer = styled.div`
 display: flex;
 flex-direction: column;
 `
 
-function EventForm({setCreateEvent}) {
+function EventForm({ setCreateEvent }) {
     const dispatch = useDispatch()
     const userId = useSelector(state => state.session.user.id)
     const myCalendars = Object.values(useSelector(state => state.calendars))
+
+    const setActiveCalendar = useSetCalendar()
 
     const [title, setTitle] = useState('');
     const [emptyTitle, setEmptyTitle] = useState(false);
@@ -21,15 +27,25 @@ function EventForm({setCreateEvent}) {
     const [calendarId, setCalendarId] = useState(-1)
     const [startTimeGMT, setStartTimeGMT] = useState(new Date().toString().slice(16, 24))
     const [endTimeGMT, setEndTimeGMT] = useState(new Date().toString().slice(16, 24))
+    const [startDateObj, setStartDateObj] = useState(new dayjs())
+    const [endDateObj, setEndDateObj] = useState(new dayjs())
     const [startDateSelected, setStartDateSelected] = useState(false)
     const [endDateSelected, setEndDateSelected] = useState(false)
+    const [ready, setReady] = useState(false)
     const [errors, setErrors] = useState([])
 
     useEffect(() => {
         if (startDate === '' || endDate === '') return;
         setStartTimeGMT(new Date(startDate).toUTCString())
         setEndTimeGMT(new Date(endDate).toUTCString())
+        setReady(true)
     }, [startDate, endDate])
+
+    useEffect(() => {
+        if (!ready) return;
+        setStartDateObj(dayjs(startTimeGMT).format('YYYY-MM-DD HH:mm'))
+        setEndDateObj(dayjs(endTimeGMT).format('YYYY-MM-DD HH:mm'))
+    }, [startTimeGMT, endTimeGMT])
 
     useEffect(() => {
         if (!myCalendars[0]) return;
@@ -43,29 +59,29 @@ function EventForm({setCreateEvent}) {
         if ((startDateSelected && endDateSelected) && startDate > endDate) validationErrors.push('End date cannot come before start date.');
         if (!startDate && startDateSelected) validationErrors.push('Your event needs a start date.');
         if (!endDate && endDateSelected) validationErrors.push('Your event needs an end date.');
-        if (calendarId.length > 3) validationErrors.push('Your event needs a calendar.');
+        if (calendarId === -1) validationErrors.push('Your event needs a calendar.');
         setErrors(validationErrors);
     }, [title, startDate, endDate, calendarId, emptyTitle, startDateSelected, endDateSelected]);
 
-    useEffect(()=>{
-        console.log(emptyTitle)
-        console.log(startDateSelected)
-        console.log(endDateSelected)
-    }, [emptyTitle, startDateSelected, endDateSelected]);
-
-    const submitEvent = (e) => {
+    const submitEvent = async (e) => {
         e.preventDefault()
 
         const newEvent = {
             title: title,
             description: description,
-            startDate: startTimeGMT,
-            endDate: endTimeGMT,
+            startDate: startDateObj,
+            endDate: endDateObj,
             userId: userId,
             calendarId: calendarId
         }
-        dispatch(createEvent(newEvent))
-        setCreateEvent(false)
+        const response = await dispatch(createEvent(newEvent));
+        if (response) {
+            setActiveCalendar(response.events)
+            setCreateEvent(false)
+        }
+        else {
+            setErrors(response.errors)
+        }
     }
 
     function changeStartDate(e) {
@@ -80,7 +96,7 @@ function EventForm({setCreateEvent}) {
 
     return (
         <div>
-            {errors && errors.map((error, i = 0) => {
+            {errors.length > 0 && errors.map((error, i = 0) => {
                 return <p key={i}>{error}</p>
             })}
             <form onSubmit={submitEvent}>
@@ -124,7 +140,7 @@ function EventForm({setCreateEvent}) {
                             })}
                         </select>
                         : <p>You need a Calendar!</p>}
-                        <button type="submit" disabled={errors.length > 0}>Submit</button>
+                    <button type="submit" disabled={errors.length > 0}>Submit</button>
                 </FormContainer>
             </form>
         </div>

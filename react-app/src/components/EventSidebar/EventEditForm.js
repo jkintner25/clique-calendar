@@ -24,14 +24,24 @@ function EventEditForm({ event, setShowEditForm }) {
     const [calendarId, setCalendarId] = useState(event.calendarId)
     const [startTimeGMT, setStartTimeGMT] = useState(new Date().toString().slice(16, 24))
     const [endTimeGMT, setEndTimeGMT] = useState(new Date().toString().slice(16, 24))
+    const [startDateObj, setStartDateObj] = useState(new dayjs())
+    const [endDateObj, setEndDateObj] = useState(new dayjs())
     const [startDateSelected, setStartDateSelected] = useState(false)
     const [endDateSelected, setEndDateSelected] = useState(false)
+    const [ready, setReady] = useState(false)
     const [errors, setErrors] = useState([])
 
     useEffect(() => {
         setStartTimeGMT(new Date(startDate).toUTCString())
         setEndTimeGMT(new Date(endDate).toUTCString())
+        setReady(true)
     }, [startDate, endDate])
+
+    useEffect(()=>{
+        if (!ready) return;
+        setStartDateObj(dayjs(startTimeGMT).format('YYYY-MM-DD HH:mm'))
+        setEndDateObj(dayjs(endTimeGMT).format('YYYY-MM-DD HH:mm'))
+    }, [startTimeGMT, endTimeGMT, ready])
 
     useEffect(() => {
         let validationErrors = []
@@ -50,8 +60,8 @@ function EventEditForm({ event, setShowEditForm }) {
         const updatedEvent = {
             title: title,
             description: description,
-            startDate: startTimeGMT,
-            endDate: endTimeGMT,
+            startDate: startDateObj,
+            endDate: endDateObj,
             userId: userId,
             calendarId: calendarId
         }

@@ -3,25 +3,31 @@ import Event from "./EventComponent";
 
 function EventsList({ eventsState }) {
     const [newEvents, setNewEvents] = useState([])
-    const events = Object.values(eventsState)
+    const [events, setEvents] = useState(null)
+
+    useEffect(()=>{
+        if(!eventsState || eventsState.length < 0) return;
+        setEvents(Object.values(eventsState))
+    }, [eventsState])
+
+    useEffect(()=>{
+        if(!events) return;
+        convertDatesToLocal()
+    }, [events])
 
     const convertDatesToLocal = () => {
         const list = events.map(event => {
             return {
                 ...event,
                 startDate: new Date(event.startDate).toLocaleString('en-US', { 'hour12': true }).slice(0, -6) +
-                    new Date(event.startDate).toLocaleString('en-US', { 'hour12': true }).slice(-3),
+                new Date(event.startDate).toLocaleString('en-US', { 'hour12': true }).slice(-3),
                 endDate: new Date(event.endDate).toLocaleString('en-US', { 'hour12': true }).slice(0, -6) +
-                    new Date(event.endDate).toLocaleString('en-US', { 'hour12': true }).slice(-3)
+                new Date(event.endDate).toLocaleString('en-US', { 'hour12': true }).slice(-3)
             };
         })
         setNewEvents(list)
     }
 
-    useEffect(() => {
-        if (events.length < 1) return;
-        convertDatesToLocal()
-    }, [eventsState, events.length])
 
     return (
         <>

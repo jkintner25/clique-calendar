@@ -33,6 +33,7 @@ export const createCalendar = calendar => async dispatch => {
      if (response.ok) {
         const newCalendar = await response.json();
         dispatch(add(newCalendar));
+        return newCalendar;
      } else {
         const errors = await response.json();
         return errors;

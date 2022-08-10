@@ -38,7 +38,8 @@ export const createEvent = event => async dispatch => {
      });
      if (response.ok) {
         const newEvent = await response.json();
-        dispatch(add(newEvent));
+        const events = dispatch(getAllCalendarEvents(newEvent.calendarId));
+        return events;
      } else {
         const errors = await response.json();
         return errors;

@@ -4,6 +4,7 @@ import { deleteEvent } from "../../store/events";
 import EventEditForm from "./EventEditForm";
 import styled from 'styled-components';
 import { Modal } from "../Context/ModalContext";
+import dayjs from 'dayjs';
 
 const EventBox = styled.ul`
 margin: 16px 2px 16px 20px;
@@ -15,7 +16,16 @@ function Event({ event }) {
     const [showEditForm, setShowEditForm] = useState(false)
 
     const deleteThisEvent = (event) => {
-        dispatch(deleteEvent(event))
+        const thisEvent = {
+            id: event.id,
+            title: event.title,
+            description: event.description,
+            startDate: dayjs(event.startDate).format('YYYY-MM-DD HH:mm'),
+            endDate: dayjs(event.endDate).format('YYYY-MM-DD HH:mm'),
+            userId: event.userId,
+            calendarId: event.calendarId
+        }
+        dispatch(deleteEvent(thisEvent))
     }
 
     return (

@@ -75,7 +75,7 @@ const NavBar = () => {
         }
         {createCalendar &&
           <Modal onClose={() => setCreateCalendar(false)}>
-            <CalendarForm />
+            <CalendarForm setCreateCalendar={setCreateCalendar} />
           </Modal>
         }
       </NavBarUL>
