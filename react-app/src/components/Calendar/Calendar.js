@@ -45,18 +45,6 @@ border: solid 1px #F4F1DE;
 color: #3d405b;
 transition-duration: 400ms;
 overflow-y: auto;
-scrollbar-width: thin;
-::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-  background-color: #F5F5F5;
-}
-::-webkit-scrollbar {
-    width: 1px;
-    background-color: #F5F5F5;
-}
-::-webkit-scrollbar-thumb {
-    background-color: #3d405b;
-}
 `
 
 function Calendar() {

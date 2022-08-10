@@ -5,9 +5,9 @@ import dayjs from 'dayjs';
 import styled from 'styled-components';
 
 const EventDetailsContainer = styled.div`
-height: 140px;
+height: 175px;
 margin: 0;
-padding: 8px 24px 8px 21px;
+padding: 8px 20px 8px 10px;
 overflow-y: auto;
 scrollbar-width: none;
 border-top: 1px solid black;
@@ -39,8 +39,8 @@ function EventDetails() {
 
     useEffect(()=>{
         if(!event) return;
-        event.startDate = dayjs(event.startDate).format('dddd, MMM D, h:mm a')
-        event.endDate = dayjs(event.endDate).format('dddd, MMM D, h:mm a')
+        event.startDate = dayjs(event.startDate).format('ddd, MMM D, h:mm a')
+        event.endDate = dayjs(event.endDate).format('ddd, MMM D, h:mm a')
         setUpdatedEvent(true)
     }, [event])
 

@@ -3,11 +3,11 @@ import Event from "./EventComponent";
 import styled from 'styled-components';
 
 const EventsListContainer = styled.div`
-height: 403px;
+height: 380px;
 overflow-y: auto;
 `
 
-function EventsList({ eventsState }) {
+function EventsList({ eventsState, isClicked }) {
     const [newEvents, setNewEvents] = useState([])
     const [events, setEvents] = useState(null)
 
@@ -40,7 +40,7 @@ function EventsList({ eventsState }) {
             {newEvents.length > 0 ?
                 <div>
                     {newEvents.map(event => {
-                        return <Event key={event.id} event={event} />
+                        return <Event key={event.id} event={event} isClicked={isClicked} />
                     })}
                 </div>
                 : <div>

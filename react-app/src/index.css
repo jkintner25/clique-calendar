@@ -9,6 +9,7 @@
 
 body {
     height: 98vh;
+    overflow: auto;
 }
 
 .root-body {
@@ -18,6 +19,20 @@ body {
     margin: 40px 10px 40px 10px;
     width: 98vw;
     height: 620px;
+}
+
+*::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #F5F5F5;
+}
+
+*::-webkit-scrollbar {
+    width: 1px;
+    background-color: #F5F5F5;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #3d405b;
 }
 
 /* input {

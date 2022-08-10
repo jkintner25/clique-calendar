@@ -11,7 +11,7 @@ margin: 16px 2px 16px 20px;
 list-style: none;
 `
 
-function Event({ event }) {
+function Event({ event, isClicked }) {
     const dispatch = useDispatch()
     const [showEditForm, setShowEditForm] = useState(false)
 
@@ -34,8 +34,12 @@ function Event({ event }) {
                 <h3>{event.title}</h3>
                 <li>Start: {event.startDate}</li>
                 <li>End: {event.endDate}</li>
+                {isClicked &&
+                <>
                 <button type="button" onClick={() => setShowEditForm(true)}>Edit</button>
                 <button type="button" onClick={() => deleteThisEvent(event)}>Delete</button>
+                </>
+                }
             </EventBox>
             {showEditForm &&
                 <Modal onClose={() => setShowEditForm(false)}>
