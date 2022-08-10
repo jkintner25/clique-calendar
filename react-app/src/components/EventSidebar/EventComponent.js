@@ -31,7 +31,7 @@ function Event({ event }) {
     return (
         <>
             <EventBox>
-                <h2>{event.title}</h2>
+                <h3>{event.title}</h3>
                 <li>Start: {event.startDate}</li>
                 <li>End: {event.endDate}</li>
                 <button type="button" onClick={() => setShowEditForm(true)}>Edit</button>

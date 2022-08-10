@@ -1,11 +1,11 @@
 .navlink {
     text-decoration: none;
     color: black;
+    padding: 0 3px;
 }
 
 .navbar {
     height: 35px;
     margin: 12px 15px 0px 15px;
-    background-color: #f4f1de;
     justify-content: center;
 }

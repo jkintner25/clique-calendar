@@ -11,11 +11,14 @@ import CalendarForm from '../Calendar/CalendarForm';
 const NavBarUL = styled.ul`
 display: flex;
 flex-direction: row;
-justify-content: space-around;
+justify-content: right;
 align-items: center;
 list-style: none;
 text-decoration: none;
 height: 100%;
+& > li {
+  margin: 0 20px;
+}
 `
 
 

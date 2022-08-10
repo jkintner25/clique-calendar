@@ -6,7 +6,7 @@ import EventsList from "./EventsList";
 const EventsSidebarBox = styled.div`
 display: flex;
 flex-direction: column;
-width: 300px;
+width: 250px;
 height: 605.5px;
 margin: 0 0 0 25px;
 background-color: #f4f1de;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteCalendar, updateCalendar } from "../../store/calendars";
 import { getAllCalendarEvents } from "../../store/events";
@@ -11,12 +11,12 @@ const CalTitle = styled.div`
 margin: 16px 0 0 0;
 `
 
-function CalendarTitle({ calendar, isClicked }) {
+function CalendarTitle({ calendar, isClicked, selected, setSelected }) {
     const dispatch = useDispatch()
     const [title, setTitle] = useState(calendar.title)
     const [update, setUpdate] = useState(false)
     const setActiveCalendar = useSetCalendar()
-
+    console.log()
     const renameTitle = () => {
         const newCalendar = {
             id: calendar.id,
@@ -35,12 +35,18 @@ function CalendarTitle({ calendar, isClicked }) {
         dispatch(getAllCalendarEvents(calendar.id)).then(events=>{
             setActiveCalendar(events)
         })
+        setSelected(calendar.id)
+    }
+
+    function styled() {
+        if (selected === calendar.id) return 'calendar-titles selected-title'
+        else return 'calendar-titles'
     }
 
     return (
         <div>
             <CalTitle className="box-wrap">
-                <h2 className="calendar-titles box" onClick={getAllMyEvents} >{calendar.title}</h2>
+                <h2 className={styled()} onClick={getAllMyEvents} >{calendar.title}</h2>
                 {isClicked &&
                     <div>
                         <button

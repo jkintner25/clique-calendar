@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
 import Event from "./EventComponent";
+import styled from 'styled-components';
+
+const EventsListContainer = styled.div`
+height: 403px;
+overflow-y: auto;
+`
 
 function EventsList({ eventsState }) {
     const [newEvents, setNewEvents] = useState([])
@@ -30,7 +36,7 @@ function EventsList({ eventsState }) {
 
 
     return (
-        <>
+        <EventsListContainer>
             {newEvents.length > 0 ?
                 <div>
                     {newEvents.map(event => {
@@ -42,7 +48,7 @@ function EventsList({ eventsState }) {
                     <p>Click on a calendar or create an event!</p>
                 </div>
             }
-        </>
+        </EventsListContainer>
     );
 };
 

@@ -41,13 +41,13 @@ const CalendarSidebar = styled.div`
 display: flex;
 flex-direction: column;
 justify-content: space-between;
-width: 300px;
+width: 250px;
 height: 605.5px;
 margin: 0 25px 0 0;
 background-color: #f4f1de;
 `
 const SidebarContentBox = styled.div`
-margin: 0px 8px;
+/* height: fit-content; */
 margin: 16px 2px 16px 20px;
 `
 
@@ -56,6 +56,7 @@ function SidebarPanel() {
     const userId = useSelector(state => state.session.user.id)
     const myCalendars = Object.values(useSelector(state => state.calendars))
     const [isClicked, setIsClicked] = useState(false)
+    const [selected, setSelected] = useState(null)
 
     useEffect(() => {
         dispatch(getMyCalendars(userId))
@@ -75,7 +76,7 @@ function SidebarPanel() {
             <SidebarContentBox>
                 <MyCalendarsH1>My Calendars</MyCalendarsH1>
                 {myCalendars ? myCalendars.map(calendar => {
-                    return <CalendarTitle key={calendar.id} calendar={calendar} isClicked={isClicked} />
+                    return <CalendarTitle key={calendar.id} selected={selected} setSelected={setSelected} calendar={calendar} isClicked={isClicked} />
                 }) : <p>You don't have any Calendars</p>}
             </SidebarContentBox>
             <CalendarBoxFooter>

@@ -15,14 +15,19 @@ height: 40px;
 
 const CalendarContainer = styled.div`
 position: relative;
-width: 50vw;
+width: 62%;
 min-width: fit-content;
+max-width: 700px;
 height: fit-content;
 display: inline-block;
 padding: 0;
 margin: 0;
 z-index: 1;
 text-align: center;
+`
+
+const WeekContainer = styled.div`
+height: 100px;
 `
 
 const DayContainer = styled.div`
@@ -39,9 +44,19 @@ background-color: #F4F1DE;
 border: solid 1px #F4F1DE;
 color: #3d405b;
 transition-duration: 400ms;
-/* &:hover {
-    background-color: #f38d71; */
-  /* } */
+overflow-y: auto;
+scrollbar-width: thin;
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  background-color: #F5F5F5;
+}
+::-webkit-scrollbar {
+    width: 1px;
+    background-color: #F5F5F5;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #3d405b;
+}
 `
 
 function Calendar() {
@@ -138,7 +153,7 @@ function Calendar() {
             <div className='body'>
                 {newEvents && calendar.map((week, i = 0) => {
                     i++
-                    return <div key={i}>
+                    return <WeekContainer key={i}>
                         {week.map((day, i = 0) => {
                             i++
                             return <DayContainer key={i} onClick={() => setValue(day)}>
@@ -149,7 +164,7 @@ function Calendar() {
                                     </div>
                             </DayContainer>
                         })}
-                    </div>
+                    </WeekContainer>
                 })}
             </div>
         </CalendarContainer>
