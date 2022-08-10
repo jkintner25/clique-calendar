@@ -75,6 +75,7 @@ export const updateEvent = (id, event) => async dispatch => {
     if (response.ok) {
         const updatedEvent = await response.json();
         dispatch(update(updatedEvent));
+        return updatedEvent;
     } else {
         const errors = await response.json();
         return errors;

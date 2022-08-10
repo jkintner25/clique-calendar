@@ -52,9 +52,9 @@ function EventEditForm({ event, setShowEditForm }) {
         if (!endDate && endDateSelected) validationErrors.push('Your event needs an end date.')
         if (typeof calendarId === 'string') validationErrors.push('Your event needs a calendar.')
         setErrors(validationErrors)
-    }, [title, startDate, endDate, calendarId])
+    }, [title, startDate, endDate, calendarId, description])
 
-    const editEvent = (e) => {
+    const editEvent = async (e) => {
         e.preventDefault()
 
         const updatedEvent = {
@@ -65,8 +65,13 @@ function EventEditForm({ event, setShowEditForm }) {
             userId: userId,
             calendarId: calendarId
         }
-        dispatch(updateEvent(event.id, updatedEvent))
-        setShowEditForm(false)
+        await dispatch(updateEvent(event.id, updatedEvent)).then(res=>{
+            if(res.id){
+                setShowEditForm(false)
+            } else {
+                setErrors(res.errors)
+            }
+        })
     }
 
     function changeStartDate(e) {
