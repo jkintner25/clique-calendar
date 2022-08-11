@@ -35,13 +35,7 @@ function App() {
           <EventProvider>
             <NavBar />
             <Switch>
-              <Route path='/login' exact={true}>
-                <LoginForm />
-              </Route>
-              <Route path='/sign-up' exact={true}>
-                <SignUpForm />
-              </Route>
-              <ProtectedRoute path='/home' exact={true} >
+              <ProtectedRoute path='/' exact={true} >
                 <div className='root-body'>
                   <SidebarPanel />
                   <Calendar />

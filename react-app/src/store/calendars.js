@@ -3,6 +3,7 @@ const ADD_CALENDAR = "calendar/ADD_CALENDAR";
 const READ_CALENDARS = "calendar/READ_CALENDARS";
 const UPDATE_CALENDAR = "calendar/UPDATE_CALENDAR";
 const DELETE_CALENDAR = "calendar/DELETE_CALENDAR";
+const CLEAN_CALENDARS = 'calendar/CLEAN_CALENDARS';
 
 const add = calendar => ({
     type: ADD_CALENDAR,
@@ -23,6 +24,11 @@ const remove = id => ({
     type: DELETE_CALENDAR,
     id
 });
+
+export const cleanCalendars = () => ({
+    type: CLEAN_CALENDARS,
+    payload: null
+})
 
 export const createCalendar = calendar => async dispatch => {
      const response = await fetch(`/api/calendars/new`, {
@@ -94,6 +100,8 @@ const calendarsReducer = (state = initialState, action) => {
         case DELETE_CALENDAR:
             delete newState[action.id.id];
             return newState;
+        case CLEAN_CALENDARS:
+            return null;
         default:
             return newState;
     }

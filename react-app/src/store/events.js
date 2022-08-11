@@ -4,6 +4,7 @@ const READ_EVENTS = "events/READ_EVENTS";
 const CLEAN_READ_EVENTS = "events/CLEAN_READ_EVENTS"
 const UPDATE_EVENT = "events/UPDATE_EVENT";
 const DELETE_EVENT = "events/DELETE_EVENT";
+const CLEAN_EVENTS = 'events/CLEAN_EVENTS';
 
 const add = event => ({
     type: ADD_EVENT,
@@ -29,6 +30,11 @@ const remove = id => ({
     type: DELETE_EVENT,
     id
 });
+
+export const cleanEvents = () => ({
+    type: CLEAN_EVENTS,
+    payload: null
+})
 
 export const createEvent = event => async dispatch => {
      const response = await fetch(`/api/events/new`, {
@@ -119,6 +125,8 @@ const eventsReducer = (state = initialState, action) => {
         case DELETE_EVENT:
             delete newState[action.id.id];
             return newState;
+        case CLEAN_EVENTS:
+            return null;
         default:
             return newState;
     }

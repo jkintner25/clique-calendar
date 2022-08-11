@@ -14,15 +14,10 @@ const SignUpForm = () => {
 
   const onSignUp = async (e) => {
     e.preventDefault();
-    if (password === repeatPassword) {
-      await dispatch(signUp(username, email, password, repeatPassword)).then(res => {
-        if (res.errors) {
-          setErrors(res.errors);
-        }
-      });
-    } else {
-      setErrors(['Passwords must match.'])
-    }
+    await dispatch(signUp(username, email, password, repeatPassword)).then(res => {
+      if (res === null) return;
+      if (res.errors) setErrors(res.errors);
+    });
   };
 
   const updateUsername = (e) => {
@@ -42,14 +37,14 @@ const SignUpForm = () => {
   };
 
   if (user) {
-    return <Redirect to='/home' />;
+    return <Redirect to='/' />;
   }
 
   return (
     <form onSubmit={onSignUp}>
       <div>
-        {errors.map((error, ind) => (
-          <div key={ind}>{error}</div>
+        {errors.map((error, i) => (
+          <div key={i}>{error}</div>
         ))}
       </div>
       <div>
@@ -87,7 +82,6 @@ const SignUpForm = () => {
           name='repeat_password'
           onChange={updateRepeatPassword}
           value={repeatPassword}
-          required={true}
         ></input>
       </div>
       <button type='submit'>Sign Up</button>

@@ -9,6 +9,8 @@ import EventForm from '../EventSidebar/EventForm';
 import CalendarForm from '../Calendar/CalendarForm';
 
 import penguinLogo from '../../images/penguin-logo2.png'
+import SignUpForm from '../auth/SignUpForm';
+import LoginForm from '../auth/LoginForm';
 
 const NavBarUL = styled.ul`
 display: flex;
@@ -30,6 +32,8 @@ const NavBar = () => {
   const user = useSelector(state => state.session.user)
   const [createEvent, setCreateEvent] = useState(false)
   const [createCalendar, setCreateCalendar] = useState(false)
+  const [login, setLogin] = useState(false)
+  const [signup, setSignup] = useState(false)
 
   function newEventWindow() {
     setCreateEvent(!createEvent)
@@ -39,23 +43,41 @@ const NavBar = () => {
     setCreateCalendar(!createCalendar)
   }
 
+  function loginWindow() {
+    setLogin(!login)
+  }
+
+  function signupWindow() {
+    setSignup(!signup)
+  }
+
   if (!user) return (
     <nav className='navbar'>
       <NavLogo src={penguinLogo}/>
       <NavBarUL>
         <li>
-          <NavLink to='/login' exact={true} activeClassName='active' className={'navlink'}>
+          <p onClick={()=>loginWindow()} className={'navlink'}>
             Login
-          </NavLink>
+          </p>
         </li>
         <li>
-          <NavLink to='/sign-up' exact={true} activeClassName='active' className={'navlink'}>
+          <p onClick={()=>signupWindow()} className={'navlink'}>
             Sign Up
-          </NavLink>
+          </p>
         </li>
         <li>
           {/*add demo login button here*/}
         </li>
+        {login &&
+          <Modal onClose={() => setLogin(false)}>
+            <LoginForm />
+          </Modal>
+        }
+        {signup &&
+          <Modal onClose={() => setSignup(false)}>
+            <SignUpForm />
+          </Modal>
+        }
       </NavBarUL>
     </nav>
   )

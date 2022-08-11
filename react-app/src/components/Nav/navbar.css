@@ -2,6 +2,7 @@
     text-decoration: none;
     color: black;
     padding: 0 3px;
+    cursor: pointer;
 }
 
 .navbar {
