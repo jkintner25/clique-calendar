@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import LogoutButton from '../auth/LogoutButton';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './navbar.css'
 import { Modal } from '../Context/ModalContext';
 import EventForm from '../EventSidebar/EventForm';
 import CalendarForm from '../Calendar/CalendarForm';
-
+import { login } from '../../store/session'
 import penguinLogo from '../../images/penguin-logo2.png'
 import SignUpForm from '../auth/SignUpForm';
 import LoginForm from '../auth/LoginForm';
@@ -29,11 +29,12 @@ height: 45px;
 `
 
 const NavBar = () => {
+  const dispatch = useDispatch()
   const user = useSelector(state => state.session.user)
   const [createEvent, setCreateEvent] = useState(false)
   const [createCalendar, setCreateCalendar] = useState(false)
-  const [login, setLogin] = useState(false)
-  const [signup, setSignup] = useState(false)
+  const [loginWindow, setLoginWindow] = useState(false)
+  const [signupWindow, setSignupWindow] = useState(false)
 
   function newEventWindow() {
     setCreateEvent(!createEvent)
@@ -43,39 +44,48 @@ const NavBar = () => {
     setCreateCalendar(!createCalendar)
   }
 
-  function loginWindow() {
-    setLogin(!login)
+  function createLoginWindow() {
+    setLoginWindow(!loginWindow)
   }
 
-  function signupWindow() {
-    setSignup(!signup)
+  function createSignupWindow() {
+    setSignupWindow(!signupWindow)
   }
+
+  function demoLogIn() {
+    dispatch(login("demo@aa.io", "password"));
+  };
 
   if (!user) return (
     <nav className='navbar'>
       <NavLogo src={penguinLogo}/>
       <NavBarUL>
         <li>
-          <button onClick={()=>loginWindow()} className={'navlink'}>
+          <button onClick={()=>createLoginWindow()} className={'navlink'}>
             Login
           </button>
         </li>
         <li>
-          <button onClick={()=>signupWindow()} className={'navlink'}>
+          <button onClick={()=>createSignupWindow()} className={'navlink'}>
             Sign Up
+          </button>
+        </li>
+        <li>
+          <button onClick={()=>demoLogIn()}>
+            Demo Login
           </button>
         </li>
         <li>
           {/*add demo login button here*/}
         </li>
-        {login &&
-          <Modal onClose={() => setLogin(false)}>
-            <LoginForm setLogin={setLogin} />
+        {loginWindow &&
+          <Modal onClose={() => setLoginWindow(false)}>
+            <LoginForm setLoginWindow={setLoginWindow} />
           </Modal>
         }
-        {signup &&
-          <Modal onClose={() => setSignup(false)}>
-            <SignUpForm setSignup={setSignup} />
+        {signupWindow &&
+          <Modal onClose={() => setSignupWindow(false)}>
+            <SignUpForm setSignupWindow={setSignupWindow} />
           </Modal>
         }
       </NavBarUL>

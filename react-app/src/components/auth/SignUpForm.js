@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Redirect } from 'react-router-dom';
 import { signUp } from '../../store/session';
 
-const SignUpForm = ({setSignUp}) => {
+const SignUpForm = ({setSignUpWindow}) => {
   const [errors, setErrors] = useState([]);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -16,7 +16,7 @@ const SignUpForm = ({setSignUp}) => {
     e.preventDefault();
     await dispatch(signUp(username, email, password, repeatPassword)).then(res => {
       if (res === null) {
-        setSignUp(false);
+        setSignUpWindow(false);
       }
       if (res.errors) setErrors(res.errors);
     });

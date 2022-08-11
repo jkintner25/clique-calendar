@@ -95,7 +95,6 @@ function Calendar() {
     };
 
     function dayStyles(day, value) {
-        // if (isSelected(day, value)) return 'selected day'
         if (beforeToday(day)) return 'before day'
         if (isToday(day)) return 'today day'
         return 'day'
