@@ -41,8 +41,9 @@ function CalendarForm({setCreateCalendar}) {
         {errors.length > 0 && errors.map((error, i = 0) => {
                 return <p key={i}>{error}</p>
             })}
+            <h2>New Calendar</h2>
             <form onSubmit={createNewCalendar}>
-                <label>Title</label>
+                <label>Title*</label>
                 <input className="calendar-title-input" autoFocus={true} type="text" value={title} onChange={updateTitle}></input>
                 <button type="submit">Create</button>
             </form>

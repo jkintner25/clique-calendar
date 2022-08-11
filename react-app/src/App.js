@@ -12,6 +12,8 @@ import EventsSideBar from './components/EventSidebar/EventSideBar';
 import { CalendarProvider } from './components/Context/CalendarContext';
 import { ModalProvider } from './components/Context/ModalContext';
 import { EventProvider } from './components/Context/EventContext';
+import SplashPage from './components/SplashPage/SplashPage';
+import Footer from './components/Footer/Footer';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -35,7 +37,8 @@ function App() {
           <EventProvider>
             <NavBar />
             <Switch>
-              <ProtectedRoute path='/' exact={true} >
+              <SplashPage path='/' exact={true} />
+              <ProtectedRoute path='/home' exact={true} >
                 <div className='root-body'>
                   <SidebarPanel />
                   <Calendar />
@@ -43,6 +46,7 @@ function App() {
                 </div>
               </ProtectedRoute>
             </Switch>
+            <Footer />
           </EventProvider>
         </CalendarProvider>
       </BrowserRouter>

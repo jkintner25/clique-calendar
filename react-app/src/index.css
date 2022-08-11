@@ -76,3 +76,14 @@ button:active {
         min-width: 50px;
     }
 }
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: left;
+}
+
+input {
+    width: 100%;
+}

@@ -32,7 +32,7 @@ function CalendarTitle({ calendar, isClicked, selected, setSelected }) {
     }
 
     const getAllMyEvents = () => {
-        dispatch(getAllCalendarEvents(calendar.id)).then(events=>{
+        dispatch(getAllCalendarEvents(calendar.id)).then(events => {
             setActiveCalendar(events)
         })
         setSelected(calendar.id)
@@ -62,14 +62,18 @@ function CalendarTitle({ calendar, isClicked, selected, setSelected }) {
             {update &&
                 <Modal onClose={() => setUpdate(false)}>
                     <div>
-                        <input value={title} onChange={(e) => setTitle(e.target.value)}></input>
-                        <button
-                            onClick={() => setUpdate(!update)}>
-                            Cancel
-                        </button><button
-                            onClick={renameTitle}>
-                            Save
-                        </button>
+                        <h2>Edit Calendar</h2>
+                            <label>Title*</label>
+                            <input value={title} onChange={(e) => setTitle(e.target.value)}></input>
+                            <button
+                                type="button"
+                                onClick={() => setUpdate(!update)}>
+                                Cancel
+                            </button><button
+                                type="button"
+                                onClick={renameTitle}>
+                                Save
+                            </button>
                     </div>
                 </Modal>
             }

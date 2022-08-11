@@ -99,9 +99,10 @@ function EventForm({ setCreateEvent }) {
             {errors.length > 0 && errors.map((error, i = 0) => {
                 return <p key={i}>{error}</p>
             })}
+            <h2>New Event</h2>
             <form onSubmit={submitEvent}>
                 <FormContainer>
-                    <label>Title</label>
+                    <label>Title*</label>
                     <input
                         autoFocus={true}
                         value={title}
@@ -114,21 +115,21 @@ function EventForm({ setCreateEvent }) {
                         onChange={(e) => setDescription(e.target.value)}
                     >
                     </input>
-                    <label>Start Date</label>
+                    <label>Start Date*</label>
                     <input
                         type="datetime-local"
                         value={startDate}
                         onChange={(e) => changeStartDate(e)}
                     >
                     </input>
-                    <label>End Date</label>
+                    <label>End Date*</label>
                     <input
                         type="datetime-local"
                         value={endDate}
                         onChange={(e) => changeEndDate(e)}
                     >
                     </input>
-                    <label>Calendar</label>
+                    <label>Calendar*</label>
                     {myCalendars.length > 0 ?
                         <select
                             multiple={false}

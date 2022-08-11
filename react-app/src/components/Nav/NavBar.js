@@ -56,26 +56,26 @@ const NavBar = () => {
       <NavLogo src={penguinLogo}/>
       <NavBarUL>
         <li>
-          <p onClick={()=>loginWindow()} className={'navlink'}>
+          <button onClick={()=>loginWindow()} className={'navlink'}>
             Login
-          </p>
+          </button>
         </li>
         <li>
-          <p onClick={()=>signupWindow()} className={'navlink'}>
+          <button onClick={()=>signupWindow()} className={'navlink'}>
             Sign Up
-          </p>
+          </button>
         </li>
         <li>
           {/*add demo login button here*/}
         </li>
         {login &&
           <Modal onClose={() => setLogin(false)}>
-            <LoginForm />
+            <LoginForm setLogin={setLogin} />
           </Modal>
         }
         {signup &&
           <Modal onClose={() => setSignup(false)}>
-            <SignUpForm />
+            <SignUpForm setSignup={setSignup} />
           </Modal>
         }
       </NavBarUL>
