@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Redirect } from 'react-router-dom';
 import { signUp } from '../../store/session';
 
-const SignUpForm = ({setSignUpWindow}) => {
+const SignUpForm = ({ setSignupWindow }) => {
   const [errors, setErrors] = useState([]);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -15,9 +15,7 @@ const SignUpForm = ({setSignUpWindow}) => {
   const onSignUp = async (e) => {
     e.preventDefault();
     await dispatch(signUp(username, email, password, repeatPassword)).then(res => {
-      if (res === null) {
-        setSignUpWindow(false);
-      }
+      if (res.id) setSignupWindow(false);
       if (res.errors) setErrors(res.errors);
     });
   };
@@ -44,7 +42,7 @@ const SignUpForm = ({setSignUpWindow}) => {
 
   return (
     <>
-    <h2>Sign Up</h2>
+      <h2>Sign Up</h2>
       <form onSubmit={onSignUp}>
         <div>
           {errors.map((error, i) => (
