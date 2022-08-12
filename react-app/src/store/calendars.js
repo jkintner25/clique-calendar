@@ -63,6 +63,7 @@ export const updateCalendar = (id, calendar) => async dispatch => {
     if (response.ok) {
         const updatedCalendar = await response.json();
         dispatch(update(updatedCalendar));
+        return updatedCalendar;
     } else {
         const errors = await response.json();
         return errors;
