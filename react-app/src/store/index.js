@@ -3,11 +3,13 @@ import thunk from 'redux-thunk';
 import session from './session'
 import calendars from './calendars'
 import events from './events'
+import selectedEvent from './selectedEvent'
 
 const rootReducer = combineReducers({
   session,
   calendars,
-  events
+  events,
+  selectedEvent
 });
 
 let enhancer;

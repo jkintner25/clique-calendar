@@ -6,6 +6,7 @@ import { useSetCalendar } from "../Context/CalendarContext";
 import { Modal } from "../Context/ModalContext";
 import './sidebar.css'
 import styled from 'styled-components'
+import { clearEvent } from "../../store/selectedEvent";
 
 const CalTitleDiv = styled.div`
 margin: 16px 0 0 0;
@@ -50,6 +51,7 @@ function CalendarTitle({ calendar, isClicked, selected, setSelected }) {
             setActiveCalendar(events)
         })
         setSelected(calendar.id)
+        dispatch(clearEvent())
     }
 
     function styled() {

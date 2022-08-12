@@ -18,6 +18,7 @@ align-items: center;
 }
 & > p {
     color: #3d405b;
+    cursor: default;
 }
 `
 
@@ -27,8 +28,8 @@ function Footer() {
     return (
         <FooterDiv>
             <p>Jeffrey Kintner</p>
-            <a href="https://github.com/jkintner25" target="_blank">Github</a>
-            <a href='https://www.linkedin.com/in/jeffrey-kintner-9b503a71/' target="_blank">LinkedIn</a>
+            <a href="https://github.com/jkintner25" target="_blank" rel="noreferrer">Github</a>
+            <a href='https://www.linkedin.com/in/jeffrey-kintner-9b503a71/' target="_blank" rel="noreferrer">LinkedIn</a>
         </FooterDiv>
     );
 };

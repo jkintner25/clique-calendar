@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import LogoutButton from '../auth/LogoutButton';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';

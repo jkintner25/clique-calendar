@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import { useEvent } from "../Context/EventContext";
 import { useEffect, useState } from "react";
 import dayjs from 'dayjs';
 import styled from 'styled-components';
@@ -26,16 +25,14 @@ hyphens: auto;
 `
 
 function EventDetails() {
-    const events = useSelector(state=>state.events)
-    const selectedEvent = useEvent()
+    const selectedEvent = useSelector(state=>state.selectedEvent)
     const [event, setEvent] = useState(null)
     const [updatedEvent, setUpdatedEvent] = useState(false)
 
     useEffect(()=>{
-        if(!events || !selectedEvent) return;
-        setEvent(events[selectedEvent.id])
-        setUpdatedEvent(false)
-    }, [events, selectedEvent])
+        if(selectedEvent === {}) return;
+        setEvent(selectedEvent)
+    }, [selectedEvent])
 
     useEffect(()=>{
         if(!event) return;
@@ -43,7 +40,6 @@ function EventDetails() {
         event.endDate = dayjs(event.endDate).format('ddd, MMM D, h:mm a')
         setUpdatedEvent(true)
     }, [event])
-
 
     return (
         <EventDetailsContainer>
