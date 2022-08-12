@@ -35,7 +35,6 @@ function EventDetails() {
     useEffect(()=>{
         if(selectedEvent === null || Object.values(selectedEvent).length < 1) return;
         setEvent(selectedEvent)
-        setUpdatedEvent(false)
     }, [selectedEvent])
 
     useEffect(() => {
@@ -43,18 +42,11 @@ function EventDetails() {
         setSelectedStartDate(dayjs(event.startDate).format('ddd, MMM D, h:mm a'))
         setSelectedEndDate(dayjs(event.endDate).format('ddd, MMM D, h:mm a'))
         setNewEvent(event)
-        setUpdatedEvent(false)
-    }, [selectedEvent])
-
-    useEffect(() => {
-        if (newEvent === null) return;
-        setUpdatedEvent(true)
     }, [event])
-
 
     return (
         <EventDetailsContainer>
-            {event && updatedEvent ? <ContentContainer>
+            {event && selectedStartDate && selectedEndDate ? <ContentContainer>
                 <h2>{event.title}</h2>
                 {selectedStartDate && <p>Start: {selectedStartDate}</p>}
                 {selectedEndDate && <p>End: {selectedEndDate}</p>}
