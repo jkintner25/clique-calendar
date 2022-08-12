@@ -39,8 +39,6 @@ function CalendarTitle({ calendar, isClicked, selected, setSelected }) {
         let validationErrors = []
         if (title.length > 30) validationErrors.push('Title length cannot exceed 30 characters.')
         setErrors(validationErrors)
-        console.log('TITLE: ', title)
-        console.log('ERRORS: ', errors)
     }, [title])
 
     const deleteThisCalendar = () => {
