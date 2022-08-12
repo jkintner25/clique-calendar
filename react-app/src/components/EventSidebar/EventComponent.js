@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteEvent } from "../../store/events";
 import EventEditForm from "./EventEditForm";
 import styled from 'styled-components';
 import { Modal } from "../Context/ModalContext";
 import dayjs from 'dayjs';
+import { clearEvent } from "../../store/selectedEvent";
 
 const EventBox = styled.ul`
 margin: 16px 2px 16px 20px;
@@ -14,6 +15,7 @@ list-style: none;
 function Event({ event, isClicked }) {
     const dispatch = useDispatch()
     const [showEditForm, setShowEditForm] = useState(false)
+    const selectedEvent = useSelector(state=>state.selectedEvent)
 
     const deleteThisEvent = (event) => {
         const thisEvent = {
@@ -26,6 +28,9 @@ function Event({ event, isClicked }) {
             calendarId: event.calendarId
         }
         dispatch(deleteEvent(thisEvent))
+        if(selectedEvent !== null) {
+            if(selectedEvent.id === event.id) dispatch(clearEvent())
+        }
     }
 
     return (
