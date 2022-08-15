@@ -20,25 +20,25 @@ ___
 ### Try out this app at the live site on Heroku: https://clique-calendar.herokuapp.com
 -OR-
 ### Run this app on your local machine by following these instructions:
-* Clone this repository: https://github.com/Patricus/Eventzeit
-* Create a database user with the name and password of your choice.
-* Create a database whose owner is the user you just created.
-* In the root directory of this app run ```pipenv install```
-* Add a .env file in the root directory with the following fields:
+1. Clone this repository: https://github.com/Patricus/Eventzeit
+2. Create a database user with the name and password of your choice.
+3. Create a database whose owner is the user you just created.
+4. In the root directory of this app run ```pipenv install```
+5. Add a .env file in the root directory with the following fields:
 ````
 FLASK_APP=app
 FLASK_ENV=development
 SECRET_KEY=<<secret key>>
 DATABASE_URL=postgresql://<<database user>>:<<password>>@localhost/<<database>>
 ````
-* In your terminal, cd into the react-app directory and run ```npm install```
-* Create a .env file in the react-app directory with the following code:
+6. In your terminal, cd into the react-app directory and run ```npm install```
+7. Create a .env file in the react-app directory with the following code:
 ```REACT_APP_BASE_URL=http://localhost:5000```
-* cd back into the root directory and run ```pipenv shell```
-* Setup your database by running ```flask db migrate``` then ```flask db upgrade``` and finally ```flask seed all```
-* Now run ```flask run``` from the root directory to start your backend and connect to your database.
-* Open an additional terminal and cd into the "react-app" directory where you'll run ```npm start```
-* If your web browser doesn't automatically take you to localhost:3000, type that url in your address bar and enjoy!
+8. cd back into the root directory and run ```pipenv shell```
+9. Setup your database by running ```flask db migrate``` then ```flask db upgrade``` and finally ```flask seed all```
+10. Now run ```flask run``` from the root directory to start your backend and connect to your database.
+11. Open an additional terminal and cd into the "react-app" directory where you'll run ```npm start```
+12. If your web browser doesn't automatically take you to localhost:3000, type that url in your address bar and enjoy!
 ___
 ### Splash Page
 ![splash](https://user-images.githubusercontent.com/95717139/184582709-e06e95d7-6c08-47e0-a590-5b097cdc6ae1.PNG)
