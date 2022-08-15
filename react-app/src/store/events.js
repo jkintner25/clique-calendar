@@ -1,3 +1,4 @@
+import { selectEvent } from "./selectedEvent";
 
 const ADD_EVENT = "events/ADD_EVENT";
 const READ_EVENTS = "events/READ_EVENTS";
@@ -45,7 +46,7 @@ export const createEvent = event => async dispatch => {
      if (response.ok) {
         const newEvent = await response.json();
         const events = dispatch(getAllCalendarEvents(newEvent.calendarId));
-        return events;
+        return {events: events, newEvent: newEvent};
      } else {
         const errors = await response.json();
         return errors;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteCalendar, updateCalendar } from "../../store/calendars";
 import { getAllCalendarEvents } from "../../store/events";
 import { useSetCalendar } from "../Context/CalendarContext";
@@ -23,6 +23,7 @@ function CalendarTitle({ calendar, isClicked, selected, setSelected }) {
     const [update, setUpdate] = useState(false)
     const setActiveCalendar = useSetCalendar()
     const [errors, setErrors] = useState([])
+    const selectedEvent = useSelector(state=>state.selectedEvent)
 
     const renameTitle = async () => {
         const newCalendar = {
@@ -41,6 +42,11 @@ function CalendarTitle({ calendar, isClicked, selected, setSelected }) {
         if (title.length > 30) validationErrors.push('Title length cannot exceed 30 characters.')
         setErrors(validationErrors)
     }, [title])
+
+    useEffect(()=>{
+        if(!selectedEvent) return;
+        setSelected(selectedEvent.calendarId)
+    }, [selectedEvent])
 
     const deleteThisCalendar = () => {
         dispatch(deleteCalendar(calendar))

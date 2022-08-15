@@ -4,6 +4,7 @@ import { createEvent } from "../../store/events"
 import styled from "styled-components";
 import dayjs from 'dayjs';
 import { useSetCalendar } from "../Context/CalendarContext";
+import { selectEvent } from "../../store/selectedEvent";
 const utc = require('dayjs/plugin/utc.js')
 dayjs.extend(utc)
 
@@ -79,6 +80,7 @@ function EventForm({ setCreateEvent }) {
         const response = await dispatch(createEvent(newEvent));
         if (response.events) {
             setActiveCalendar(response.events)
+            dispatch(selectEvent(response.newEvent))
             setCreateEvent(false)
         }
         else {

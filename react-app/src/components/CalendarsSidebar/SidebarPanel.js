@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import './sidebar.css'
 
 import plusSign from '../../images/add.png'
+import { useCalendar } from "../Context/CalendarContext"
 
 
 const EditButton = styled.img`
