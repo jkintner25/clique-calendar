@@ -30,12 +30,9 @@ function EventDetails() {
     const [selectedStartDate, setSelectedStartDate] = useState(null)
     const [selectedEndDate, setSelectedEndDate] = useState(null)
     const [newEvent, setNewEvent] = useState(null)
-    const [updatedEvent, setUpdatedEvent] = useState(false)
 
     useEffect(()=>{
-        if(selectedEvent === null || Object.values(selectedEvent).length < 1) return;
         setEvent(selectedEvent)
-        console.log(selectedEvent)
     }, [selectedEvent])
 
     useEffect(() => {

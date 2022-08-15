@@ -11,10 +11,15 @@ const EventBox = styled.ul`
 margin: 16px 2px 16px 20px;
 list-style: none;
 `
+const DeleteCheck = styled.div`
+width: fit-content;
+height: fit-content;
+`
 
 function Event({ event, isClicked }) {
     const dispatch = useDispatch()
     const [showEditForm, setShowEditForm] = useState(false)
+    const [showDeleteForm, setShowDeleteForm] = useState(false)
     const selectedEvent = useSelector(state=>state.selectedEvent)
 
     const deleteThisEvent = (event) => {
@@ -27,10 +32,12 @@ function Event({ event, isClicked }) {
             userId: event.userId,
             calendarId: event.calendarId
         }
-        dispatch(deleteEvent(thisEvent))
-        if(selectedEvent !== null) {
-            if(selectedEvent.id === event.id) dispatch(clearEvent())
+        if(selectedEvent) {
+            if(event.id === selectedEvent.id) {
+                dispatch(clearEvent())
+            }
         }
+        dispatch(deleteEvent(thisEvent))
     }
 
     return (
@@ -42,13 +49,21 @@ function Event({ event, isClicked }) {
                 {isClicked &&
                 <>
                 <button type="button" onClick={() => setShowEditForm(true)}>Edit</button>
-                <button type="button" onClick={() => deleteThisEvent(event)}>Delete</button>
+                <button type="button" onClick={() => setShowDeleteForm(true)}>Delete</button>
                 </>
                 }
             </EventBox>
             {showEditForm &&
                 <Modal onClose={() => setShowEditForm(false)}>
                     <EventEditForm event={event} setShowEditForm={setShowEditForm} />
+                </Modal>}
+            {showDeleteForm &&
+                <Modal onClose={()=> setShowDeleteForm(false)}>
+                    <DeleteCheck>
+                        <p>Are you sure you want to delete {event.title}?</p>
+                        <button type="button" onClick={()=>setShowDeleteForm(false)}>Cancel</button>
+                        <button type="button" onClick={()=>deleteThisEvent(event)}>Confirm</button>
+                    </DeleteCheck>
                 </Modal>}
         </>
     );
