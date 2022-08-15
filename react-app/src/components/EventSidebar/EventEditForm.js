@@ -51,7 +51,7 @@ function EventEditForm({ event, setShowEditForm }) {
         if (startDate > endDate) validationErrors.push('End date cannot come before start date.')
         if (!startDate && startDateSelected) validationErrors.push('Your event needs a start date.')
         if (!endDate && endDateSelected) validationErrors.push('Your event needs an end date.')
-        if (typeof calendarId === 'string') validationErrors.push('Your event needs a calendar.')
+        if (!calendarId) validationErrors.push('Your event needs a calendar.')
         if (startDateSelected && (dayjs(startDate).isBefore(dayjs()))) validationErrors.push('Start date cannot be in the past.')
         if (endDateSelected && (dayjs(endDate).isBefore(dayjs()))) validationErrors.push('End date cannot be in the past.')
         setErrors(validationErrors)

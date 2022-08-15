@@ -38,6 +38,7 @@ def load_calendar_events(calendar_id):
 @event_routes.route('/update/<int:id>', methods=['PUT'])
 def update_event(id):
     form = EventForm()
+    print(request.json)
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         event = Event.query.get(id)
@@ -46,7 +47,7 @@ def update_event(id):
         event.start_date = form.data['startDate']
         event.end_date = form.data['endDate']
         event.user_id = event.user_id
-        event.calendar_id = event.calendar_id
+        event.calendar_id = request.json['calendarId']
 
         db.session.commit()
         return event.to_dict()
