@@ -16,6 +16,7 @@ ___
 * Javascript
 * ReactJS
 * Redux
+* CSS
 ___
 ### Try out this app at the live site on Heroku: https://clique-calendar.herokuapp.com
 -OR-
