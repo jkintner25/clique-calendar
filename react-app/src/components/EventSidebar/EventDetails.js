@@ -35,6 +35,7 @@ function EventDetails() {
     useEffect(()=>{
         if(selectedEvent === null || Object.values(selectedEvent).length < 1) return;
         setEvent(selectedEvent)
+        console.log(selectedEvent)
     }, [selectedEvent])
 
     useEffect(() => {

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateEvent } from "../../store/events";
 import styled from "styled-components";
 import dayjs from 'dayjs';
+import { selectEvent } from "../../store/selectedEvent";
 
 const FormElementContainer = styled.div`
 display: flex;
@@ -69,6 +70,7 @@ function EventEditForm({ event, setShowEditForm }) {
         }
         await dispatch(updateEvent(event.id, updatedEvent)).then(res=>{
             if(res.id){
+                dispatch(selectEvent(res))
                 setShowEditForm(false)
             } else {
                 setErrors(res.errors)
