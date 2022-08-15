@@ -19,7 +19,7 @@ const selectedEventReducer = (state = initialState, action) => {
         case CLEAR_EVENT:
             return null;
         default:
-            return state;
+            return null;
     };
 };
 

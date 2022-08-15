@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCalendar, updateCalendar } from "../../store/calendars";
-import { getAllCalendarEvents } from "../../store/events";
+import { cleanEvents, getAllCalendarEvents } from "../../store/events";
 import { useSetCalendar } from "../Context/CalendarContext";
 import { Modal } from "../Context/ModalContext";
 import './sidebar.css'
@@ -21,6 +21,7 @@ function CalendarTitle({ calendar, isClicked, selected, setSelected }) {
     const dispatch = useDispatch()
     const [title, setTitle] = useState(calendar.title)
     const [update, setUpdate] = useState(false)
+    const [showDeleteForm, setShowDeleteForm] = useState(false)
     const setActiveCalendar = useSetCalendar()
     const [errors, setErrors] = useState([])
     const selectedEvent = useSelector(state=>state.selectedEvent)
@@ -49,6 +50,7 @@ function CalendarTitle({ calendar, isClicked, selected, setSelected }) {
     }, [selectedEvent])
 
     const deleteThisCalendar = () => {
+        dispatch(cleanEvents())
         dispatch(deleteCalendar(calendar))
     }
 
@@ -75,7 +77,7 @@ function CalendarTitle({ calendar, isClicked, selected, setSelected }) {
                             onClick={() => setUpdate(true)}>
                             Rename
                         </button><button
-                            onClick={deleteThisCalendar}>
+                            onClick={()=>setShowDeleteForm(true)}>
                             Delete
                         </button>
                     </div>
@@ -103,6 +105,14 @@ function CalendarTitle({ calendar, isClicked, selected, setSelected }) {
                     </div>
                 </Modal>
             }
+            {showDeleteForm &&
+                <Modal onClose={()=> setShowDeleteForm(false)}>
+                    <div>
+                        <p>Are you sure you want to delete {calendar.title}?</p>
+                        <button type="button" onClick={()=>setShowDeleteForm(false)}>Cancel</button>
+                        <button type="button" onClick={()=>deleteThisCalendar()}>Confirm</button>
+                    </div>
+                </Modal>}
         </div>
     )
 };

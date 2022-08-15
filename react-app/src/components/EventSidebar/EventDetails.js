@@ -36,7 +36,7 @@ function EventDetails() {
     }, [selectedEvent])
 
     useEffect(() => {
-        if(event === null) return;
+        if((event === null)|| (!selectedEvent)) return;
         setSelectedStartDate(dayjs(event.startDate).format('ddd, MMM D, h:mm a'))
         setSelectedEndDate(dayjs(event.endDate).format('ddd, MMM D, h:mm a'))
         setNewEvent(event)
@@ -44,7 +44,7 @@ function EventDetails() {
 
     return (
         <EventDetailsContainer>
-            {event && selectedStartDate && selectedEndDate ? <ContentContainer>
+            {event && selectedEvent ? <ContentContainer>
                 <h2>{event.title}</h2>
                 {selectedStartDate && <p>Start: {selectedStartDate}</p>}
                 {selectedEndDate && <p>End: {selectedEndDate}</p>}

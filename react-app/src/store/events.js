@@ -33,8 +33,7 @@ const remove = id => ({
 });
 
 export const cleanEvents = () => ({
-    type: CLEAN_EVENTS,
-    payload: null
+    type: CLEAN_EVENTS
 })
 
 export const createEvent = event => async dispatch => {

@@ -26,8 +26,7 @@ const remove = id => ({
 });
 
 export const cleanCalendars = () => ({
-    type: CLEAN_CALENDARS,
-    payload: null
+    type: CLEAN_CALENDARS
 })
 
 export const createCalendar = calendar => async dispatch => {
