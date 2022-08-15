@@ -20,7 +20,7 @@ ___
 ### Try out this app at the live site on Heroku: https://clique-calendar.herokuapp.com
 -OR-
 ### Run this app on your local machine by following these instructions:
-1. Clone this repository: https://github.com/Patricus/Eventzeit
+1. Clone this repository: https://github.com/jkintner25/clique-calendar
 2. Create a database user with the name and password of your choice.
 3. Create a database whose owner is the user you just created.
 4. In the root directory of this app run ```pipenv install```
