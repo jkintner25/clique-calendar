@@ -6,7 +6,8 @@ import styled from 'styled-components'
 import './sidebar.css'
 
 import plusSign from '../../images/add.png'
-import { useCalendar } from "../Context/CalendarContext"
+import shareSign from '../../images/share.png'
+import { Modal } from "../Context/ModalContext"
 
 
 const EditButton = styled.img`
@@ -22,11 +23,16 @@ transition-duration: .4s;
 const CalendarBoxFooter = styled.div`
 position: relative;
 display: flex;
-flex-direction: row;
+flex-direction: column;
 width: 200px;
-height: 30px;
-margin: 0 0 4px 5px;
-align-items: center;
+height: 70px;
+margin: 0 0 4px 10px;
+align-items: left;
+`
+const FooterButton = styled.div`
+display: flex;
+flex-direction: row;
+margin: 5px 0;
 `
 
 const EditCalendarsP = styled.p`
@@ -48,7 +54,6 @@ margin: 0 25px 0 0;
 background-color: #f4f1de;
 `
 const SidebarContentBox = styled.div`
-/* height: fit-content; */
 margin: 16px 2px 16px 20px;
 `
 
@@ -58,6 +63,7 @@ function SidebarPanel() {
     const myCalendars = Object.values(useSelector(state => state.calendars))
     const [isClicked, setIsClicked] = useState(false)
     const [selected, setSelected] = useState(null)
+    const [share, setShare] = useState(false)
 
     useEffect(() => {
         dispatch(getMyCalendars(userId))
@@ -73,18 +79,29 @@ function SidebarPanel() {
     }
 
     return (
-        <CalendarSidebar>
-            <SidebarContentBox>
-                <MyCalendarsH1>My Calendars</MyCalendarsH1>
-                {myCalendars ? myCalendars.map(calendar => {
-                    return <CalendarTitle key={calendar.id} selected={selected} setSelected={setSelected} calendar={calendar} isClicked={isClicked} />
-                }) : <p>You don't have any Calendars</p>}
-            </SidebarContentBox>
-            <CalendarBoxFooter>
-                <EditButton src={plusSign} onClick={()=>showEditButtons()} className={setImgClass()}/>
-                <EditCalendarsP>Edit Calendars</EditCalendarsP>
-            </CalendarBoxFooter>
-        </CalendarSidebar>
+        <>
+            <CalendarSidebar>
+                <SidebarContentBox>
+                    <MyCalendarsH1>My Calendars</MyCalendarsH1>
+                    {myCalendars ? myCalendars.map(calendar => {
+                        return <CalendarTitle key={calendar.id} selected={selected} setSelected={setSelected} calendar={calendar} isClicked={isClicked} />
+                    }) : <p>You don't have any Calendars</p>}
+                </SidebarContentBox>
+                <CalendarBoxFooter>
+                    <FooterButton>
+                        <EditButton src={shareSign} onClick={() => setShare(true)} />
+                        <EditCalendarsP>Share Calendar</EditCalendarsP>
+                    </FooterButton>
+                    <FooterButton>
+                        <EditButton src={plusSign} onClick={() => showEditButtons()} className={setImgClass()} />
+                        <EditCalendarsP>Edit Calendars</EditCalendarsP>
+                    </FooterButton>
+                </CalendarBoxFooter>
+            </CalendarSidebar>
+            {share && <Modal onClose={()=>setShare(false)}>
+
+            </Modal>}
+        </>
     )
 };
 
