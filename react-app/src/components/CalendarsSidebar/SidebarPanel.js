@@ -8,6 +8,7 @@ import './sidebar.css'
 import plusSign from '../../images/add.png'
 import shareSign from '../../images/share.png'
 import { Modal } from "../Context/ModalContext"
+import RequestForm from "../ShareCalendar/RequestForm"
 
 
 const EditButton = styled.img`
@@ -90,7 +91,7 @@ function SidebarPanel() {
                 <CalendarBoxFooter>
                     <FooterButton>
                         <EditButton src={shareSign} onClick={() => setShare(true)} />
-                        <EditCalendarsP>Share Calendar</EditCalendarsP>
+                        <EditCalendarsP>Share a Calendar</EditCalendarsP>
                     </FooterButton>
                     <FooterButton>
                         <EditButton src={plusSign} onClick={() => showEditButtons()} className={setImgClass()} />
@@ -99,7 +100,7 @@ function SidebarPanel() {
                 </CalendarBoxFooter>
             </CalendarSidebar>
             {share && <Modal onClose={()=>setShare(false)}>
-
+                <RequestForm myCalendars={myCalendars} setShare={setShare} />
             </Modal>}
         </>
     )

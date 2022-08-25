@@ -1,15 +1,46 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
+import { sendInvite } from "../../store/invites";
 
+const FormContainer = styled.div`
+display: flex;
+flex-direction: column;
+&& button {
+    width: 20px;
+}
+`
 
-function RequestForm() {
+function RequestForm({myCalendars, setShare}) {
     const dispatch = useDispatch()
-    const myCalendars = Object.values(useSelector(state => state.calendars))
 
-    const [calendarId, setCalendarId] = useState(myCalendars[0] ? myCalendars[0] : null)
+    const [calendar, setCalendar] = useState(myCalendars[0])
     const [userEmail, setUserEmail] = useState('')
+    const [message, setMessage] = useState('Share this calendar with me!')
+    const [errors, setErrors] = useState([])
+    const userId = useSelector(state=>state.session.user.id)
 
-    const sendShareRequest = () => {
+    useEffect(()=>{
+        setErrors([])
+    }, [userEmail])
+
+    const sendShareRequest = (e) => {
+        e.preventDefault()
+
+        const invitation = {
+            calendarId: calendar.id,
+            recipientEmail: userEmail,
+            message: message,
+            senderId: userId
+        }
+
+        dispatch(sendInvite(invitation)).then(res=>{
+            if (res.errors) {
+                setErrors(res.errors)
+            } else {
+                setShare(false)
+            }
+        })
 
     }
 
@@ -19,23 +50,33 @@ function RequestForm() {
                 return <p key={i}>{error}</p>
             })}
             <h2>Share a Calendar</h2>
-            <form onSubmit={()=>sendShareRequest()}>
+            <form onSubmit={sendShareRequest}>
                 <FormContainer>
-                    <label>Share With</label>
-                    <input></input>
+                    <label>User's Email Address*</label>
+                    <input
+                        autoFocus={true}
+                        value={userEmail}
+                        onChange={(e) => setUserEmail(e.target.value)}
+                    ></input>
                     <label>Calendar*</label>
                     {myCalendars.length > 0 ?
                         <select
                             multiple={false}
-                            value={calendarId}
-                            onChange={(e) => setCalendarId(e.target.value)}>
+                            value={calendar}
+                            onChange={(e) => setCalendar(e.target.value)}>
                             {myCalendars && myCalendars.map((calendar) => {
                                 return <option key={calendar.id}
                                     value={calendar.id}>{calendar.title}</option>
                             })}
                         </select>
                         : <p>You need a Calendar!</p>}
-                    <button type="submit" disabled={errors.length > 0}>Submit</button>
+                    <label>Message</label>
+                    <textarea
+                        value={message}
+                        onChange={(e)=>setMessage(e.target.value)}
+                    >
+                    </textarea>
+                    <button disabled={errors.length > 0}>Share</button>
                 </FormContainer>
             </form>
         </div>
