@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import LogoutButton from '../auth/LogoutButton';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +10,8 @@ import { login } from '../../store/session'
 import penguinLogo from '../../images/penguin-logo2.png'
 import SignUpForm from '../auth/SignUpForm';
 import LoginForm from '../auth/LoginForm';
+import { getInvites } from '../../store/invites';
+import ViewInvites from '../ShareCalendar/ViewInvites';
 
 const NavBarUL = styled.ul`
 display: flex;
@@ -29,27 +31,37 @@ height: 45px;
 
 const NavBar = () => {
   const dispatch = useDispatch()
-  const user = useSelector(state => state.session.user)
-  const [createEvent, setCreateEvent] = useState(false)
-  const [createCalendar, setCreateCalendar] = useState(false)
-  const [loginWindow, setLoginWindow] = useState(false)
-  const [signupWindow, setSignupWindow] = useState(false)
+  const user = useSelector(state => state.session.user);
+  const [createEvent, setCreateEvent] = useState(false);
+  const [createCalendar, setCreateCalendar] = useState(false);
+  const [loginWindow, setLoginWindow] = useState(false);
+  const [signupWindow, setSignupWindow] = useState(false);
+  const [invitesWindow, setInvitesWindow] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+    dispatch(getInvites(user.id))
+  }, [user])
 
   function newEventWindow() {
     setCreateEvent(!createEvent)
-  }
+  };
 
   function newCalendarWindow() {
     setCreateCalendar(!createCalendar)
-  }
+  };
 
   function createLoginWindow() {
     setLoginWindow(!loginWindow)
-  }
+  };
 
   function createSignupWindow() {
     setSignupWindow(!signupWindow)
-  }
+  };
+
+  function viewInvites() {
+    setInvitesWindow(!invitesWindow)
+  };
 
   function demoLogIn() {
     dispatch(login("demo@aa.io", "password"));
@@ -106,6 +118,11 @@ const NavBar = () => {
           </button>
         </li>
         <li>
+          <button onClick={() => viewInvites()} className={'navlink'}>
+            View Invites
+          </button>
+        </li>
+        <li>
           <LogoutButton />
         </li>
         {createEvent &&
@@ -116,6 +133,11 @@ const NavBar = () => {
         {createCalendar &&
           <Modal onClose={() => setCreateCalendar(false)}>
             <CalendarForm setCreateCalendar={setCreateCalendar} />
+          </Modal>
+        }
+        {invitesWindow &&
+          <Modal onClose={() => setInvitesWindow(false)}>
+            <ViewInvites />
           </Modal>
         }
       </NavBarUL>

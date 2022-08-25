@@ -1,5 +1,3 @@
-import { selectEvent } from "./selectedEvent";
-
 const ADD_EVENT = "events/ADD_EVENT";
 const READ_EVENTS = "events/READ_EVENTS";
 const CLEAN_READ_EVENTS = "events/CLEAN_READ_EVENTS"

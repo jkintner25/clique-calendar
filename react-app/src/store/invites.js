@@ -47,6 +47,9 @@ const invitesReducer = (state = initialState, action) => {
             newState[action.invite.id] = action.invite;
             return newState;
         case GET_INVITES:
+            action.invites.invites.forEach(invite => {
+                newState[invite.id] = invite;
+            });
             return newState;
         default:
             return newState;

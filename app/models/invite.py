@@ -14,5 +14,6 @@ class Invite(db.Model):
             'id': self.id,
             'calendarId': self.calendar_id,
             'senderId': self.sender_id,
-            'recipientId': self.recipient_id
+            'recipientId': self.recipient_id,
+            'message': self.message
         }
