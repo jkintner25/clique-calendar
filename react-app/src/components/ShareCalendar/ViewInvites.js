@@ -14,19 +14,19 @@ function ViewInvites() {
     }, [])
 
     return (
-        <div>
+        <>
             {invites && Object.values(invites).length > 0 ?
-                <>
+                <div>
                     <h2>Invites</h2>
                     <ul>
                         {Object.values(invites).map(invite => {
                             return <Invite key={invite.id} invite={invite} />
                         })}
                     </ul>
-                </>
+                </div>
                 : <h2>You have no invites.</h2>
             }
-        </div>
+        </>
     );
 };
 

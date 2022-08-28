@@ -1,6 +1,7 @@
 // constants
 const SET_USER = 'session/SET_USER';
 const REMOVE_USER = 'session/REMOVE_USER';
+const ADD_CALENDAR = 'session/ADD_CALENDAR';
 
 const setUser = (user) => ({
   type: SET_USER,
@@ -9,7 +10,12 @@ const setUser = (user) => ({
 
 const removeUser = () => ({
   type: REMOVE_USER,
-})
+});
+
+export const addSharedCalendar = payload => ({
+  type: ADD_CALENDAR,
+  payload
+});
 
 const initialState = { user: null };
 
@@ -104,6 +110,10 @@ export default function reducer(state = initialState, action) {
       return { user: action.payload }
     case REMOVE_USER:
       return { user: null }
+    case ADD_CALENDAR:
+      const newState = { ...state }
+      newState.user.calendars[action.payload.id] = action.payload
+      return newState;
     default:
       return state;
   }

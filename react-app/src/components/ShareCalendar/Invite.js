@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateInvite } from "../../store/invites";
+import { addSharedCalendar } from "../../store/session";
 
 function Invite({ invite }) {
     const dispatch = useDispatch()
@@ -13,7 +14,7 @@ function Invite({ invite }) {
         dispatch(updateInvite(invite.id, data)).then(res=>{
             if (res.errors) setErrors(res.errors)
             else {
-                
+                dispatch(addSharedCalendar(res))
             }
         })
     }
@@ -26,8 +27,8 @@ function Invite({ invite }) {
     }
 
     return (
-        <div>
-            {errors.length && errors.map((error, i)=>{
+        <>
+            {errors.length > 0 && errors.map((error, i)=>{
                 return <li key={i}>{error.message}</li>
             })}
             <li>
@@ -37,7 +38,7 @@ function Invite({ invite }) {
             </li>
             <button type="button" onClick={() => acceptInvite()}>Accept</button>
             <button type="button" onClick={() => rejectInvite()}>Reject</button>
-        </div>
+        </>
     )
 }
 
