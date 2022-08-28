@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { cleanEvents, getAllCalendarEvents } from "../../store/events";
+import { removeSharedCalendar } from "../../store/session"
 import { useSetCalendar } from "../Context/CalendarContext";
 import { Modal } from "../Context/ModalContext";
 import './sidebar.css'
@@ -22,6 +23,7 @@ function SharedCalendar({ calendar, isClicked, selected, setSelected }) {
     const setActiveCalendar = useSetCalendar()
     const [errors, setErrors] = useState([])
     const selectedEvent = useSelector(state=>state.selectedEvent)
+    const userId = useSelector(state=>state.session.user.id)
 
     useEffect(()=>{
         if(!selectedEvent) return;
@@ -29,7 +31,13 @@ function SharedCalendar({ calendar, isClicked, selected, setSelected }) {
     }, [selectedEvent])
 
     const removeThisCalendar = () => {
+        const data = {
+            calendarId: calendar.id,
+            userId: userId
+        }
+        dispatch(removeSharedCalendar(data))
         dispatch(cleanEvents())
+        setShowDeleteForm(false)
     }
 
     const getAllMyEvents = () => {
@@ -62,8 +70,8 @@ function SharedCalendar({ calendar, isClicked, selected, setSelected }) {
                 <Modal onClose={()=> setShowDeleteForm(false)}>
                     <div>
                         <p>Are you sure you want to remove {calendar.title}?</p>
-                        <button type="button" onClick={()=>setShowDeleteForm(false)}>Cancel</button>
                         <button type="button" onClick={()=>removeThisCalendar()}>Confirm</button>
+                        <button type="button" onClick={()=>setShowDeleteForm(false)}>Cancel</button>
                     </div>
                 </Modal>}
         </div>

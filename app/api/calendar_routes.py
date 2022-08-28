@@ -52,3 +52,17 @@ def delete_calendar(id):
         return deleted_calendar.to_dict()
     else:
         return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+@calendar_routes.route('/shared/<int:id>', methods=['DELETE'])
+def remove_shared_calendar(id):
+    calendar = Calendar.query.get(id)
+    user = User.query.get(request.json)
+    print('USER*******************', user)
+    if user is None:
+        return {'errors': ['Invalid User ID.']}
+    if calendar is None:
+        return {'errors': ['Invalid calendar.']}
+    else:
+        calendar.subscribers.remove(user)
+        db.session.commit()
+        return { 'id': id }
