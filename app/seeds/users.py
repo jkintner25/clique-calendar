@@ -1,4 +1,4 @@
-from app.models import db, User
+from app.models import db, User, Calendar
 
 
 # Adds a demo user, you can add other users here if you want
@@ -15,7 +15,6 @@ def seed_users():
     db.session.add(bobbie)
 
     db.session.commit()
-
 
 # Uses a raw SQL query to TRUNCATE the users table.
 # SQLAlchemy doesn't have a built in function to do this

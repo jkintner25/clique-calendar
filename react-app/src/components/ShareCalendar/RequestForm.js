@@ -14,24 +14,29 @@ flex-direction: column;
 function RequestForm({myCalendars, setShare}) {
     const dispatch = useDispatch()
 
-    const [calendar, setCalendar] = useState(myCalendars[0])
+    const [calendarId, setCalendarId] = useState(Number(myCalendars[0].id))
     const [userEmail, setUserEmail] = useState('')
     const [message, setMessage] = useState('Share this calendar with me!')
     const [errors, setErrors] = useState([])
-    const userId = useSelector(state=>state.session.user.id)
+    const user = useSelector(state=>state.session.user)
 
     useEffect(()=>{
         setErrors([])
     }, [userEmail])
 
+    function changeCalendar(e) {
+        setCalendarId(Number(e))
+    }
+
     const sendShareRequest = (e) => {
         e.preventDefault()
 
         const invitation = {
-            calendarId: calendar.id,
+            calendarId: calendarId,
             recipientEmail: userEmail,
             message: message,
-            senderId: userId
+            senderId: user.id,
+            senderUsername: user.username
         }
 
         dispatch(sendInvite(invitation)).then(res=>{
@@ -62,11 +67,10 @@ function RequestForm({myCalendars, setShare}) {
                     {myCalendars.length > 0 ?
                         <select
                             multiple={false}
-                            value={calendar}
-                            onChange={(e) => setCalendar(e.target.value)}>
+                            value={calendarId}
+                            onChange={(e) => changeCalendar(e.target.value)}>
                             {myCalendars && myCalendars.map((calendar) => {
-                                return <option key={calendar.id}
-                                    value={calendar.id}>{calendar.title}</option>
+                                return <option key={calendar.id} value={calendar.id}>{calendar.title}</option>
                             })}
                         </select>
                         : <p>You need a Calendar!</p>}

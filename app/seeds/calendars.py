@@ -1,4 +1,4 @@
-from app.models import db
+from app.models import db, User
 from app.models.calendar import Calendar
 
 def seed_calendars():
@@ -11,6 +11,11 @@ def seed_calendars():
 
     db.session.add(demo_calendar)
     db.session.add(marnie_calendar)
+    db.session.commit()
+
+    # user = User.query.get(3)
+    # demo_calendar.subscribers.append(user)
+
     db.session.commit()
 
 def undo_calendars():
