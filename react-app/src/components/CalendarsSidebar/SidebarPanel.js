@@ -68,12 +68,6 @@ overflow-y: auto;
 `
 
 function SidebarPanel() {
-    // const dispatch = useDispatch()
-    // const userId = useSelector(state => state.session.user.id)
-
-    // useEffect(() => {
-    //     dispatch(getMyCalendars(userId))
-    // }, [dispatch, userId])
 
     const myCalendars = useSelector(state => state.calendars.owned)
     const sharedCalendars = useSelector(state=>state.calendars.shared)
