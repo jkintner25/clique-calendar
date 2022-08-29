@@ -24,7 +24,10 @@ def create_calendar():
 @calendar_routes.route('/<int:id>', methods=['GET'])
 def load_calendars(id):
     calendars = Calendar.query.filter(Calendar.user_id == id)
-    return {'calendars': [calendar.to_dict() for calendar in calendars]}
+    user = User.query.get(id)
+    return {'owned': [calendar.to_dict() for calendar in calendars],
+            'shared': user.shared_calendars()
+    }
 
 @calendar_routes.route('/update/<int:id>', methods=['PUT'])
 def update_calendar(id):
@@ -66,3 +69,7 @@ def remove_shared_calendar(id):
         calendar.subscribers.remove(user)
         db.session.commit()
         return { 'id': id }
+
+@calendar_routes.route('/shared/<int:id>', methods=['GET'])
+def get_shared_calendars(id):
+    user = User.query.get(id)

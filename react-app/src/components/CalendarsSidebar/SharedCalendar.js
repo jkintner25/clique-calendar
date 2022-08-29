@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { cleanEvents, getAllCalendarEvents } from "../../store/events";
-import { removeSharedCalendar } from "../../store/session"
+import { removeSharedCalendar } from "../../store/calendars"
 import { useSetCalendar } from "../Context/CalendarContext";
 import { Modal } from "../Context/ModalContext";
 import './sidebar.css'

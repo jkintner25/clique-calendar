@@ -30,5 +30,7 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'username': self.username,
             'email': self.email,
-            'calendars': [calendar.to_dict() for calendar in self.calendars]
         }
+
+    def shared_calendars(self):
+        return [calendar.to_dict() for calendar in self.calendars]

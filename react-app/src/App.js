@@ -14,6 +14,7 @@ import { ModalProvider } from './components/Context/ModalContext';
 import { EventProvider } from './components/Context/EventContext';
 import SplashPage from './components/SplashPage/SplashPage';
 import Footer from './components/Footer/Footer';
+import LoadMain from './components/auth/LoadMain';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -39,11 +40,7 @@ function App() {
             <Switch>
               <SplashPage path='/' exact={true} />
               <ProtectedRoute path='/home' exact={true} >
-                <div className='root-body'>
-                  <SidebarPanel />
-                  <Calendar />
-                  <EventsSideBar />
-                </div>
+                <LoadMain />
               </ProtectedRoute>
             </Switch>
             <Footer />

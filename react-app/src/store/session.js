@@ -1,8 +1,8 @@
+import { getMyCalendars } from "./calendars";
+
 // constants
 const SET_USER = 'session/SET_USER';
 const REMOVE_USER = 'session/REMOVE_USER';
-const ADD_CALENDAR = 'session/ADD_CALENDAR';
-const REMOVE_CALENDAR = 'session/REMOVE_CALENDAR';
 
 const setUser = (user) => ({
   type: SET_USER,
@@ -12,32 +12,6 @@ const setUser = (user) => ({
 const removeUser = () => ({
   type: REMOVE_USER,
 });
-
-export const addSharedCalendar = payload => ({
-  type: ADD_CALENDAR,
-  payload
-});
-
-const removeCalendar = payload => ({
-  type: REMOVE_CALENDAR,
-  payload
-})
-
-export const removeSharedCalendar = ({calendarId, userId}) => async dispatch => {
-  const response = await fetch(`/api/calendars/shared/${calendarId}`, {
-    method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(userId)
-  });
-  if (response.ok) {
-    const data = await response.json();
-    if (data.errors) {
-      return data;
-    } else {
-      dispatch(removeCalendar(data))
-    }
-  }
-}
 
 const initialState = { user: null };
 
@@ -54,6 +28,7 @@ export const authenticate = () => async (dispatch) => {
     }
 
     dispatch(setUser(data));
+    dispatch(getMyCalendars(data.id))
   }
 }
 
@@ -132,16 +107,6 @@ export default function reducer(state = initialState, action) {
       return { user: action.payload }
     case REMOVE_USER:
       return { user: null }
-    case ADD_CALENDAR: {
-      const newState = { ...state }
-      newState.user.calendars[action.payload.id] = action.payload
-      return newState;
-    }
-    case REMOVE_CALENDAR: {
-      const newState = { ...state }
-      delete newState.user.calendars[action.payload.id]
-      return newState;
-    }
     default:
       return state;
   }

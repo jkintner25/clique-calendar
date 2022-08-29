@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateInvite } from "../../store/invites";
-import { addSharedCalendar } from "../../store/session";
+import { addSharedCalendar } from "../../store/calendars";
 
 function Invite({ invite }) {
     const dispatch = useDispatch()

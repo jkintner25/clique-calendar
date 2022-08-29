@@ -68,17 +68,27 @@ overflow-y: auto;
 `
 
 function SidebarPanel() {
-    const dispatch = useDispatch()
-    const userId = useSelector(state => state.session.user.id)
-    const myCalendars = Object.values(useSelector(state => state.calendars))
-    const sharedCalendars = useSelector(state=>state.session.user.calendars)
+    // const dispatch = useDispatch()
+    // const userId = useSelector(state => state.session.user.id)
+
+    // useEffect(() => {
+    //     dispatch(getMyCalendars(userId))
+    // }, [dispatch, userId])
+
+    const myCalendars = useSelector(state => state.calendars.owned)
+    const sharedCalendars = useSelector(state=>state.calendars.shared)
     const [isClicked, setIsClicked] = useState(false)
     const [selected, setSelected] = useState(null)
     const [share, setShare] = useState(false)
+    const [owned, setOwned] = useState([])
+    const [shared, setShared] = useState([])
 
     useEffect(() => {
-        dispatch(getMyCalendars(userId))
-    }, [dispatch, userId])
+        if (!myCalendars || !sharedCalendars) return;
+        setOwned(Object.values(myCalendars))
+        setShared(Object.values(sharedCalendars))
+    }, [myCalendars, sharedCalendars])
+
 
     function setImgClass() {
         if (!isClicked) return '';
@@ -94,13 +104,13 @@ function SidebarPanel() {
             <CalendarSidebar>
                 <SidebarContentBox>
                     <MyCalendarsH1>My Calendars</MyCalendarsH1>
-                    {myCalendars ? myCalendars.map(calendar => {
+                    {owned ? owned.map(calendar => {
                         return <CalendarTitle key={calendar.id} selected={selected} setSelected={setSelected} calendar={calendar} isClicked={isClicked} />
                     }) : <p>You don't have any Calendars</p>}
                 </SidebarContentBox>
                 <SharedCalendarsBox>
                     <MyCalendarsH1>Shared Calendars</MyCalendarsH1>
-                    {sharedCalendars && sharedCalendars.length > 0 ? sharedCalendars.map(calendar=>{
+                    {shared ? shared.map(calendar=>{
                         return <SharedCalendar key={calendar.id} selected={selected} setSelected={setSelected} calendar={calendar} isClicked={isClicked} />
                     })
                     : <p>No Shared Calendars</p>}
@@ -116,8 +126,8 @@ function SidebarPanel() {
                     </FooterButton>
                 </CalendarBoxFooter>
             </CalendarSidebar>
-            {share && <Modal onClose={()=>setShare(false)}>
-                <RequestForm myCalendars={myCalendars} setShare={setShare} />
+            {share && owned && <Modal onClose={()=>setShare(false)}>
+                <RequestForm myCalendars={owned} setShare={setShare} />
             </Modal>}
         </>
     )

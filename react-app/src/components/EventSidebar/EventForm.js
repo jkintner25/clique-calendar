@@ -16,10 +16,12 @@ flex-direction: column;
 function EventForm({ setCreateEvent }) {
     const dispatch = useDispatch()
     const userId = useSelector(state => state.session.user.id)
-    const myCalendars = Object.values(useSelector(state => state.calendars))
+    const owned = useSelector(state=>state.calendars.owned)
+    const shared = useSelector(state=>state.calendars.shared)
 
     const setActiveCalendar = useSetCalendar()
 
+    const [myCalendars, setMyCalendars] = useState([])
     const [title, setTitle] = useState('');
     const [emptyTitle, setEmptyTitle] = useState(false);
     const [description, setDescription] = useState('')
@@ -34,6 +36,11 @@ function EventForm({ setCreateEvent }) {
     const [endDateSelected, setEndDateSelected] = useState(false)
     const [ready, setReady] = useState(false)
     const [errors, setErrors] = useState([])
+
+    useEffect(() => {
+        if (!owned || !shared) return;
+        setMyCalendars([...Object.values(owned), ...Object.values(shared)])
+    }, [owned, shared])
 
     useEffect(() => {
         if (startDate === '' || endDate === '') return;
@@ -139,7 +146,7 @@ function EventForm({ setCreateEvent }) {
                             multiple={false}
                             value={calendarId}
                             onChange={(e) => setCalendarId(e.target.value)}>
-                            {myCalendars && myCalendars.map((calendar) => {
+                            {myCalendars.map((calendar) => {
                                 return <option key={calendar.id}
                                     value={calendar.id}>{calendar.title}</option>
                             })}
