@@ -25,4 +25,4 @@ RUN pip install psycopg2
 RUN pip install email_validator
 # Start the flask environment by setting our
 # closing command to gunicorn app:app
-CMD gunicorn app:app
+CMD gunicorn --worker-class eventlet -w 1 app:app

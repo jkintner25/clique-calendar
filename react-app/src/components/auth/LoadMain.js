@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getMyCalendars } from "../../store/calendars";
 import Calendar from "../Calendar/Calendar";
 import SidebarPanel from "../CalendarsSidebar/SidebarPanel";
+import Chat from "../Chat/Chat";
 import EventsSideBar from "../EventSidebar/EventSideBar";
 
 function LoadMain() {
@@ -13,7 +14,7 @@ function LoadMain() {
 
     useEffect(() => {
         if (!userId) return;
-        dispatch(getMyCalendars(userId)).then(res=>{
+        dispatch(getMyCalendars(userId)).then(res => {
             setLoaded(true);
         })
     }, [dispatch, userId, loaded])
@@ -21,11 +22,14 @@ function LoadMain() {
     return (
         <>
             {loaded &&
-                <div className='root-body'>
-                    <SidebarPanel />
-                    <Calendar />
-                    <EventsSideBar />
-                </div>
+                <>
+                    <div className='root-body'>
+                        <SidebarPanel />
+                        <Calendar />
+                        <EventsSideBar />
+                    </div>
+                    <Chat />
+                </>
             }
         </>
     );
