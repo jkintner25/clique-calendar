@@ -48,10 +48,14 @@ const Chat = () => {
     const [rooms, setRooms] = useState([])
     const [room, setRoom] = useState('')
     const shared = useSelector(state=>state.calendars.shared)
+    const owned = useSelector(state=>state.calendars.owned)
 
     useEffect(()=>{
-        if (!shared) return;
-        setRooms(Object.values(shared))
+        if (!shared && !owned) return;
+        let temp = []
+        let a = Object.values(owned)
+        let b = Object.values(shared)
+        setRooms([...a, ...b])
     }, [shared])
 
     function sendChat(e) {
