@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 import { cleanCalendars } from '../../store/calendars';
 import { cleanEvents } from '../../store/events';
+import { clearMessages } from '../../store/messages';
 import { clearEvent } from '../../store/selectedEvent';
 import { logout } from '../../store/session';
 
@@ -14,6 +15,7 @@ const LogoutButton = () => {
     dispatch(cleanCalendars())
     dispatch(cleanEvents())
     dispatch(clearEvent())
+    dispatch(clearMessages())
     return history.push('/')
   };
 

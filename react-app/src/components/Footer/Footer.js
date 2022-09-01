@@ -11,6 +11,7 @@ display: flex;
 flex-direction: row;
 justify-content: space-around;
 align-items: center;
+z-index: 1000;
 & > a {
     cursor: pointer;
     text-decoration: none;

@@ -5,7 +5,6 @@ const UPDATE_CALENDAR = "calendar/UPDATE_CALENDAR";
 const DELETE_CALENDAR = "calendar/DELETE_CALENDAR";
 const CLEAN_CALENDARS = 'calendar/CLEAN_CALENDARS';
 const ADD_SHARED_CALENDAR = 'calendar/ADD_SHARED_CALENDAR';
-const READ_SHARED_CALENDARS = 'calendar/READ_SHARED_CALENDARS';
 const REMOVE_SHARED_CALENDAR = 'calendar/REMOVE_SHARED_CALENDAR';
 
 const add = calendar => ({
@@ -94,23 +93,23 @@ export const deleteCalendar = (calendar) => async dispatch => {
     }
 };
 
-export const removeSharedCalendar = ({calendarId, userId}) => async dispatch => {
+export const removeSharedCalendar = ({ calendarId, userId }) => async dispatch => {
     const response = await fetch(`/api/calendars/shared/${calendarId}`, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(userId)
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userId)
     });
     if (response.ok) {
-      const data = await response.json();
-      if (data.errors) {
-        return data;
-      } else {
-        dispatch(removeShared(data))
-      }
+        const data = await response.json();
+        if (data.errors) {
+            return data;
+        } else {
+            dispatch(removeShared(data))
+        }
     }
-  }
+}
 
-const initialState = { 'owned': {}, 'shared': {}};
+const initialState = { 'owned': {}, 'shared': {} };
 
 const calendarsReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -120,7 +119,7 @@ const calendarsReducer = (state = initialState, action) => {
             return newState;
         }
         case READ_CALENDARS: {
-            const newState = {owned: {}, shared: {}}
+            const newState = { owned: {}, shared: {} }
             action.payload.owned.forEach(calendar => {
                 newState.owned[calendar.id] = calendar;
             });
@@ -130,7 +129,7 @@ const calendarsReducer = (state = initialState, action) => {
             return newState;
         }
         case UPDATE_CALENDAR: {
-            const newState = { owned: {...state.owned}, shared: {...state.shared} };
+            const newState = { owned: { ...state.owned }, shared: { ...state.shared } };
             newState.owned[action.calendar.id] = action.calendar;
             return newState;
         }
@@ -150,7 +149,7 @@ const calendarsReducer = (state = initialState, action) => {
             const newState = { owned: { ...state.owned }, shared: { ...state.shared } }
             delete newState.shared[action.payload.id]
             return newState;
-          }
+        }
         default:
             return state;
     }

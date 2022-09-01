@@ -5,13 +5,15 @@ import calendars from './calendars';
 import events from './events';
 import selectedEvent from './selectedEvent';
 import invites from './invites';
+import messages from './messages';
 
 const rootReducer = combineReducers({
   session,
   calendars,
   events,
   selectedEvent,
-  invites
+  invites,
+  messages
 });
 
 let enhancer;
