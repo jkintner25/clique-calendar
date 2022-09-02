@@ -22,6 +22,7 @@ def create_message():
         new_message = Message(
             content = form.data['content'],
             user_id = form.data['userId'],
+            username = form.data['username'],
             calendar_id = form.data['calendarId'],
             created_at = datetime.now()
         )

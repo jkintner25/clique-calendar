@@ -1,4 +1,4 @@
-from flask_socketio import SocketIO, emit, join_room
+from flask_socketio import SocketIO, send, emit, join_room, leave_room
 import os
 from .models.user import User
 from .models.message import Message
@@ -13,17 +13,21 @@ else:
 
 socketio = SocketIO(cors_allowed_origins=origins)
 
-@socketio.on('chat')
-def handle_chat(data):
-    print('CHAT DATA: ', data)
+rooms = []
 
-    emit('chat', data, broadcast=True)
+@socketio.on("chat")
+def handle_chat(data):
+    room = data['room']
+    emit("chat", data, to=room)
 
 @socketio.on('join')
-def join_room(data):
-    print(data)
-    username = data['username']
-    room = data['calendar_id']
+def on_join(data):
+    room = data['room']
     join_room(room)
+    emit('join', data, to=room)
 
-    emit("welcome", f"{username}", broadcast=True, to=room)
+@socketio.on('leave')
+def on_leave(data):
+    room = data['room']
+    leave_room(room)
+    emit('leave', data, to=room)

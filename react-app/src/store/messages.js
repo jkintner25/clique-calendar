@@ -22,11 +22,11 @@ export const clearMessages = () => ({
     type: CLEAR_MESSAGES
 })
 
-export const createMessage = ({ content, calendarId, userId }) => async dispatch => {
+export const createMessage = ({ content, calendarId, userId, username }) => async dispatch => {
     const response = await fetch(`/api/messages/new`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content, calendarId, userId })
+        body: JSON.stringify({ content, calendarId, userId, username })
     })
     if (response.ok) {
         const data = await response.json()

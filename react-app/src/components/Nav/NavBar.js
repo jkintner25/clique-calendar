@@ -106,6 +106,7 @@ const NavBar = () => {
   if (user) return (
     <nav className='navbar'>
       <NavLogo src={penguinLogo}/>
+      <h2>Welcome, {user.username}!</h2>
       <NavBarUL>
         <li>
           <button onClick={() => newCalendarWindow()} className={'navlink'}>

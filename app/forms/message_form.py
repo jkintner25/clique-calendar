@@ -13,3 +13,4 @@ class MessageForm(FlaskForm):
     content = StringField('content', validators=[message_length, DataRequired(message='You can\'t send an empty message.')])
     calendarId = IntegerField('calendarId', validators=[DataRequired(message='Select a calendar group.')])
     userId = IntegerField('userId', validators=[DataRequired(message='Couldn\'t find your User ID.')])
+    username = StringField('username', validators=[DataRequired(message='Couldn\'t find your Username.')])
