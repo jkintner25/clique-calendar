@@ -57,8 +57,12 @@ const Chat = () => {
 
     const messagesRef = useRef(null);
 
+    const scrollToBottom = () => {
+        messagesRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+
     useEffect(() => {
-        messagesRef.current.scrollIntoView({ behavior: 'smooth' });
+        scrollToBottom()
     }, [messages]);
 
     useEffect(() => {
@@ -132,10 +136,11 @@ const Chat = () => {
             <ChatWindow>
                 <MessagesWindow>
                     {messages.map((message, i) => (
-                        <div key={i}>{`${message.username}: ${message.msg}`}</div>
+                        <div
+                        ref={messagesRef}
+                        key={i}>{`${message.username}: ${message.msg}`}</div>
                     ))}
                 </MessagesWindow>
-                <div ref={messagesRef} />
                 {errors.length > 0 && errors.map((error, i) => {
                     return <p key={i}>{error}</p>
                 })}
