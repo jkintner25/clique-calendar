@@ -5,7 +5,7 @@ class Message(db.Model):
     __tablename__ = 'messages'
 
     id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String(100), nullable=False)
+    msg = db.Column(db.String(100), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey(
         'users.id', ondelete="CASCADE"), nullable=False)
     username = db.Column(db.String(100))
@@ -18,7 +18,7 @@ class Message(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'content': self.content,
+            'msg': self.msg,
             'userId': self.user_id,
             'username': self.username,
             'calendarId': self.calendar_id,

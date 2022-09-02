@@ -7,11 +7,11 @@ border: 1px solid black;
 cursor: pointer;
 `
 
-function Room({calendarTitle, joinRoom}) {
+function Room({calendarId, calendarTitle, joinRoom}) {
 
     return (
         <CalendarTitle
-        onClick={()=>joinRoom(calendarTitle)}
+        onClick={()=>joinRoom(calendarTitle, calendarId)}
         >{calendarTitle}</CalendarTitle>
     );
 };

@@ -54,6 +54,7 @@ const Chat = () => {
     const [calendars, setCalendars] = useState([])
     const [title, setTitle] = useState('')
     const [previousTitle, setPreviousTitle] = useState('')
+    const [calendarId, setCalendarId] = useState(null)
 
     const messagesRef = useRef(null);
 
@@ -98,25 +99,51 @@ const Chat = () => {
     const sendChat = (e) => {
         e.preventDefault()
 
-        if (!title.length) return;
+        if (!title.length) {
+            setErrors(['Join a calendar chat room!'])
+            return;
+        };
+        setErrors([])
+
+        const newMessage = {
+            msg: chatInput,
+            calendarId: calendarId,
+            userId: user.id,
+            username: user.username
+        }
+
+        dispatch(createMessage(newMessage))
 
         socket.emit("chat", { username: user.username, msg: chatInput, room: title });
 
         setChatInput("")
     }
 
-    const joinRoom = (calTitle) => {
+    // function that sets current room (caltitle) and cal.id to grab
+    const joinRoom = (calTitle, id) => {
         if (title.length && calTitle !== title) {
             setPreviousTitle(title)
         }
         setTitle(calTitle)
+        setCalendarId(id)
     }
 
+    // get all messages of calendar(room)
+    useEffect(()=>{
+        if (!calendarId) return;
+        dispatch(getMessages(calendarId)).then(res=>{
+            if (res.messages) setMessages(Object.values(res.messages))
+            if (res.errors) setErrors(res.errors)
+        })
+    }, [calendarId])
+
+    // send message when user joins new room
     useEffect(() => {
         if (!title) return;
         socket.emit('join', { username: 'Room Bot', msg: `${user.username} has entered ${title}.`, room: title })
     }, [title])
 
+    // send message when user leave a room
     useEffect(() => {
         if (!previousTitle) return;
         socket.emit('leave', { username: 'Room Bot', msg: `${user.username} has left ${previousTitle}.`, room: previousTitle })
@@ -130,7 +157,7 @@ const Chat = () => {
         <OuterDiv>
             <CalendarList>
                 {calendars.length && calendars.map(calendar => {
-                    return <Room key={calendar.id} calendarTitle={calendar.title} joinRoom={joinRoom} />
+                    return <Room key={calendar.id} calendarId={calendar.id} calendarTitle={calendar.title} joinRoom={joinRoom} />
                 })}
             </CalendarList>
             <ChatWindow>

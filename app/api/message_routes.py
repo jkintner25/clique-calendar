@@ -20,7 +20,7 @@ def create_message():
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         new_message = Message(
-            content = form.data['content'],
+            msg = form.data['msg'],
             user_id = form.data['userId'],
             username = form.data['username'],
             calendar_id = form.data['calendarId'],
