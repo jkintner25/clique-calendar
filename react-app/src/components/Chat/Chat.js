@@ -90,7 +90,6 @@ const Chat = () => {
             setMessages(messages => [...messages, chat])
         })
 
-        // when component unmounts, disconnect
         return (() => {
             socket.disconnect()
         })
@@ -119,7 +118,7 @@ const Chat = () => {
         setChatInput("")
     }
 
-    // function that sets current room (caltitle) and cal.id to grab
+    // function that sets current room (caltitle) and calendar id
     const joinRoom = (calTitle, id) => {
         if (title.length && calTitle !== title) {
             setPreviousTitle(title)
