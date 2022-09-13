@@ -16,27 +16,70 @@ import ViewInvites from '../ShareCalendar/ViewInvites';
 const NavBarUL = styled.ul`
 display: flex;
 flex-direction: row;
-justify-content: right;
+justify-content: center;
 align-items: center;
 list-style: none;
 text-decoration: none;
 height: 100%;
 & > li {
-  margin: 0 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  width: 120px;
+  height: 26px;
 }
 `
 const NavLogo = styled.img`
 height: 45px;
 `
+const WelcomeMessage = styled.h2`
+font-weight: lighter;
+margin-top: 7px;
+cursor: default;
+`
+
+const Bubble = styled.div`
+background-color: #e07a5f;
+width: 24px;
+height: 24px;
+position: relative;
+display: flex;
+left: -6px;
+bottom: 10px;
+border: 1px solid black;
+border-radius: 14px;
+justify-content: center;
+align-items: center;
+& p {
+  cursor: default;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  white-space: nowrap;
+}
+`
 
 const NavBar = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.session.user);
+  const invites = useSelector(state => state.invites)
+  const [invitesArray, setInvitesArray] = useState([])
   const [createEvent, setCreateEvent] = useState(false);
   const [createCalendar, setCreateCalendar] = useState(false);
   const [loginWindow, setLoginWindow] = useState(false);
   const [signupWindow, setSignupWindow] = useState(false);
   const [invitesWindow, setInvitesWindow] = useState(false);
+
+  useEffect(() => {
+    if (!invites) return;
+    else {
+      let a = Object.values(invites)
+      setInvitesArray(a)
+    }
+  }, [invites])
+
+  useEffect(() => {
+    
+  }, [])
 
   useEffect(() => {
     if (!user) return;
@@ -69,25 +112,22 @@ const NavBar = () => {
 
   if (!user) return (
     <nav className='navbar'>
-      <NavLogo src={penguinLogo}/>
+      <NavLogo src={penguinLogo} />
       <NavBarUL>
         <li>
-          <button onClick={()=>createLoginWindow()} className={'navlink'}>
+          <button onClick={() => createLoginWindow()} className={'navlink'}>
             Login
           </button>
         </li>
         <li>
-          <button onClick={()=>createSignupWindow()} className={'navlink'}>
+          <button onClick={() => createSignupWindow()} className={'navlink'}>
             Sign Up
           </button>
         </li>
         <li>
-          <button onClick={()=>demoLogIn()}>
+          <button onClick={() => demoLogIn()}>
             Demo Login
           </button>
-        </li>
-        <li>
-          {/*add demo login button here*/}
         </li>
         {loginWindow &&
           <Modal onClose={() => setLoginWindow(false)}>
@@ -105,8 +145,8 @@ const NavBar = () => {
 
   if (user) return (
     <nav className='navbar'>
-      <NavLogo src={penguinLogo}/>
-      <h2>Welcome, {user.username}!</h2>
+      <NavLogo src={penguinLogo} />
+      <WelcomeMessage>Welcome, {user.username}!</WelcomeMessage>
       <NavBarUL>
         <li>
           <button onClick={() => newCalendarWindow()} className={'navlink'}>
@@ -122,7 +162,10 @@ const NavBar = () => {
           <button onClick={() => viewInvites()} className={'navlink'}>
             View Invites
           </button>
-        </li>
+          {invitesArray.length ? <Bubble><p>{invitesArray.length}</p></Bubble>
+                              : <></>
+                            }
+                            </li>
         <li>
           <LogoutButton />
         </li>

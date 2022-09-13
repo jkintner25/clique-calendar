@@ -1,5 +1,6 @@
 const GET_INVITES = 'invites/GET_INVITES'
 const REMOVE_INVITE = 'invites/REMOVE_INVITE'
+const CLEAR_INVITES = 'invites/CLEAR_INVITES'
 
 const load = payload => ({
     type: GET_INVITES,
@@ -9,6 +10,10 @@ const load = payload => ({
 const remove = payload => ({
     type: REMOVE_INVITE,
     payload
+});
+
+export const clearInvites = () => ({
+    type: CLEAR_INVITES
 });
 
 export const sendInvite = invitation => async dispatch => {
@@ -68,6 +73,9 @@ const invitesReducer = (state = initialState, {type, payload}) => {
             const newState = { ...state };
             delete newState[payload.id]
             return newState;
+        }
+        case CLEAR_INVITES: {
+            return null;
         }
         default:
             return state;

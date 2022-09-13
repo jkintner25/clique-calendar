@@ -9,12 +9,13 @@ import styled from 'styled-components'
 import { clearEvent } from "../../store/selectedEvent";
 
 const CalTitleDiv = styled.div`
-margin: 16px 0 0 0;
+margin: 0 0 8px 12px;
 `
 const CalendarTitleH2 = styled.h2`
 overflow: hidden;
 text-overflow: ellipsis;
 white-space: nowrap;
+font-weight: lighter;
 `
 
 function CalendarTitle({ calendar, isClicked, selected, setSelected }) {

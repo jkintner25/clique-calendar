@@ -7,17 +7,28 @@ height: 380px;
 overflow-y: auto;
 `
 
+const EventsHeader = styled.h1`
+
+`
+
+const EventsListOuterContainer = styled.div`
+width: auto;
+height: 380px;
+display: flex;
+flex-direction: column;
+`
+
 function EventsList({ eventsState, isClicked }) {
     const [newEvents, setNewEvents] = useState([])
     const [events, setEvents] = useState(null)
 
-    useEffect(()=>{
-        if(!eventsState || eventsState.length < 0) return;
+    useEffect(() => {
+        if (!eventsState || eventsState.length < 0) return;
         setEvents(Object.values(eventsState))
     }, [eventsState])
 
-    useEffect(()=>{
-        if(!events) return;
+    useEffect(() => {
+        if (!events) return;
         convertDatesToLocal()
     }, [events])
 
@@ -26,9 +37,9 @@ function EventsList({ eventsState, isClicked }) {
             return {
                 ...event,
                 startDate: new Date(event.startDate).toLocaleString('en-US', { 'hour12': true }).slice(0, -6) +
-                new Date(event.startDate).toLocaleString('en-US', { 'hour12': true }).slice(-3),
+                    new Date(event.startDate).toLocaleString('en-US', { 'hour12': true }).slice(-3),
                 endDate: new Date(event.endDate).toLocaleString('en-US', { 'hour12': true }).slice(0, -6) +
-                new Date(event.endDate).toLocaleString('en-US', { 'hour12': true }).slice(-3)
+                    new Date(event.endDate).toLocaleString('en-US', { 'hour12': true }).slice(-3)
             };
         })
         setNewEvents(list)
@@ -36,19 +47,22 @@ function EventsList({ eventsState, isClicked }) {
 
 
     return (
-        <EventsListContainer>
-            {newEvents.length > 0 ?
-                <div>
-                    {newEvents.map(event => {
-                        return <Event key={event.id} event={event} isClicked={isClicked} />
-                    })}
-                </div>
-                : <div>
-                    <p>No events to display.</p>
-                    <p>Click on a calendar or create an event!</p>
-                </div>
-            }
-        </EventsListContainer>
+        <EventsListOuterContainer>
+            <EventsHeader>Events</EventsHeader>
+            <EventsListContainer>
+                {newEvents.length > 0 ?
+                    <div>
+                        {newEvents.map(event => {
+                            return <Event key={event.id} event={event} isClicked={isClicked} />
+                        })}
+                    </div>
+                    : <div>
+                        <p>No events to display.</p>
+                        <p>Click on a calendar or create an event!</p>
+                    </div>
+                }
+            </EventsListContainer>
+        </EventsListOuterContainer>
     );
 };
 

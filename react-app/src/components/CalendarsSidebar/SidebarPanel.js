@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { getMyCalendars } from "../../store/calendars"
 import CalendarTitle from "./CalTitles"
 import styled from 'styled-components'
 import './sidebar.css'
@@ -44,6 +43,8 @@ cursor: default;
 
 const MyCalendarsH1 = styled.h1`
 cursor: default;
+margin-top: 1px;
+margin-left: 8px;
 `
 
 const CalendarSidebar = styled.div`
@@ -62,15 +63,16 @@ border-bottom: 1px solid black;
 overflow-y: auto;
 `
 const SharedCalendarsBox = styled.div`
-margin: 2px 2px 16px 10px;
+margin: 16px 2px 16px 10px;
 height: 270px;
+border-bottom: 1px solid black;
 overflow-y: auto;
 `
 
 function SidebarPanel() {
 
     const myCalendars = useSelector(state => state.calendars.owned)
-    const sharedCalendars = useSelector(state=>state.calendars.shared)
+    const sharedCalendars = useSelector(state => state.calendars.shared)
     const [isClicked, setIsClicked] = useState(false)
     const [selected, setSelected] = useState(null)
     const [share, setShare] = useState(false)
@@ -96,18 +98,18 @@ function SidebarPanel() {
     return (
         <>
             <CalendarSidebar>
+                <MyCalendarsH1>My Calendars</MyCalendarsH1>
                 <SidebarContentBox>
-                    <MyCalendarsH1>My Calendars</MyCalendarsH1>
                     {owned ? owned.map(calendar => {
                         return <CalendarTitle key={calendar.id} selected={selected} setSelected={setSelected} calendar={calendar} isClicked={isClicked} />
                     }) : <p>You don't have any Calendars</p>}
                 </SidebarContentBox>
+                <MyCalendarsH1>Shared Calendars</MyCalendarsH1>
                 <SharedCalendarsBox>
-                    <MyCalendarsH1>Shared Calendars</MyCalendarsH1>
-                    {shared ? shared.map(calendar=>{
+                    {shared ? shared.map(calendar => {
                         return <SharedCalendar key={calendar.id} selected={selected} setSelected={setSelected} calendar={calendar} isClicked={isClicked} />
                     })
-                    : <p>No Shared Calendars</p>}
+                        : <p>No Shared Calendars</p>}
                 </SharedCalendarsBox>
                 <CalendarBoxFooter>
                     <FooterButton>
@@ -120,7 +122,7 @@ function SidebarPanel() {
                     </FooterButton>
                 </CalendarBoxFooter>
             </CalendarSidebar>
-            {share && owned && <Modal onClose={()=>setShare(false)}>
+            {share && owned && <Modal onClose={() => setShare(false)}>
                 <RequestForm myCalendars={owned} setShare={setShare} />
             </Modal>}
         </>

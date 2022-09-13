@@ -7,7 +7,7 @@
 
 .navbar {
     height: 35px;
-    margin: 12px 15px 0px 15px;
+    margin: 12px 15px 0px 35px;
     justify-content: space-between;
     display: flex;
     flex-direction: row;

@@ -1,7 +1,8 @@
-from flask_socketio import SocketIO, send, emit, join_room, leave_room
+from flask_socketio import SocketIO, send, emit, join_room, leave_room, namespace
 import os
 from .models.user import User
 from .models.message import Message
+from flask import request
 
 if os.environ.get("FLASK_ENV") == "production":
     origins = [
@@ -12,8 +13,6 @@ else:
     origins = "*"
 
 socketio = SocketIO(cors_allowed_origins=origins)
-
-rooms = []
 
 @socketio.on("chat")
 def handle_chat(data):

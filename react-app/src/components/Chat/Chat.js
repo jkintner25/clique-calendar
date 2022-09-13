@@ -11,34 +11,61 @@ flex-direction: column;
 width: 700px;
 height: 300px;
 padding: 20px;
+& input {
+    width: 80%;
+
+}
+& form {
+    display: flex;
+    flex-direction: row;
+    padding: 30px 0;
+}
 `
 const OuterDiv = styled.div`
 display: flex;
 flex-direction: row;
 justify-content: center;
-width: 98%;
-height: auto;
-padding-bottom: 60px;
-margin-top: 100px;
+width: auto;
+max-width: 1100px;
+height: 350px;
+margin: 100px 20% 0 20%;
 background-color: #f4f1de;
+`
+const FakeDiv = styled.div`
+display: flex;
+flex-direction: column;
+height: 100px;
+background-color: white;
 `
 
 const MessagesWindow = styled.div`
-width: 100%;
-height: 260px;
-background-color: #f4f1de;
+width: auto;
+height: 170px;
+background-color: white;
 padding: 20px;
 overflow-y: auto;
 
 `
-const CalendarList = styled.ul`
+
+const LeftSide = styled.div`
 display: flex;
 flex-direction: column;
-height: auto;
-width: 120px;
-padding: 20px;
+margin: 16px 0;
+`
+
+const CliquesTitle = styled.h1`
+margin: 0 6px 10px 6px;
+font-weight: lighter;
+`
+
+const CalendarList = styled.ul`
+height: 300px;
+width: auto;
 background-color: #f4f1de;
 z-index: 5;
+align-items: center;
+overflow-y: auto;
+overflow-x: hidden;
 `
 
 let socket;
@@ -55,6 +82,7 @@ const Chat = () => {
     const [title, setTitle] = useState('')
     const [previousTitle, setPreviousTitle] = useState('')
     const [calendarId, setCalendarId] = useState(null)
+    const [selected, setSelected] = useState(null)
 
     const messagesRef = useRef(null);
 
@@ -78,7 +106,6 @@ const Chat = () => {
         socket = io();
 
         socket.on("chat", (chat) => {
-
             setMessages(messages => [...messages, chat])
         })
 
@@ -99,9 +126,15 @@ const Chat = () => {
         e.preventDefault()
 
         if (!title.length) {
-            setErrors(['Join a calendar chat room!'])
+            setErrors(['Join a clique chat room.'])
             return;
         };
+
+        if (!chatInput.length) {
+            setErrors(['Messages can\'t be blank.'])
+            return;
+        }
+
         setErrors([])
 
         const newMessage = {
@@ -120,17 +153,19 @@ const Chat = () => {
 
     // function that sets current room (caltitle) and calendar id
     const joinRoom = (calTitle, id) => {
+        setErrors([])
         if (title.length && calTitle !== title) {
             setPreviousTitle(title)
         }
         setTitle(calTitle)
         setCalendarId(id)
+        setSelected(id)
     }
 
     // get all messages of calendar(room)
-    useEffect(()=>{
+    useEffect(() => {
         if (!calendarId) return;
-        dispatch(getMessages(calendarId)).then(res=>{
+        dispatch(getMessages(calendarId)).then(res => {
             if (res.messages) setMessages(Object.values(res.messages))
             if (res.errors) setErrors(res.errors)
         })
@@ -153,29 +188,35 @@ const Chat = () => {
     }
 
     return (
-        <OuterDiv>
-            <CalendarList>
-                {calendars.length && calendars.map(calendar => {
-                    return <Room key={calendar.id} calendarId={calendar.id} calendarTitle={calendar.title} joinRoom={joinRoom} />
-                })}
-            </CalendarList>
-            <ChatWindow>
-                <MessagesWindow>
-                    {messages.map((message, i) => (
-                        <div
-                        ref={messagesRef}
-                        key={i}>{`${message.username}: ${message.msg}`}</div>
-                    ))}
-                </MessagesWindow>
-                {errors.length > 0 && errors.map((error, i) => {
-                    return <p key={i}>{error}</p>
-                })}
-                <form onSubmit={sendChat}>
-                    <input value={chatInput} onChange={(e) => updateChat(e)}></input>
-                    <button type='submit'>Send</button>
-                </form>
-            </ChatWindow>
-        </OuterDiv>
+        <>
+            <OuterDiv>
+                <LeftSide>
+                    <CliquesTitle>Cliques</CliquesTitle>
+                    <CalendarList>
+                        {calendars.length && calendars.map(calendar => {
+                            return <Room key={calendar.id} selected={selected} calendarId={calendar.id} calendarTitle={calendar.title} joinRoom={joinRoom} />
+                        })}
+                    </CalendarList>
+                </LeftSide>
+                <ChatWindow>
+                    <MessagesWindow>
+                        {messages.map((message, i) => (
+                            <div
+                                ref={messagesRef}
+                                key={i}>{`${message.username}: ${message.msg}`}</div>
+                        ))}
+                    </MessagesWindow>
+                    {errors.length > 0 && errors.map((error, i) => {
+                        return <p key={i}>{error}</p>
+                    })}
+                    <form onSubmit={sendChat}>
+                        <button type='submit'>Send</button>
+                        <input placeholder='Message' value={chatInput} onChange={(e) => updateChat(e)}></input>
+                    </form>
+                </ChatWindow>
+            </OuterDiv>
+            <FakeDiv />
+        </>
     );
 };
 
