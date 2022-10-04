@@ -48,3 +48,5 @@ export const previousMonth = (value) => {
 export const nextMonth = (value) => {
   return value.clone().add(1, 'month')
 };
+
+export const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];

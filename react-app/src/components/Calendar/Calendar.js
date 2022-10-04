@@ -13,7 +13,8 @@ import {
     currentMonthName,
     currentYear,
     previousMonth,
-    nextMonth
+    nextMonth,
+    dayNames
 } from './utilities';
 
 import {
@@ -42,8 +43,6 @@ function Calendar() {
     const showEventDetails = (event) => {
         dispatch(selectEvent(event))
     };
-
-    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     return (
         <CalendarContainer>
